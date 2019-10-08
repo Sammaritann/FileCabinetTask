@@ -111,6 +111,9 @@ namespace FileCabinetApp
             string firstName = null;
             string lastName = null;
             DateTime dateOfBirth;
+            short department;
+            decimal salary;
+            char clas;
 
             while (string.IsNullOrWhiteSpace(firstName))
             {
@@ -132,7 +135,28 @@ namespace FileCabinetApp
                 Console.Write("Date of birth: ");
             }
 
-            int id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth);
+            Console.Write("Department: ");
+            while (!short.TryParse(Console.ReadLine(), out department))
+            {
+                Console.WriteLine("Invalid Department");
+                Console.Write("Department: ");
+            }
+
+            Console.Write("Salary: ");
+            while ((!decimal.TryParse(Console.ReadLine(), out salary)) || (salary <= 0))
+            {
+                Console.WriteLine("Invalid salary");
+                Console.Write("Salary: ");
+            }
+
+            Console.Write("Class: ");
+            while (!char.TryParse(Console.ReadLine(), out clas))
+            {
+                Console.WriteLine("Invalid class");
+                Console.Write("Class: ");
+            }
+
+            int id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, department, salary, clas);
             Console.WriteLine("Record #{0} is created.", id);
         }
 
@@ -140,7 +164,15 @@ namespace FileCabinetApp
         {
             foreach (FileCabinetRecord item in fileCabinetService.GetRecords())
             {
-                Console.WriteLine("#{0}, {1}, {2}, {3}", item.Id, item.FirstName, item.LastName, item.DateOfBirth.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                Console.WriteLine(
+                    "#{0}, {1}, {2}, {3} ,{4} ,{5} ,{6}",
+                    item.Id,
+                    item.FirstName,
+                    item.LastName,
+                    item.DateOfBirth.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    item.Department,
+                    item.Salary,
+                    item.Class);
             }
         }
 
