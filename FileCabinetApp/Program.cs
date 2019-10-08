@@ -17,8 +17,9 @@ namespace FileCabinetApp
         {
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
-            new Tuple<string, Action<string>>("stat",Stat),
-            new Tuple<string, Action<string>>("create",Create),
+            new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
+            new Tuple<string, Action<string>>("list", List),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -27,6 +28,7 @@ namespace FileCabinetApp
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
             new string[] { "stat", "prints statistics on records", "The 'stat' command prints statistics on records." },
             new string[] { "create", "creates a new record", "The 'create' command creates a new record." },
+            new string[] { "list", "prints list of records", "The 'list' command prints list of records." },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -40,9 +42,9 @@ namespace FileCabinetApp
             do
             {
                 Console.Write("> ");
-                var inputs = Console.ReadLine().Split(' ', 2);
+                string[] inputs = Console.ReadLine().Split(' ', 2);
                 const int commandIndex = 0;
-                var command = inputs[commandIndex];
+                string command = inputs[commandIndex];
 
                 if (string.IsNullOrEmpty(command))
                 {
@@ -50,11 +52,11 @@ namespace FileCabinetApp
                     continue;
                 }
 
-                var index = Array.FindIndex(commands, 0, commands.Length, i => i.Item1.Equals(command, StringComparison.InvariantCultureIgnoreCase));
+                int index = Array.FindIndex(commands, 0, commands.Length, i => i.Item1.Equals(command, StringComparison.InvariantCultureIgnoreCase));
                 if (index >= 0)
                 {
                     const int parametersIndex = 1;
-                    var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
+                    string parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
                     commands[index].Item2(parameters);
                 }
                 else
@@ -75,7 +77,7 @@ namespace FileCabinetApp
         {
             if (!string.IsNullOrEmpty(parameters))
             {
-                var index = Array.FindIndex(helpMessages, 0, helpMessages.Length, i => string.Equals(i[Program.CommandHelpIndex], parameters, StringComparison.InvariantCultureIgnoreCase));
+                int index = Array.FindIndex(helpMessages, 0, helpMessages.Length, i => string.Equals(i[Program.CommandHelpIndex], parameters, StringComparison.InvariantCultureIgnoreCase));
                 if (index >= 0)
                 {
                     Console.WriteLine(helpMessages[index][Program.ExplanationHelpIndex]);
@@ -89,7 +91,7 @@ namespace FileCabinetApp
             {
                 Console.WriteLine("Available commands:");
 
-                foreach (var helpMessage in helpMessages)
+                foreach (string[] helpMessage in helpMessages)
                 {
                     Console.WriteLine("\t{0}\t- {1}", helpMessage[Program.CommandHelpIndex], helpMessage[Program.DescriptionHelpIndex]);
                 }
@@ -100,7 +102,7 @@ namespace FileCabinetApp
 
         private static void Stat(string parameters)
         {
-            var recordsCount = Program.fileCabinetService.GetStat();
+            int recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
         }
 
@@ -123,15 +125,23 @@ namespace FileCabinetApp
             }
 
             Console.Write("Date of birth: ");
-            while (!DateTime.TryParseExact(Console.ReadLine(),"MM/dd/yyyy",CultureInfo.InvariantCulture,DateTimeStyles.None, out dateOfBirth))
+            while (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth))
             {
                 Console.WriteLine("Invalid Date");
                 Console.WriteLine("Date must be format mm/dd/yyyy");
                 Console.Write("Date of birth: ");
             }
 
-            Program.fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth);
-            Console.WriteLine("Record #{0} is created.", fileCabinetService.GetStat());
+            int id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth);
+            Console.WriteLine("Record #{0} is created.", id);
+        }
+
+        private static void List(string parameters)
+        {
+            foreach (FileCabinetRecord item in fileCabinetService.GetRecords())
+            {
+                Console.WriteLine("#{0}, {1}, {2}, {3}", item.Id, item.FirstName, item.LastName, item.DateOfBirth.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+            }
         }
 
         private static void Exit(string parameters)
