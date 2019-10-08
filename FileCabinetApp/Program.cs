@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace FileCabinetApp
 {
@@ -17,6 +18,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
             new Tuple<string, Action<string>>("stat",Stat),
+            new Tuple<string, Action<string>>("create",Create),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -24,6 +26,7 @@ namespace FileCabinetApp
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
             new string[] { "stat", "prints statistics on records", "The 'stat' command prints statistics on records." },
+            new string[] { "create", "creates a new record", "The 'create' command creates a new record." },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -99,6 +102,36 @@ namespace FileCabinetApp
         {
             var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
+        }
+
+        private static void Create(string parameters)
+        {
+            string firstName = null;
+            string lastName = null;
+            DateTime dateOfBirth;
+
+            while (string.IsNullOrWhiteSpace(firstName))
+            {
+                Console.Write("First name: ");
+                firstName = Console.ReadLine();
+            }
+
+            while (string.IsNullOrWhiteSpace(lastName))
+            {
+                Console.Write("Last name: ");
+                lastName = Console.ReadLine();
+            }
+
+            Console.Write("Date of birth: ");
+            while (!DateTime.TryParseExact(Console.ReadLine(),"MM/dd/yyyy",CultureInfo.InvariantCulture,DateTimeStyles.None, out dateOfBirth))
+            {
+                Console.WriteLine("Invalid Date");
+                Console.WriteLine("Date must be format mm/dd/yyyy");
+                Console.Write("Date of birth: ");
+            }
+
+            Program.fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth);
+            Console.WriteLine("Record #{0} is created.", fileCabinetService.GetStat());
         }
 
         private static void Exit(string parameters)
