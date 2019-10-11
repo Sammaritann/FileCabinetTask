@@ -115,17 +115,11 @@ namespace FileCabinetApp
             decimal salary;
             char clas;
 
-            while (string.IsNullOrWhiteSpace(firstName))
-            {
-                Console.Write("First name: ");
-                firstName = Console.ReadLine();
-            }
+            Console.Write("First name: ");
+            firstName = Console.ReadLine();
 
-            while (string.IsNullOrWhiteSpace(lastName))
-            {
-                Console.Write("Last name: ");
-                lastName = Console.ReadLine();
-            }
+            Console.Write("Last name: ");
+            lastName = Console.ReadLine();
 
             Console.Write("Date of birth: ");
             while (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth))
@@ -143,7 +137,7 @@ namespace FileCabinetApp
             }
 
             Console.Write("Salary: ");
-            while ((!decimal.TryParse(Console.ReadLine(), out salary)) || (salary <= 0))
+            while (!decimal.TryParse(Console.ReadLine(), out salary))
             {
                 Console.WriteLine("Invalid salary");
                 Console.Write("Salary: ");
