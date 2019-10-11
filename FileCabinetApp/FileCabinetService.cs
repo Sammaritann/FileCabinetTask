@@ -74,5 +74,22 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
+
+        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short department, decimal salary, char clas)
+        {
+            FileCabinetRecord record = this.list.Find((x) => x.Id == id);
+
+            if (record is null)
+            {
+                throw new ArgumentException($"wrong {nameof(id)}");
+            }
+
+            record.FirstName = firstName;
+            record.LastName = lastName;
+            record.DateOfBirth = dateOfBirth;
+            record.Department = department;
+            record.Salary = salary;
+            record.Class = clas;
+        }
     }
 }
