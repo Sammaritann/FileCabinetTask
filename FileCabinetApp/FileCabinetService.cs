@@ -4,6 +4,9 @@ using System.Globalization;
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Represents file cabinet service.
+    /// </summary>
     public class FileCabinetService
     {
         private const int MinNameLength = 2;
@@ -17,6 +20,16 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
+        /// <summary>
+        /// Creates the record.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="dateOfBirth">The date of birth.</param>
+        /// <param name="department">The department.</param>
+        /// <param name="salary">The salary.</param>
+        /// <param name="clas">The clas.</param>
+        /// <returns>The identifier.</returns>
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short department, decimal salary, char clas)
         {
             ValidateCabinetRecord(firstName, lastName, dateOfBirth, department, salary, clas);
@@ -40,6 +53,17 @@ namespace FileCabinetApp
             return record.Id;
         }
 
+        /// <summary>
+        /// Edits the record.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="dateOfBirth">The date of birth.</param>
+        /// <param name="department">The department.</param>
+        /// <param name="salary">The salary.</param>
+        /// <param name="clas">The clas.</param>
+        /// <exception cref="ArgumentException">wrong {nameof(id)}.</exception>
         public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short department, decimal salary, char clas)
         {
             FileCabinetRecord record = this.list.Find((x) => x.Id == id);
@@ -77,16 +101,29 @@ namespace FileCabinetApp
             record.Class = clas;
         }
 
+        /// <summary>
+        /// Gets the records.
+        /// </summary>
+        /// <returns>The records.</returns>
         public FileCabinetRecord[] GetRecords()
         {
             return this.list.ToArray();
         }
 
+        /// <summary>
+        /// Gets the stat.
+        /// </summary>
+        /// <returns>Number of records.</returns>
         public int GetStat()
         {
             return this.list.Count;
         }
 
+        /// <summary>
+        /// Finds all records by first name.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <returns>Found records.</returns>
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
             return this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant())
@@ -94,6 +131,11 @@ namespace FileCabinetApp
                  : Array.Empty<FileCabinetRecord>();
         }
 
+        /// <summary>
+        /// Finds all records by last name.
+        /// </summary>
+        /// <param name="lastName">The last name.</param>
+        /// <returns>Found records.</returns>
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
             return this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant())
@@ -101,6 +143,11 @@ namespace FileCabinetApp
                  : Array.Empty<FileCabinetRecord>();
         }
 
+        /// <summary>
+        /// Finds all records by Date.
+        /// </summary>
+        /// <param name="dateOfBirth">The date of birth.</param>
+        /// <returns>Found records.</returns>
         public FileCabinetRecord[] FindByDateOfBirth(DateTime dateOfBirth)
         {
             return this.dateOfBirthDictionary.ContainsKey(dateOfBirth)
