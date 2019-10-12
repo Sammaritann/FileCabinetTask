@@ -91,5 +91,10 @@ namespace FileCabinetApp
             record.Salary = salary;
             record.Class = clas;
         }
+
+        public FileCabinetRecord[] FindByFirstName(string firstName)
+        {
+            return this.list.FindAll((x) => x.FirstName.ToUpperInvariant() == firstName.ToUpperInvariant()).ToArray();
+        }
     }
 }
