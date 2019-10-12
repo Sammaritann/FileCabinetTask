@@ -96,5 +96,10 @@ namespace FileCabinetApp
         {
             return this.list.FindAll((x) => x.FirstName.ToUpperInvariant() == firstName.ToUpperInvariant()).ToArray();
         }
+
+        public FileCabinetRecord[] FindByLastName(string lastName)
+        {
+            return this.list.FindAll((x) => x.LastName.ToUpperInvariant() == lastName.ToUpperInvariant()).ToArray();
+        }
     }
 }
