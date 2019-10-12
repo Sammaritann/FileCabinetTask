@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using FileCabinetApp.FIleCabinetServices;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
@@ -56,7 +56,7 @@ namespace FileCabinetApp
 
             if (args.Length == 0)
             {
-                fileCabinetService = new FileCabinetDefaultService();
+                fileCabinetService = new FileCabinetService(new DefaultValidator());
                 Console.WriteLine("Using default validation rules.");
             }
 
@@ -68,13 +68,13 @@ namespace FileCabinetApp
                 {
                     if (param[1].ToUpperInvariant() == "DEFAULT")
                     {
-                        fileCabinetService = new FileCabinetDefaultService();
+                        fileCabinetService = new FileCabinetService(new DefaultValidator());
                         Console.WriteLine("Using default validation rules.");
                     }
 
                     if (param[1].ToUpperInvariant() == "CUSTOM")
                     {
-                        fileCabinetService = new FileCabinetCustomService();
+                        fileCabinetService = new FileCabinetService(new CustomValidator());
                         Console.WriteLine("Using custom validation rules.");
                     }
                 }
@@ -86,13 +86,13 @@ namespace FileCabinetApp
                 {
                     if (args[1].ToUpperInvariant() == "DEFAULT")
                     {
-                        fileCabinetService = new FileCabinetDefaultService();
+                        fileCabinetService = new FileCabinetService(new DefaultValidator());
                         Console.WriteLine("Using default validation rules.");
                     }
 
                     if (args[1].ToUpperInvariant() == "CUSTOM")
                     {
-                        fileCabinetService = new FileCabinetCustomService();
+                        fileCabinetService = new FileCabinetService(new CustomValidator());
                         Console.WriteLine("Using custom validation rules.");
                     }
                 }

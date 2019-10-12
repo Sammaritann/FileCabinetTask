@@ -61,28 +61,6 @@
             The class.
             </value>
         </member>
-        <member name="T:FileCabinetApp.FIleCabinetServices.FileCabinetCustomService">
-            <summary>
-            Represents custom file cabinet service.
-            </summary>
-            <seealso cref="T:FileCabinetApp.FileCabinetService" />
-        </member>
-        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetCustomService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FIleCabinetServices.FileCabinetCustomService"/> class.
-            </summary>
-        </member>
-        <member name="T:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService">
-            <summary>
-            Represents default file cabinet service.
-            </summary>
-            <seealso cref="T:FileCabinetApp.FileCabinetService" />
-        </member>
-        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService"/> class.
-            </summary>
-        </member>
         <member name="T:FileCabinetApp.FileCabinetService">
             <summary>
             Represents abstract file cabinet service.
