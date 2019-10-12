@@ -206,9 +206,9 @@ namespace FileCabinetApp
 
         public FileCabinetRecord[] FindByDateOfBirth(string dateOfBirth)
         {
-            DateTime date = DateTime.ParseExact(dateOfBirth, "yyyy-MMM-dd", CultureInfo.InvariantCulture);
-            return this.dateOfBirthDictionary.ContainsKey(date)
-                 ? this.dateOfBirthDictionary[date].ToArray()
+            DateTime birthDate = DateTime.ParseExact(dateOfBirth, "yyyy-MMM-dd", CultureInfo.InvariantCulture);
+            return this.dateOfBirthDictionary.ContainsKey(birthDate)
+                 ? this.dateOfBirthDictionary[birthDate].ToArray()
                  : Array.Empty<FileCabinetRecord>();
         }
     }
