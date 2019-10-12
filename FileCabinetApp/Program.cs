@@ -21,6 +21,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("find", Find),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -161,11 +162,11 @@ namespace FileCabinetApp
             foreach (FileCabinetRecord item in fileCabinetService.GetRecords())
             {
                 Console.WriteLine(
-                    "#{0}, {1}, {2}, {3} ,{4} ,{5} ,{6}",
+                    "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
                     item.Id,
                     item.FirstName,
                     item.LastName,
-                    item.DateOfBirth.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
                     item.Department,
                     item.Salary,
                     item.Class);
@@ -229,6 +230,64 @@ namespace FileCabinetApp
             }
 
             Program.fileCabinetService.EditRecord(id, firstName, lastName, dateOfBirth, department, salary, clas);
+        }
+
+        private static void Find(string parameters)
+        {
+            string[] param = parameters.Split(' ');
+            if (param.Length != 2)
+            {
+                Console.WriteLine("Invalid number of parameters");
+                return;
+            }
+
+            if (param[0].ToUpperInvariant() == "FIRSTNAME")
+            {
+                foreach (FileCabinetRecord item in fileCabinetService.FindByFirstName(param[1].Trim('\"')))
+                {
+                    Console.WriteLine(
+                        "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                        item.Id,
+                        item.FirstName,
+                        item.LastName,
+                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
+                        item.Department,
+                        item.Salary,
+                        item.Class);
+                }
+            }
+
+            if (param[0].ToUpperInvariant() == "LASTNAME")
+            {
+                foreach (FileCabinetRecord item in fileCabinetService.FindByLastName(param[1].Trim('\"')))
+                {
+                    Console.WriteLine(
+                        "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                        item.Id,
+                        item.FirstName,
+                        item.LastName,
+                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
+                        item.Department,
+                        item.Salary,
+                        item.Class);
+                }
+            }
+
+            if (param[0].ToUpperInvariant() == "DATEOFBIRTH")
+            {
+                foreach (FileCabinetRecord item in fileCabinetService.FindByDateOfBirth(param[1].Trim('\"')))
+                {
+                    Console.WriteLine(
+                        "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                        item.Id,
+                        item.FirstName,
+                        item.LastName,
+                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
+                        item.Department,
+                        item.Salary,
+                        item.Class);
+                }
+            }
         }
 
         private static void Exit(string parameters)
