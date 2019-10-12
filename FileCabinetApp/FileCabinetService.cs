@@ -8,6 +8,8 @@ namespace FileCabinetApp
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short department, decimal salary, char clas)
         {
@@ -69,7 +71,19 @@ namespace FileCabinetApp
                 this.firstNameDictionary.Add(firstName.ToUpperInvariant(), new List<FileCabinetRecord>());
             }
 
+            if (!this.lastNameDictionary.ContainsKey(firstName.ToUpperInvariant()))
+            {
+                this.lastNameDictionary.Add(lastName.ToUpperInvariant(), new List<FileCabinetRecord>());
+            }
+
+            if (!this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                this.dateOfBirthDictionary.Add(dateOfBirth, new List<FileCabinetRecord>());
+            }
+
             this.firstNameDictionary[firstName.ToUpperInvariant()].Add(record);
+            this.lastNameDictionary[lastName.ToUpperInvariant()].Add(record);
+            this.dateOfBirthDictionary[dateOfBirth].Add(record);
             return record.Id;
         }
 
@@ -144,6 +158,30 @@ namespace FileCabinetApp
                 this.firstNameDictionary[firstName.ToUpperInvariant()].Add(record);
             }
 
+            if (record.LastName.ToUpperInvariant() != lastName.ToUpperInvariant())
+            {
+                this.lastNameDictionary[record.LastName.ToUpperInvariant()].Remove(record);
+
+                if (!this.lastNameDictionary.ContainsKey(lastName.ToUpperInvariant()))
+                {
+                    this.lastNameDictionary.Add(lastName.ToUpperInvariant(), new List<FileCabinetRecord>());
+                }
+
+                this.lastNameDictionary[lastName.ToUpperInvariant()].Add(record);
+            }
+
+            if (record.DateOfBirth != dateOfBirth)
+            {
+                this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
+
+                if (!this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+                {
+                    this.dateOfBirthDictionary.Add(dateOfBirth, new List<FileCabinetRecord>());
+                }
+
+                this.dateOfBirthDictionary[dateOfBirth].Add(record);
+            }
+
             record.FirstName = firstName;
             record.LastName = lastName;
             record.DateOfBirth = dateOfBirth;
@@ -154,22 +192,24 @@ namespace FileCabinetApp
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
-            if (firstName is null)
-            {
-                throw new ArgumentNullException($"{nameof(firstName)} must not be null");
-            }
-
-            return this.firstNameDictionary[firstName.ToUpperInvariant()].ToArray();
+            return this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant())
+                 ? this.firstNameDictionary[firstName.ToUpperInvariant()].ToArray()
+                 : Array.Empty<FileCabinetRecord>();
         }
 
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
-            return this.list.FindAll((x) => x.LastName.ToUpperInvariant() == lastName.ToUpperInvariant()).ToArray();
+            return this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant())
+                 ? this.lastNameDictionary[lastName.ToUpperInvariant()].ToArray()
+                 : Array.Empty<FileCabinetRecord>();
         }
 
         public FileCabinetRecord[] FindByDateOfBirth(string dateOfBirth)
         {
-            return this.list.FindAll((x) => x.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture).ToUpperInvariant() == dateOfBirth.ToUpperInvariant()).ToArray();
+            DateTime date = DateTime.ParseExact(dateOfBirth, "yyyy-MMM-dd", CultureInfo.InvariantCulture);
+            return this.dateOfBirthDictionary.ContainsKey(date)
+                 ? this.dateOfBirthDictionary[date].ToArray()
+                 : Array.Empty<FileCabinetRecord>();
         }
     }
 }

@@ -166,7 +166,7 @@ namespace FileCabinetApp
                     item.Id,
                     item.FirstName,
                     item.LastName,
-                    item.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture),
+                    item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
                     item.Department,
                     item.Salary,
                     item.Class);
@@ -250,7 +250,7 @@ namespace FileCabinetApp
                         item.Id,
                         item.FirstName,
                         item.LastName,
-                        item.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture),
+                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
                         item.Department,
                         item.Salary,
                         item.Class);
@@ -266,7 +266,7 @@ namespace FileCabinetApp
                         item.Id,
                         item.FirstName,
                         item.LastName,
-                        item.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture),
+                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
                         item.Department,
                         item.Salary,
                         item.Class);
@@ -282,7 +282,7 @@ namespace FileCabinetApp
                         item.Id,
                         item.FirstName,
                         item.LastName,
-                        item.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture),
+                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
                         item.Department,
                         item.Salary,
                         item.Class);
