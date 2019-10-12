@@ -14,6 +14,16 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+        private readonly IRecordValidator validator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        /// <param name="validator">The validator.</param>
+        protected FileCabinetService(IRecordValidator validator)
+        {
+            this.validator = validator;
+        }
 
         /// <summary>
         /// Creates the record.
@@ -27,7 +37,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException($"{nameof(recordParams)} must nit be null");
             }
 
-            this.CreateValidator().ValidateCabinetRecord(recordParams);
+            this.validator.ValidateCabinetRecord(recordParams);
 
             FileCabinetRecord record = new FileCabinetRecord
             {
@@ -68,7 +78,7 @@ namespace FileCabinetApp
                 throw new ArgumentException($"wrong {nameof(id)}");
             }
 
-            this.CreateValidator().ValidateCabinetRecord(recordParams);
+            this.validator.ValidateCabinetRecord(recordParams);
 
             if (record.FirstName.ToUpperInvariant() != recordParams.FirstName.ToUpperInvariant())
             {
@@ -149,12 +159,6 @@ namespace FileCabinetApp
                  ? this.dateOfBirthDictionary[dateOfBirth].ToArray()
                  : Array.Empty<FileCabinetRecord>();
         }
-
-        /// <summary>
-        /// Creates the validator.
-        /// </summary>
-        /// <returns>Validator.</returns>
-        protected abstract IRecordValidator CreateValidator();
 
         private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)
         {

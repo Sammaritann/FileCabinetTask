@@ -67,13 +67,10 @@
             </summary>
             <seealso cref="T:FileCabinetApp.FileCabinetService" />
         </member>
-        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetCustomService.CreateValidator">
+        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetCustomService.#ctor">
             <summary>
-            Creates the validator.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FIleCabinetServices.FileCabinetCustomService"/> class.
             </summary>
-            <returns>
-            Validator.
-            </returns>
         </member>
         <member name="T:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService">
             <summary>
@@ -81,18 +78,21 @@
             </summary>
             <seealso cref="T:FileCabinetApp.FileCabinetService" />
         </member>
-        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService.CreateValidator">
+        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService.#ctor">
             <summary>
-            Creates the validator.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService"/> class.
             </summary>
-            <returns>
-            Validator.
-            </returns>
         </member>
         <member name="T:FileCabinetApp.FileCabinetService">
             <summary>
             Represents abstract file cabinet service.
             </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+            <param name="validator">The validator.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
             <summary>
@@ -141,12 +141,6 @@
             </summary>
             <param name="dateOfBirth">The date of birth.</param>
             <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateValidator">
-            <summary>
-            Creates the validator.
-            </summary>
-            <returns>Validator.</returns>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
