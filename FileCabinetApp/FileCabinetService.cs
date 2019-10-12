@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace FileCabinetApp
 {
@@ -100,6 +101,11 @@ namespace FileCabinetApp
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
             return this.list.FindAll((x) => x.LastName.ToUpperInvariant() == lastName.ToUpperInvariant()).ToArray();
+        }
+
+        public FileCabinetRecord[] FindByDateOfBirth(string dateOfBirth)
+        {
+            return this.list.FindAll((x) => x.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture).ToUpperInvariant() == dateOfBirth.ToUpperInvariant()).ToArray();
         }
     }
 }

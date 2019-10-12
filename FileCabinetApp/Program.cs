@@ -166,7 +166,7 @@ namespace FileCabinetApp
                     item.Id,
                     item.FirstName,
                     item.LastName,
-                    item.DateOfBirth.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    item.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture),
                     item.Department,
                     item.Salary,
                     item.Class);
@@ -250,7 +250,7 @@ namespace FileCabinetApp
                         item.Id,
                         item.FirstName,
                         item.LastName,
-                        item.DateOfBirth.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                        item.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture),
                         item.Department,
                         item.Salary,
                         item.Class);
@@ -266,7 +266,23 @@ namespace FileCabinetApp
                         item.Id,
                         item.FirstName,
                         item.LastName,
-                        item.DateOfBirth.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                        item.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture),
+                        item.Department,
+                        item.Salary,
+                        item.Class);
+                }
+            }
+
+            if (param[0].ToUpperInvariant() == "DATEOFBIRTH")
+            {
+                foreach (FileCabinetRecord item in fileCabinetService.FindByDateOfBirth(param[1].Trim('\"')))
+                {
+                    Console.WriteLine(
+                        "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                        item.Id,
+                        item.FirstName,
+                        item.LastName,
+                        item.DateOfBirth.ToString("yyyy-MMMM-dd", CultureInfo.InvariantCulture),
                         item.Department,
                         item.Salary,
                         item.Class);
