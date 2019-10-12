@@ -39,7 +39,7 @@ namespace FileCabinetApp
             new string[] { "find", "finds a records", "The 'find' command finds a records." },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetCustomService();
+        private static FileCabinetService fileCabinetService;
 
         /// <summary>
         /// Defines the entry point of the application.
@@ -47,7 +47,57 @@ namespace FileCabinetApp
         /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
+            if (args is null)
+            {
+                return;
+            }
+
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
+
+            if (args.Length == 0)
+            {
+                fileCabinetService = new FileCabinetDefaultService();
+                Console.WriteLine("Using default validation rules.");
+            }
+
+            if (args.Length == 1)
+            {
+                var param = args[0].Split('=');
+
+                if (param[0] == "--validation-rules")
+                {
+                    if (param[1].ToUpperInvariant() == "DEFAULT")
+                    {
+                        fileCabinetService = new FileCabinetDefaultService();
+                        Console.WriteLine("Using default validation rules.");
+                    }
+
+                    if (param[1].ToUpperInvariant() == "CUSTOM")
+                    {
+                        fileCabinetService = new FileCabinetCustomService();
+                        Console.WriteLine("Using custom validation rules.");
+                    }
+                }
+            }
+
+            if (args.Length == 2)
+            {
+                if (args[0] == "-v")
+                {
+                    if (args[1].ToUpperInvariant() == "DEFAULT")
+                    {
+                        fileCabinetService = new FileCabinetDefaultService();
+                        Console.WriteLine("Using default validation rules.");
+                    }
+
+                    if (args[1].ToUpperInvariant() == "CUSTOM")
+                    {
+                        fileCabinetService = new FileCabinetCustomService();
+                        Console.WriteLine("Using custom validation rules.");
+                    }
+                }
+            }
+
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
