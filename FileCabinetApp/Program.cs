@@ -32,6 +32,7 @@ namespace FileCabinetApp
             new string[] { "create", "creates a new record", "The 'create' command creates a new record." },
             new string[] { "list", "prints list of records", "The 'list' command prints list of records." },
             new string[] { "edit", "edits a record", "The 'edit' command edits a record." },
+            new string[] { "find", "finds a records", "The 'find' command finds a records." },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -118,40 +119,7 @@ namespace FileCabinetApp
             decimal salary;
             char clas;
 
-            Console.Write("First name: ");
-            firstName = Console.ReadLine();
-
-            Console.Write("Last name: ");
-            lastName = Console.ReadLine();
-
-            Console.Write("Date of birth: ");
-            while (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth))
-            {
-                Console.WriteLine("Invalid Date");
-                Console.WriteLine("Date must be format mm/dd/yyyy");
-                Console.Write("Date of birth: ");
-            }
-
-            Console.Write("Department: ");
-            while (!short.TryParse(Console.ReadLine(), out department))
-            {
-                Console.WriteLine("Invalid Department");
-                Console.Write("Department: ");
-            }
-
-            Console.Write("Salary: ");
-            while (!decimal.TryParse(Console.ReadLine(), out salary))
-            {
-                Console.WriteLine("Invalid salary");
-                Console.Write("Salary: ");
-            }
-
-            Console.Write("Class: ");
-            while (!char.TryParse(Console.ReadLine(), out clas))
-            {
-                Console.WriteLine("Invalid class");
-                Console.Write("Class: ");
-            }
+            ValidateRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
 
             int id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, department, salary, clas);
             Console.WriteLine("Record #{0} is created.", id);
@@ -194,40 +162,7 @@ namespace FileCabinetApp
                 return;
             }
 
-            Console.Write("First name: ");
-            firstName = Console.ReadLine();
-
-            Console.Write("Last name: ");
-            lastName = Console.ReadLine();
-
-            Console.Write("Date of birth: ");
-            while (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth))
-            {
-                Console.WriteLine("Invalid Date");
-                Console.WriteLine("Date must be format mm/dd/yyyy");
-                Console.Write("Date of birth: ");
-            }
-
-            Console.Write("Department: ");
-            while (!short.TryParse(Console.ReadLine(), out department))
-            {
-                Console.WriteLine("Invalid Department");
-                Console.Write("Department: ");
-            }
-
-            Console.Write("Salary: ");
-            while (!decimal.TryParse(Console.ReadLine(), out salary))
-            {
-                Console.WriteLine("Invalid salary");
-                Console.Write("Salary: ");
-            }
-
-            Console.Write("Class: ");
-            while (!char.TryParse(Console.ReadLine(), out clas))
-            {
-                Console.WriteLine("Invalid class");
-                Console.Write("Class: ");
-            }
+            ValidateRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
 
             Program.fileCabinetService.EditRecord(id, firstName, lastName, dateOfBirth, department, salary, clas);
         }
@@ -275,7 +210,14 @@ namespace FileCabinetApp
 
             if (param[0].ToUpperInvariant() == "DATEOFBIRTH")
             {
-                foreach (FileCabinetRecord item in fileCabinetService.FindByDateOfBirth(param[1].Trim('\"')))
+                DateTime dateOfBirth;
+                if (!DateTime.TryParseExact(param[1].Trim('\"'), "yyyy-MMM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth))
+                {
+                    Console.WriteLine("Invalid Date");
+                    return;
+                }
+
+                foreach (FileCabinetRecord item in fileCabinetService.FindByDateOfBirth(dateOfBirth))
                 {
                     Console.WriteLine(
                         "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
@@ -294,6 +236,53 @@ namespace FileCabinetApp
         {
             Console.WriteLine("Exiting an application...");
             isRunning = false;
+        }
+
+        private static void ValidateRecord(out string firstName, out string lastName, out DateTime dateOfBirth, out short department, out decimal salary, out char clas)
+        {
+            firstName = null;
+            lastName = null;
+
+            while (string.IsNullOrWhiteSpace(firstName))
+            {
+                Console.Write("First name: ");
+                firstName = Console.ReadLine();
+            }
+
+            while (string.IsNullOrWhiteSpace(lastName))
+            {
+                Console.Write("Last name: ");
+                lastName = Console.ReadLine();
+            }
+
+            Console.Write("Date of birth: ");
+            while (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth))
+            {
+                Console.WriteLine("Invalid Date");
+                Console.WriteLine("Date must be format mm/dd/yyyy");
+                Console.Write("Date of birth: ");
+            }
+
+            Console.Write("Department: ");
+            while (!short.TryParse(Console.ReadLine(), out department))
+            {
+                Console.WriteLine("Invalid Department");
+                Console.Write("Department: ");
+            }
+
+            Console.Write("Salary: ");
+            while (!decimal.TryParse(Console.ReadLine(), out salary))
+            {
+                Console.WriteLine("Invalid salary");
+                Console.Write("Salary: ");
+            }
+
+            Console.Write("Class: ");
+            while (!char.TryParse(Console.ReadLine(), out clas))
+            {
+                Console.WriteLine("Invalid class");
+                Console.Write("Class: ");
+            }
         }
     }
 }
