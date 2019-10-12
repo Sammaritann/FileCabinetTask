@@ -4,5 +4,190 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.FileCabinetRecord">
+            <summary>
+            Represents file cabinet record.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Id">
+            <summary>Gets or sets the identifier.</summary>
+            <value>The identifier.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.FirstName">
+            <summary>
+            Gets or sets the first name.
+            </summary>
+            <value>
+            The first name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.LastName">
+            <summary>
+            Gets or sets the last name.
+            </summary>
+            <value>
+            The last name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.DateOfBirth">
+            <summary>
+            Gets or sets the date of birth.
+            </summary>
+            <value>
+            The date of birth.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Department">
+            <summary>
+            Gets or sets the department.
+            </summary>
+            <value>
+            The department.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Salary">
+            <summary>
+            Gets or sets the salary.
+            </summary>
+            <value>
+            The salary.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Class">
+            <summary>
+            Gets or sets the class.
+            </summary>
+            <value>
+            The class.
+            </value>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetService">
+            <summary>
+            Represents file cabinet service.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Creates the record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <returns>The identifier.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
+            <summary>
+            Edits the record.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentException">wrong {nameof(id)}.</exception>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
+            <summary>
+            Gets the records.
+            </summary>
+            <returns>The records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
+            <summary>
+            Gets the stat.
+            </summary>
+            <returns>Number of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Program">
+            <summary>
+            Class program.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Program.Main(System.String[])">
+            <summary>
+            Defines the entry point of the application.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="T:FileCabinetApp.RecordParams">
+            <summary>
+            Represents file cabinet record params.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordParams.#ctor(System.String,System.String,System.DateTime,System.Int16,System.Decimal,System.Char)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordParams"/> class.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="dateOfBirth">The date of birth.</param>
+            <param name="department">The department.</param>
+            <param name="salary">The salary.</param>
+            <param name="clas">The clas.</param>
+        </member>
+        <member name="P:FileCabinetApp.RecordParams.FirstName">
+            <summary>
+            Gets the first name.
+            </summary>
+            <value>
+            The first name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.RecordParams.LastName">
+            <summary>
+            Gets the last name.
+            </summary>
+            <value>
+            The last name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.RecordParams.DateOfBirth">
+            <summary>
+            Gets the date of birth.
+            </summary>
+            <value>
+            The date of birth.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.RecordParams.Department">
+            <summary>
+            Gets the department.
+            </summary>
+            <value>
+            The department.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.RecordParams.Salary">
+            <summary>
+            Gets the salary.
+            </summary>
+            <value>
+            The salary.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.RecordParams.Class">
+            <summary>
+            Gets the class.
+            </summary>
+            <value>
+            The class.
+            </value>
+        </member>
     </members>
 </doc>

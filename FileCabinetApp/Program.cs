@@ -128,7 +128,8 @@ namespace FileCabinetApp
 
             ValidateRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
 
-            int id = fileCabinetService.CreateRecord(firstName, lastName, dateOfBirth, department, salary, clas);
+            RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
+            int id = fileCabinetService.CreateRecord(recordParams);
             Console.WriteLine("Record #{0} is created.", id);
         }
 
@@ -170,8 +171,9 @@ namespace FileCabinetApp
             }
 
             ValidateRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
+            RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
 
-            Program.fileCabinetService.EditRecord(id, firstName, lastName, dateOfBirth, department, salary, clas);
+            Program.fileCabinetService.EditRecord(id, recordParams);
         }
 
         private static void Find(string parameters)
