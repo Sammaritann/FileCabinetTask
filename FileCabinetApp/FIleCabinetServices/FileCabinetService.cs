@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
@@ -26,7 +27,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException($"{nameof(recordParams)} must nit be null");
             }
 
-            this.ValidateCabinetRecord(recordParams);
+            this.CreateValidator().ValidateCabinetRecord(recordParams);
 
             FileCabinetRecord record = new FileCabinetRecord
             {
@@ -67,7 +68,7 @@ namespace FileCabinetApp
                 throw new ArgumentException($"wrong {nameof(id)}");
             }
 
-            this.ValidateCabinetRecord(recordParams);
+            this.CreateValidator().ValidateCabinetRecord(recordParams);
 
             if (record.FirstName.ToUpperInvariant() != recordParams.FirstName.ToUpperInvariant())
             {
@@ -150,10 +151,10 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Validates the cabinet record.
+        /// Creates the validator.
         /// </summary>
-        /// <param name="recordParams">The record parameters.</param>
-        protected abstract void ValidateCabinetRecord(RecordParams recordParams);
+        /// <returns>Validator.</returns>
+        protected abstract IRecordValidator CreateValidator();
 
         private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)
         {

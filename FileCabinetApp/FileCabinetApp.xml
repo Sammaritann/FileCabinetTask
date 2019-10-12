@@ -67,17 +67,13 @@
             </summary>
             <seealso cref="T:FileCabinetApp.FileCabinetService" />
         </member>
-        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetCustomService.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetCustomService.CreateValidator">
             <summary>
-            Validates the cabinet record.
+            Creates the validator.
             </summary>
-            <param name="recordParams">The record parameters.</param>
-            <exception cref="T:System.ArgumentNullException">
-            Throws when <paramref name="recordParams"/> is null.
-            </exception>
-            <exception cref="T:System.ArgumentException">
-            Throw when  the parameters are incorrect.
-            </exception>
+            <returns>
+            Validator.
+            </returns>
         </member>
         <member name="T:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService">
             <summary>
@@ -85,17 +81,13 @@
             </summary>
             <seealso cref="T:FileCabinetApp.FileCabinetService" />
         </member>
-        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+        <member name="M:FileCabinetApp.FIleCabinetServices.FileCabinetDefaultService.CreateValidator">
             <summary>
-            Validates the cabinet record.
+            Creates the validator.
             </summary>
-            <param name="recordParams">The record parameters.</param>
-            <exception cref="T:System.ArgumentNullException">
-            Throws when <paramref name="recordParams"/> is null.
-            </exception>
-            <exception cref="T:System.ArgumentException">
-            Throw when  the parameters are incorrect.
-            </exception>
+            <returns>
+            Validator.
+            </returns>
         </member>
         <member name="T:FileCabinetApp.FileCabinetService">
             <summary>
@@ -150,11 +142,11 @@
             <param name="dateOfBirth">The date of birth.</param>
             <returns>Found records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+        <member name="M:FileCabinetApp.FileCabinetService.CreateValidator">
             <summary>
-            Validates the cabinet record.
+            Creates the validator.
             </summary>
-            <param name="recordParams">The record parameters.</param>
+            <returns>Validator.</returns>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
@@ -230,6 +222,53 @@
             <value>
             The class.
             </value>
+        </member>
+        <member name="T:FileCabinetApp.Validators.CustomValidator">
+            <summary>
+            Represent custom validator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="recordParams"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Throw when  the parameters are incorrect.
+            </exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.DefaultValidator">
+            <summary>
+            Represent default validator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Throws when <paramref name="recordParams"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Throw when  the parameters are incorrect.
+            </exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.IRecordValidator">
+            <summary>
+            Represent validator.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.IRecordValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
         </member>
     </members>
 </doc>
