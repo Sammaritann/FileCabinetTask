@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using FileCabinetApp.FIleCabinetServices;
 
 namespace FileCabinetApp
 {
@@ -38,7 +39,7 @@ namespace FileCabinetApp
             new string[] { "find", "finds a records", "The 'find' command finds a records." },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetService();
+        private static FileCabinetService fileCabinetService = new FileCabinetCustomService();
 
         /// <summary>
         /// Defines the entry point of the application.

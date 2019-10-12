@@ -5,16 +5,10 @@ using System.Globalization;
 namespace FileCabinetApp
 {
     /// <summary>
-    /// Represents file cabinet service.
+    /// Represents abstract file cabinet service.
     /// </summary>
-    public class FileCabinetService
+    public abstract class FileCabinetService
     {
-        private const int MinNameLength = 2;
-        private const int MaxNameLength = 60;
-        private const char MinClass = 'A';
-        private const char MaxClass = 'Z';
-        private static readonly DateTime DateMin = new DateTime(1950, 1, 1);
-
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
@@ -32,7 +26,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException($"{nameof(recordParams)} must nit be null");
             }
 
-            ValidateCabinetRecord(recordParams);
+            this.ValidateCabinetRecord(recordParams);
 
             FileCabinetRecord record = new FileCabinetRecord
             {
@@ -73,7 +67,7 @@ namespace FileCabinetApp
                 throw new ArgumentException($"wrong {nameof(id)}");
             }
 
-            ValidateCabinetRecord(recordParams);
+            this.ValidateCabinetRecord(recordParams);
 
             if (record.FirstName.ToUpperInvariant() != recordParams.FirstName.ToUpperInvariant())
             {
@@ -155,48 +149,11 @@ namespace FileCabinetApp
                  : Array.Empty<FileCabinetRecord>();
         }
 
-        private static void ValidateCabinetRecord(RecordParams recordParams)
-        {
-            if (string.IsNullOrWhiteSpace(recordParams.FirstName))
-            {
-                throw new ArgumentNullException($"{nameof(recordParams.FirstName)} must not be null or contain only spaces");
-            }
-
-            if (string.IsNullOrWhiteSpace(recordParams.LastName))
-            {
-                throw new ArgumentNullException($"{nameof(recordParams.LastName)} must not be null or contain only spaces");
-            }
-
-            if ((recordParams.FirstName.Length < MinNameLength) || (recordParams.FirstName.Length > MaxNameLength))
-            {
-                throw new ArgumentException($"{nameof(recordParams.FirstName)} length should be between 2 and 60");
-            }
-
-            if ((recordParams.LastName.Length < MinNameLength) || (recordParams.LastName.Length > MaxNameLength))
-            {
-                throw new ArgumentException($"{nameof(recordParams.LastName)} length should be between 2 and 60");
-            }
-
-            if (recordParams.DateOfBirth < DateMin || recordParams.DateOfBirth > DateTime.Now)
-            {
-                throw new ArgumentException($"{nameof(recordParams.DateOfBirth)} shoud be between  01-Jan-1950 and now");
-            }
-
-            if (recordParams.Department <= 0)
-            {
-                throw new ArgumentException($"{nameof(recordParams.Department)} should be more than zero");
-            }
-
-            if (recordParams.Salary <= 0)
-            {
-                throw new ArgumentException($"{nameof(recordParams.Salary)} must be more than zero");
-            }
-
-            if (recordParams.Class < MinClass || recordParams.Class > MaxClass)
-            {
-                throw new ArgumentException($"{nameof(recordParams.Class)} should be between A and Z");
-            }
-        }
+        /// <summary>
+        /// Validates the cabinet record.
+        /// </summary>
+        /// <param name="recordParams">The record parameters.</param>
+        protected abstract void ValidateCabinetRecord(RecordParams recordParams);
 
         private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)
         {
