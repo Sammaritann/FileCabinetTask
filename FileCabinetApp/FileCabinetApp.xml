@@ -248,6 +248,101 @@
             The class.
             </value>
         </member>
+        <member name="T:FileCabinetApp.Validators.InpitValidator.CustomValidator">
+            <summary>
+            Represents custom validator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.InpitValidator.IInputValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.ClassValidate(System.Char)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.DateOfBirthValidate(System.DateTime)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.DepartmentValidate(System.Int16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.FirstNameValidate(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.LastNameValidate(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.SalaryValidate(System.Decimal)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Validators.InpitValidator.DefaultValidator">
+            <summary>
+            Represents default valdiator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.InpitValidator.IInputValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.ClassValidate(System.Char)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.DateOfBirthValidate(System.DateTime)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.DepartmentValidate(System.Int16)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.FirstNameValidate(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.LastNameValidate(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.SalaryValidate(System.Decimal)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Validators.InpitValidator.IInputValidator">
+            <summary>
+            Represents the input validator.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.IInputValidator.FirstNameValidate(System.String)">
+            <summary>
+            Validate the first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>Validation result.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.IInputValidator.LastNameValidate(System.String)">
+            <summary>
+            Valdiate the last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>Validation result.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.IInputValidator.DateOfBirthValidate(System.DateTime)">
+            <summary>
+            Validate the date of birth.
+            </summary>
+            <param name="dateOfBirth">The date.</param>
+            <returns>Validation result.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.IInputValidator.DepartmentValidate(System.Int16)">
+            <summary>
+            Validate the department.
+            </summary>
+            <param name="department">The department.</param>
+            <returns>Validation result.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.IInputValidator.SalaryValidate(System.Decimal)">
+            <summary>
+            Validate the salsary.
+            </summary>
+            <param name="salary">The salary.</param>
+            <returns>Validation result.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.IInputValidator.ClassValidate(System.Char)">
+            <summary>
+            Validate the class.
+            </summary>
+            <param name="clas">The clas.</param>
+            <returns>Validation result.</returns>
+        </member>
         <member name="T:FileCabinetApp.Validators.CustomValidator">
             <summary>
             Represent custom validator.

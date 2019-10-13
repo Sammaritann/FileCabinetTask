@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using FileCabinetApp.Validators;
+using FileCabinetApp.Validators.InpitValidator;
 
 namespace FileCabinetApp
 {
@@ -42,6 +43,8 @@ namespace FileCabinetApp
 
         private static IFileCabinetService fileCabinetService;
 
+        private static IInputValidator inputValidator;
+
         /// <summary>
         /// Defines the entry point of the application.
         /// </summary>
@@ -57,7 +60,8 @@ namespace FileCabinetApp
 
             if (args.Length == 0)
             {
-                fileCabinetService = new FileCabinetService(new DefaultValidator());
+                fileCabinetService = new FileCabinetService(new Validators.DefaultValidator());
+                inputValidator = new Validators.InpitValidator.DefaultValidator();
                 Console.WriteLine("Using default validation rules.");
             }
 
@@ -69,13 +73,15 @@ namespace FileCabinetApp
                 {
                     if (param[1].ToUpperInvariant() == "DEFAULT")
                     {
-                        fileCabinetService = new FileCabinetService(new DefaultValidator());
+                        fileCabinetService = new FileCabinetService(new Validators.DefaultValidator());
+                        inputValidator = new Validators.InpitValidator.DefaultValidator();
                         Console.WriteLine("Using default validation rules.");
                     }
 
                     if (param[1].ToUpperInvariant() == "CUSTOM")
                     {
-                        fileCabinetService = new FileCabinetService(new CustomValidator());
+                        fileCabinetService = new FileCabinetService(new Validators.CustomValidator());
+                        inputValidator = new Validators.InpitValidator.CustomValidator();
                         Console.WriteLine("Using custom validation rules.");
                     }
                 }
@@ -87,13 +93,15 @@ namespace FileCabinetApp
                 {
                     if (args[1].ToUpperInvariant() == "DEFAULT")
                     {
-                        fileCabinetService = new FileCabinetService(new DefaultValidator());
+                        fileCabinetService = new FileCabinetService(new Validators.DefaultValidator());
+                        inputValidator = new Validators.InpitValidator.DefaultValidator();
                         Console.WriteLine("Using default validation rules.");
                     }
 
                     if (args[1].ToUpperInvariant() == "CUSTOM")
                     {
-                        fileCabinetService = new FileCabinetService(new CustomValidator());
+                        fileCabinetService = new FileCabinetService(new Validators.CustomValidator());
+                        inputValidator = new Validators.InpitValidator.CustomValidator();
                         Console.WriteLine("Using custom validation rules.");
                     }
                 }
@@ -178,7 +186,7 @@ namespace FileCabinetApp
             decimal salary;
             char clas;
 
-            ValidateRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
+            ReadRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
 
             RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
             int id = fileCabinetService.CreateRecord(recordParams);
@@ -220,7 +228,7 @@ namespace FileCabinetApp
             {
                 if (item.Id == id)
                 {
-                    ValidateRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
+                    ReadRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
                     RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
 
                     Program.fileCabinetService.EditRecord(id, recordParams);
@@ -302,51 +310,82 @@ namespace FileCabinetApp
             isRunning = false;
         }
 
-        private static void ValidateRecord(out string firstName, out string lastName, out DateTime dateOfBirth, out short department, out decimal salary, out char clas)
+        private static T ReadInput<T>(Func<string, ValueTuple<bool, string, T>> converter, Func<T, ValueTuple<bool, string>> validator)
+        {
+            do
+            {
+                T value;
+
+                var input = Console.ReadLine();
+                var conversionResult = converter(input);
+
+                if (!conversionResult.Item1)
+                {
+                    Console.WriteLine($"Conversion failed: {conversionResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                value = conversionResult.Item3;
+
+                var validationResult = validator(value);
+                if (!validationResult.Item1)
+                {
+                    Console.WriteLine($"Validation failed: {validationResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                return value;
+            }
+            while (true);
+        }
+
+        private static void ReadRecord(out string firstName, out string lastName, out DateTime dateOfBirth, out short department, out decimal salary, out char clas)
         {
             firstName = null;
             lastName = null;
 
-            while (string.IsNullOrWhiteSpace(firstName))
-            {
-                Console.Write("First name: ");
-                firstName = Console.ReadLine();
-            }
+            Console.Write("First name: ");
+            firstName = ReadInput<string>(StringConverter, inputValidator.FirstNameValidate);
 
-            while (string.IsNullOrWhiteSpace(lastName))
-            {
-                Console.Write("Last name: ");
-                lastName = Console.ReadLine();
-            }
+            Console.Write("Last name: ");
+            lastName = ReadInput(StringConverter, inputValidator.LastNameValidate);
 
             Console.Write("Date of birth: ");
-            while (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth))
-            {
-                Console.WriteLine("Invalid Date");
-                Console.WriteLine("Date must be format mm/dd/yyyy");
-                Console.Write("Date of birth: ");
-            }
+            dateOfBirth = ReadInput(DateConverter, inputValidator.DateOfBirthValidate);
 
             Console.Write("Department: ");
-            while (!short.TryParse(Console.ReadLine(), out department))
-            {
-                Console.WriteLine("Invalid Department");
-                Console.Write("Department: ");
-            }
+            department = ReadInput(ShortConverter, inputValidator.DepartmentValidate);
 
             Console.Write("Salary: ");
-            while (!decimal.TryParse(Console.ReadLine(), out salary))
-            {
-                Console.WriteLine("Invalid salary");
-                Console.Write("Salary: ");
-            }
+            salary = ReadInput(DecimalConverter, inputValidator.SalaryValidate);
 
             Console.Write("Class: ");
-            while (!char.TryParse(Console.ReadLine(), out clas))
-            {
-                Console.WriteLine("Invalid class");
-                Console.Write("Class: ");
-            }
+            clas = ReadInput(CharConverter, inputValidator.ClassValidate);
+        }
+
+        private static (bool, string, string) StringConverter(string str)
+        {
+            return (!string.IsNullOrEmpty(str), "string", str);
+        }
+
+        private static (bool, string, DateTime) DateConverter(string str)
+        {
+            return (DateTime.TryParseExact(str, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateOfBirth), "date", dateOfBirth);
+        }
+
+        private static (bool, string, short) ShortConverter(string str)
+        {
+            return (short.TryParse(str, out short department), "short", department);
+        }
+
+        private static (bool, string, decimal) DecimalConverter(string str)
+        {
+            return (decimal.TryParse(str, out decimal salary), "decimal", salary);
+        }
+
+        private static (bool, string, char) CharConverter(string str)
+        {
+            return (char.TryParse(str, out char clas), "char", clas);
         }
     }
 }
