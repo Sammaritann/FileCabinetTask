@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using FileCabinetApp.Validators;
 
@@ -215,16 +216,19 @@ namespace FileCabinetApp
                 return;
             }
 
-            if (Array.FindIndex(Program.fileCabinetService.GetRecords(), (x) => x.Id == id) == -1)
+            foreach (var item in Program.fileCabinetService.GetRecords())
             {
-                Console.WriteLine("#id record is not found");
-                return;
+                if (item.Id == id)
+                {
+                    ValidateRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
+                    RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
+
+                    Program.fileCabinetService.EditRecord(id, recordParams);
+                    return;
+                }
             }
 
-            ValidateRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
-            RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
-
-            Program.fileCabinetService.EditRecord(id, recordParams);
+            Console.WriteLine("#id record is not found");
         }
 
         private static void Find(string parameters)
