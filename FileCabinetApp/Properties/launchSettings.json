@@ -2,7 +2,7 @@
   "profiles": {
     "FileCabinetApp": {
       "commandName": "Project",
-      "commandLineArgs": "-v Custom -s FiLe"
+      "commandLineArgs": "-s FiLe"
     }
   }
 }

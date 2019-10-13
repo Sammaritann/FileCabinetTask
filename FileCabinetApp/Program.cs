@@ -94,7 +94,7 @@ namespace FileCabinetApp
 
                 if (param[0] == "--storage")
                 {
-                    if (param[1].ToUpperInvariant() =="MEMORY")
+                    if (param[1].ToUpperInvariant() == "MEMORY")
                     {
                         fileCabinetService = new FileCabinetMemoryService(recordValidators["DEFAULT"]);
                         inputValidator = inputValidators["DEFAULT"];
@@ -154,7 +154,6 @@ namespace FileCabinetApp
                         inputValidator = inputValidators[param[1].ToUpperInvariant()];
                         Console.WriteLine("Using {0} validation rules.", param[1].ToUpperInvariant());
                     }
-
                 }
             }
 
