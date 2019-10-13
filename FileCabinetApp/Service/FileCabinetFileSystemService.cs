@@ -104,46 +104,70 @@ namespace FileCabinetApp.Service
         /// <inheritdoc/>
         public IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
-            throw new NotImplementedException();
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            int year;
+            int month;
+            int day;
+            byte[] buffer = new byte[276];
+            this.fileStream.Position = 0;
+            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            {
+                year = BitConverter.ToInt32(buffer, 246);
+                month = BitConverter.ToInt32(buffer, 250);
+                day = BitConverter.ToInt32(buffer, 254);
+
+                if (dateOfBirth == new DateTime(year, month, day))
+                {
+                    result.Add(this.RecordFromBytes(buffer));
+                }
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>
         public IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            throw new NotImplementedException();
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            byte[] buffer = new byte[276];
+            this.fileStream.Position = 0;
+            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            {
+                if (firstName.ToUpperInvariant() == Encoding.Default.GetString(buffer, 6, 120).Trim('\0').ToUpperInvariant())
+                {
+                    result.Add(this.RecordFromBytes(buffer));
+                }
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>
         public IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            throw new NotImplementedException();
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            byte[] buffer = new byte[276];
+            this.fileStream.Position = 0;
+            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            {
+                if (lastName.ToUpperInvariant() == Encoding.Default.GetString(buffer, 126, 120).Trim('\0').ToUpperInvariant())
+                {
+                    result.Add(this.RecordFromBytes(buffer));
+                }
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>
         public IReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            ToBytesDecimal toDecimal = default(ToBytesDecimal);
-            int year;
-            int month;
-            int day;
             byte[] buffer = new byte[276];
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
             this.fileStream.Position = 0;
             while (this.fileStream.Read(buffer, 0, 276) != 0)
             {
-                FileCabinetRecord record = new FileCabinetRecord();
-                record.Department = BitConverter.ToInt16(buffer, 0);
-                record.Id = BitConverter.ToInt32(buffer, 2);
-                record.FirstName = Encoding.Default.GetString(buffer, 6, 120).Trim('\0');
-                record.LastName = Encoding.Default.GetString(buffer, 126, 120).Trim('\0');
-                year = BitConverter.ToInt32(buffer, 246);
-                month = BitConverter.ToInt32(buffer, 250);
-                day = BitConverter.ToInt32(buffer, 254);
-                toDecimal.Bytes1 = BitConverter.ToInt64(buffer, 258);
-                toDecimal.Bytes2 = BitConverter.ToInt64(buffer, 266);
-                record.Salary = toDecimal.GetDecimal();
-                record.Class = BitConverter.ToChar(buffer, 274);
-                record.DateOfBirth = new DateTime(year, month, day);
+                FileCabinetRecord record = RecordFromBytes(buffer);
 
                 result.Add(record);
             }
@@ -161,6 +185,30 @@ namespace FileCabinetApp.Service
         public FileCabinetServiceSnapshot MakeSnapshot()
         {
             throw new NotImplementedException();
+        }
+
+        private FileCabinetRecord RecordFromBytes(byte[] buffer)
+        {
+            ToBytesDecimal toDecimal = default(ToBytesDecimal);
+            int year;
+            int month;
+            int day;
+            FileCabinetRecord record = new FileCabinetRecord();
+            record.Department = BitConverter.ToInt16(buffer, 0);
+            record.Id = BitConverter.ToInt32(buffer, 2);
+            record.FirstName = Encoding.Default.GetString(buffer, 6, 120).Trim('\0');
+            record.LastName = Encoding.Default.GetString(buffer, 126, 120).Trim('\0');
+            year = BitConverter.ToInt32(buffer, 246);
+            month = BitConverter.ToInt32(buffer, 250);
+            day = BitConverter.ToInt32(buffer, 254);
+            toDecimal.Bytes1 = BitConverter.ToInt64(buffer, 258);
+            toDecimal.Bytes2 = BitConverter.ToInt64(buffer, 266);
+            record.Salary = toDecimal.GetDecimal();
+            record.Class = BitConverter.ToChar(buffer, 274);
+            record.DateOfBirth = new DateTime(year, month, day);
+
+            return record;
+
         }
 
         [StructLayout(LayoutKind.Explicit)]
