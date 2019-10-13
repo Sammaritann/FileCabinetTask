@@ -83,7 +83,33 @@ namespace FileCabinetApp.Service
         /// <inheritdoc/>
         public IReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            throw new NotImplementedException();
+            ToBytesDecimal toDecimal = default(ToBytesDecimal);
+            int year;
+            int month;
+            int day;
+            byte[] buffer = new byte[276];
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            this.fileStream.Position = 0;
+            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            {
+                FileCabinetRecord record = new FileCabinetRecord();
+                record.Department = BitConverter.ToInt16(buffer, 0);
+                record.Id = BitConverter.ToInt32(buffer, 2);
+                record.FirstName = Encoding.Default.GetString(buffer, 6, 120).Trim('\0');
+                record.LastName = Encoding.Default.GetString(buffer, 126, 120).Trim('\0');
+                year = BitConverter.ToInt32(buffer, 246);
+                month = BitConverter.ToInt32(buffer, 250);
+                day = BitConverter.ToInt32(buffer, 254);
+                toDecimal.Bytes1 = BitConverter.ToInt64(buffer, 258);
+                toDecimal.Bytes2 = BitConverter.ToInt64(buffer, 266);
+                record.Salary = toDecimal.GetDecimal();
+                record.Class = BitConverter.ToChar(buffer, 274);
+                record.DateOfBirth = new DateTime(year, month, day);
+
+                result.Add(record);
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>
@@ -113,6 +139,11 @@ namespace FileCabinetApp.Service
                 this.Bytes1 = 0;
                 this.Bytes2 = 0;
                 this.number = number;
+            }
+
+            public decimal GetDecimal()
+            {
+                return this.number;
             }
         }
 
