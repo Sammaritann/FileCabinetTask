@@ -64,7 +64,7 @@ namespace FileCabinetApp
 
             if (args.Length == 0)
             {
-                fileCabinetService = new FileCabinetService(new Validators.DefaultValidator());
+                fileCabinetService = new FileCabinetMemoryService(new Validators.DefaultValidator());
                 inputValidator = new Validators.InpitValidator.DefaultValidator();
                 Console.WriteLine("Using default validation rules.");
             }
@@ -77,14 +77,14 @@ namespace FileCabinetApp
                 {
                     if (param[1].ToUpperInvariant() == "DEFAULT")
                     {
-                        fileCabinetService = new FileCabinetService(new Validators.DefaultValidator());
+                        fileCabinetService = new FileCabinetMemoryService(new Validators.DefaultValidator());
                         inputValidator = new Validators.InpitValidator.DefaultValidator();
                         Console.WriteLine("Using default validation rules.");
                     }
 
                     if (param[1].ToUpperInvariant() == "CUSTOM")
                     {
-                        fileCabinetService = new FileCabinetService(new Validators.CustomValidator());
+                        fileCabinetService = new FileCabinetMemoryService(new Validators.CustomValidator());
                         inputValidator = new Validators.InpitValidator.CustomValidator();
                         Console.WriteLine("Using custom validation rules.");
                     }
@@ -97,14 +97,14 @@ namespace FileCabinetApp
                 {
                     if (args[1].ToUpperInvariant() == "DEFAULT")
                     {
-                        fileCabinetService = new FileCabinetService(new Validators.DefaultValidator());
+                        fileCabinetService = new FileCabinetMemoryService(new Validators.DefaultValidator());
                         inputValidator = new Validators.InpitValidator.DefaultValidator();
                         Console.WriteLine("Using default validation rules.");
                     }
 
                     if (args[1].ToUpperInvariant() == "CUSTOM")
                     {
-                        fileCabinetService = new FileCabinetService(new Validators.CustomValidator());
+                        fileCabinetService = new FileCabinetMemoryService(new Validators.CustomValidator());
                         inputValidator = new Validators.InpitValidator.CustomValidator();
                         Console.WriteLine("Using custom validation rules.");
                     }
