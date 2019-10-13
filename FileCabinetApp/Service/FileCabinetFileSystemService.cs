@@ -33,8 +33,10 @@ namespace FileCabinetApp.Service
         {
             if (recordParams is null)
             {
-                throw new ArgumentNullException($"{nameof(recordParams)} must not be null");
+                throw new ArgumentNullException($"{nameof(recordParams)} must nit be null");
             }
+
+            this.validator.ValidateCabinetRecord(recordParams);
 
             byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
             byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
@@ -59,7 +61,44 @@ namespace FileCabinetApp.Service
         /// <inheritdoc/>
         public void EditRecord(int id, RecordParams recordParams)
         {
-            throw new NotImplementedException();
+            if (recordParams is null)
+            {
+                throw new ArgumentNullException($"{nameof(recordParams)} must nit be null");
+            }
+
+            this.validator.ValidateCabinetRecord(recordParams);
+            byte[] buffer = new byte[276];
+            this.fileStream.Position = 0;
+            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            {
+                if (BitConverter.ToInt32(buffer, 2) == id)
+                {
+                    this.fileStream.Position -= 276;
+
+                    byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
+                    byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
+                    byte[] firstName = new byte[120];
+                    byte[] lastName = new byte[120];
+                    ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
+                    byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
+                    Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
+                    Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
+                    this.fileStream.Write(BitConverter.GetBytes(recordParams.Department));
+                    this.fileStream.Write(BitConverter.GetBytes(id));
+                    this.fileStream.Write(firstName);
+                    this.fileStream.Write(lastName);
+                    this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Year));
+                    this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Month));
+                    this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Day));
+                    this.fileStream.Write(bytesSalary);
+                    this.fileStream.Write(BitConverter.GetBytes(recordParams.Class));
+
+                    this.fileStream.Position = this.fileStream.Length;
+                    return;
+                }
+             }
+
+            throw new ArgumentException($"wrong {nameof(id)}");
         }
 
         /// <inheritdoc/>
