@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -56,5 +57,11 @@ namespace FileCabinetApp
         /// <param name="dateOfBirth">The date of birth.</param>
         /// <returns>Found records.</returns>
         IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
+
+        /// <summary>
+        /// Makes the snapshot.
+        /// </summary>
+        /// <returns>Snapshot.</returns>
+        public FileCabinetServiceSnapshot MakeSnapshot();
     }
 }

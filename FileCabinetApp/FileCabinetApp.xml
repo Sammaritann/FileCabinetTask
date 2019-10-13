@@ -61,129 +61,6 @@
             The class.
             </value>
         </member>
-        <member name="T:FileCabinetApp.FileCabinetService">
-            <summary>
-            Represents abstract file cabinet service.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
-            </summary>
-            <param name="validator">The validator.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
-            <summary>
-            Creates the record.
-            </summary>
-            <param name="recordParams">The record parameters.</param>
-            <returns>The identifier.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
-            <summary>
-            Edits the record.
-            </summary>
-            <param name="id">The identifier.</param>
-            <param name="recordParams">The record parameters.</param>
-            <exception cref="T:System.ArgumentException">wrong {nameof(id)}.</exception>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
-            <summary>
-            Gets the records.
-            </summary>
-            <returns>The records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
-            <summary>
-            Gets the stat.
-            </summary>
-            <returns>Number of records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Finds all records by first name.
-            </summary>
-            <param name="firstName">The first name.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Finds all records by last name.
-            </summary>
-            <param name="lastName">The last name.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Finds all records by Date.
-            </summary>
-            <param name="dateOfBirth">The date of birth.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="T:FileCabinetApp.IFileCabinetService">
-            <summary>
-            Represent file cabinet service .
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
-            <summary>
-            Creates the record.
-            </summary>
-            <param name="recordParams">The record parameters.</param>
-            <returns>The identifier.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
-            <summary>
-            Edits the record.
-            </summary>
-            <param name="id">The identifier.</param>
-            <param name="recordParams">The record parameters.</param>
-            <exception cref="T:System.ArgumentException">wrong {nameof(id)}.</exception>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.GetRecords">
-            <summary>
-            Gets the records.
-            </summary>
-            <returns>The records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.GetStat">
-            <summary>
-            Gets the stat.
-            </summary>
-            <returns>Number of records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Finds all records by first name.
-            </summary>
-            <param name="firstName">The first name.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Finds all records by last name.
-            </summary>
-            <param name="lastName">The last name.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Finds all records by Date.
-            </summary>
-            <param name="dateOfBirth">The date of birth.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="T:FileCabinetApp.Program">
-            <summary>
-            Class program.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Program.Main(System.String[])">
-            <summary>
-            Defines the entry point of the application.
-            </summary>
-            <param name="args">The arguments.</param>
-        </member>
         <member name="T:FileCabinetApp.RecordParams">
             <summary>
             Represents file cabinet record params.
@@ -247,6 +124,169 @@
             <value>
             The class.
             </value>
+        </member>
+        <member name="T:FileCabinetApp.Program">
+            <summary>
+            Class program.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Program.Main(System.String[])">
+            <summary>
+            Defines the entry point of the application.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetService">
+            <summary>
+            Represents abstract file cabinet service.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+            <param name="validator">The validator.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Creates the record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <returns>The identifier.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
+            <summary>
+            Edits the record.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentException">wrong {nameof(id)}.</exception>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
+            <summary>
+            Gets the records.
+            </summary>
+            <returns>The records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
+            <summary>
+            Gets the stat.
+            </summary>
+            <returns>Number of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.MakeSnapshot">
+            <summary>
+            Makes the snapshot.
+            </summary>
+            <returns>
+            Snapshot.
+            </returns>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetServiceSnapshot">
+            <summary>
+            Represents file cabinet snapshot.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.MakeSnapshot(System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Makes the snapshot.
+            </summary>
+            <param name="list">The list.</param>
+            <returns>Snapshot.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.SaveToCsw(System.IO.StreamWriter)">
+            <summary>
+            Saves to CSW.
+            </summary>
+            <param name="stream">The stream.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when stream is null.</exception>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.SaveToXml(System.IO.StreamWriter)">
+            <summary>
+            Saves to XML.
+            </summary>
+            <param name="stream">The stream.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when stream is null</exception>
+        </member>
+        <member name="T:FileCabinetApp.IFileCabinetService">
+            <summary>
+            Represent file cabinet service .
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Creates the record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <returns>The identifier.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
+            <summary>
+            Edits the record.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentException">wrong {nameof(id)}.</exception>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.GetRecords">
+            <summary>
+            Gets the records.
+            </summary>
+            <returns>The records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.GetStat">
+            <summary>
+            Gets the stat.
+            </summary>
+            <returns>Number of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.MakeSnapshot">
+            <summary>
+            Makes the snapshot.
+            </summary>
+            <returns>Snapshot.</returns>
         </member>
         <member name="T:FileCabinetApp.Validators.InpitValidator.CustomValidator">
             <summary>
@@ -389,6 +429,42 @@
             Validates the cabinet record.
             </summary>
             <param name="recordParams">The record parameters.</param>
+        </member>
+        <member name="T:FileCabinetApp.Writer.FileCabinetRecordCsvWriter">
+            <summary>
+            Represents file cabinet record csv writer.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Writer.FileCabinetRecordCsvWriter.#ctor(System.IO.StreamWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Writer.FileCabinetRecordCsvWriter"/> class.
+            </summary>
+            <param name="writer">The writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.Writer.FileCabinetRecordCsvWriter.Write(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Writes the specified record.
+            </summary>
+            <param name="record">The record.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when record is null.</exception>
+        </member>
+        <member name="T:FileCabinetApp.Writer.FileCabinetRecordXmlWriter">
+            <summary>
+            Represents file cabinet record xml writer.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Writer.FileCabinetRecordXmlWriter.#ctor(System.IO.StreamWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Writer.FileCabinetRecordXmlWriter"/> class.
+            </summary>
+            <param name="writer">The writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.Writer.FileCabinetRecordXmlWriter.Write(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Writes the specified record.
+            </summary>
+            <param name="record">The record.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when record is null.</exception>
         </member>
     </members>
 </doc>

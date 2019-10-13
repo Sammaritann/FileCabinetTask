@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 using FileCabinetApp.Validators.InpitValidator;
 
@@ -28,6 +30,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
+            new Tuple<string, Action<string>>("export", Export),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -38,6 +41,7 @@ namespace FileCabinetApp
             new string[] { "create", "creates a new record", "The 'create' command creates a new record." },
             new string[] { "list", "prints list of records", "The 'list' command prints list of records." },
             new string[] { "edit", "edits a record", "The 'edit' command edits a record." },
+            new string[] { "export", "eports records", "The 'export' command eports  records." },
             new string[] { "find", "finds a records", "The 'find' command finds a records." },
         };
 
@@ -302,6 +306,69 @@ namespace FileCabinetApp
                         item.Class);
                 }
             }
+        }
+
+        private static void Export(string parameters)
+        {
+            var param = parameters.Split(' ');
+            if (param.Length != 2)
+            {
+                Console.WriteLine("Invalid number of parameters");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(param[0]) || string.IsNullOrWhiteSpace(param[1]))
+            {
+                Console.WriteLine("Invalid parameters");
+                return;
+            }
+
+            FileStream fileStream;
+            try
+            {
+                string result;
+                fileStream = new FileStream(param[1], FileMode.Open);
+                do
+                {
+                    Console.Write("File is exist - rewrite {0}? [Y/n]", param[1]);
+                    result = Console.ReadLine();
+                    if (result.ToUpperInvariant() == "Y")
+                    {
+                        break;
+                    }
+
+                    if (result.ToUpperInvariant() == "N")
+                    {
+                        fileStream.Close();
+                        return;
+                    }
+                }
+                while (true);
+            }
+            catch (FileNotFoundException)
+            {
+                fileStream = new FileStream(param[1], FileMode.Create);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("Export failed: can't open file {0}", param[1]);
+                return;
+            }
+
+            var snapshot = fileCabinetService.MakeSnapshot();
+
+            if (param[0].ToUpperInvariant() == "CSV")
+            {
+                snapshot.SaveToCsw(new StreamWriter(fileStream));
+            }
+
+            if (param[0].ToUpperInvariant() == "XML")
+            {
+                snapshot.SaveToXml(new StreamWriter(fileStream));
+            }
+
+            Console.WriteLine("All records are exported to file {0}", param[1]);
+            fileStream.Close();
         }
 
         private static void Exit(string parameters)

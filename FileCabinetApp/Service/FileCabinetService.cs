@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -162,6 +163,17 @@ namespace FileCabinetApp
             return this.dateOfBirthDictionary.ContainsKey(dateOfBirth)
                  ? this.dateOfBirthDictionary[dateOfBirth]
                  : new List<FileCabinetRecord>();
+        }
+
+        /// <summary>
+        /// Makes the snapshot.
+        /// </summary>
+        /// <returns>
+        /// Snapshot.
+        /// </returns>
+        public FileCabinetServiceSnapshot MakeSnapshot()
+        {
+            return FileCabinetServiceSnapshot.MakeSnapshot(this.list);
         }
 
         private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)

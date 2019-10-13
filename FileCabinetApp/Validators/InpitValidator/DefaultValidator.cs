@@ -19,7 +19,7 @@ namespace FileCabinetApp.Validators.InpitValidator
         /// <inheritdoc/>
         public (bool, string) ClassValidate(char clas)
         {
-            return (clas > MinClass && clas < MaxClass, "class");
+            return (clas >= MinClass && clas <= MaxClass, "class");
         }
 
         /// <inheritdoc/>
