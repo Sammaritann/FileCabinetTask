@@ -45,6 +45,18 @@ namespace FileCabinetApp
             new string[] { "find", "finds a records", "The 'find' command finds a records." },
         };
 
+        private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
+        {
+            { "DEFAULT", new Validators.DefaultValidator() },
+            { "CUSTOM", new Validators.DefaultValidator() },
+        };
+
+        private static Dictionary<string, IInputValidator> inputValidators = new Dictionary<string, IInputValidator>
+        {
+            { "DEFAULT", new Validators.InpitValidator.DefaultValidator() },
+            { "CUSTOM", new Validators.InpitValidator.DefaultValidator() },
+        };
+
         private static IFileCabinetService fileCabinetService;
 
         private static IInputValidator inputValidator;
@@ -64,9 +76,9 @@ namespace FileCabinetApp
 
             if (args.Length == 0)
             {
-                fileCabinetService = new FileCabinetMemoryService(new Validators.DefaultValidator());
-                inputValidator = new Validators.InpitValidator.DefaultValidator();
-                Console.WriteLine("Using default validation rules.");
+                fileCabinetService = new FileCabinetMemoryService(recordValidators["DEFAULT"]);
+                inputValidator = inputValidators["DEFAULT"];
+                Console.WriteLine("Using DEFAULT validation rules.");
             }
 
             if (args.Length == 1)
@@ -75,18 +87,25 @@ namespace FileCabinetApp
 
                 if (param[0] == "--validation-rules")
                 {
-                    if (param[1].ToUpperInvariant() == "DEFAULT")
+                        fileCabinetService = new FileCabinetMemoryService(recordValidators[param[1].ToUpperInvariant()]);
+                        inputValidator = inputValidators[param[1].ToUpperInvariant()];
+                        Console.WriteLine("Using {0} validation rules.", param[1].ToUpperInvariant());
+                }
+
+                if (param[0] == "--storage")
+                {
+                    if (param[1].ToUpperInvariant() =="MEMORY")
                     {
-                        fileCabinetService = new FileCabinetMemoryService(new Validators.DefaultValidator());
-                        inputValidator = new Validators.InpitValidator.DefaultValidator();
-                        Console.WriteLine("Using default validation rules.");
+                        fileCabinetService = new FileCabinetMemoryService(recordValidators["DEFAULT"]);
+                        inputValidator = inputValidators["DEFAULT"];
+                        Console.WriteLine("Using DEFAULT validation rules.");
                     }
 
-                    if (param[1].ToUpperInvariant() == "CUSTOM")
+                    if (param[1].ToUpperInvariant() == "FILE")
                     {
-                        fileCabinetService = new FileCabinetMemoryService(new Validators.CustomValidator());
-                        inputValidator = new Validators.InpitValidator.CustomValidator();
-                        Console.WriteLine("Using custom validation rules.");
+                        fileCabinetService = new FileCabinetFileSystemService(recordValidators["DEFAULT"]);
+                        inputValidator = inputValidators["DEFAULT"];
+                        Console.WriteLine("Using DEFAULT validation rules.");
                     }
                 }
             }
@@ -95,18 +114,66 @@ namespace FileCabinetApp
             {
                 if (args[0] == "-v")
                 {
-                    if (args[1].ToUpperInvariant() == "DEFAULT")
+                    fileCabinetService = new FileCabinetMemoryService(recordValidators[args[1].ToUpperInvariant()]);
+                    inputValidator = inputValidators[args[1].ToUpperInvariant()];
+                    Console.WriteLine("Using {0} validation rules.", args[1].ToUpperInvariant());
+                }
+
+                if (args[0] == "-s")
+                {
+                        if (args[1].ToUpperInvariant() == "MEMORY")
+                        {
+                            fileCabinetService = new FileCabinetMemoryService(recordValidators["DEFAULT"]);
+                            inputValidator = inputValidators["DEFAULT"];
+                            Console.WriteLine("Using DEFAULT validation rules.");
+                        }
+
+                        if (args[1].ToUpperInvariant() == "FILE")
+                        {
+                            fileCabinetService = new FileCabinetFileSystemService(recordValidators["DEFAULT"]);
+                            inputValidator = inputValidators["DEFAULT"];
+                            Console.WriteLine("Using DEFAULT validation rules.");
+                        }
+                }
+
+                if (args[1] == "--storage")
+                {
+                    var param = args[0].Split('=');
+                    var param1 = args[1].Split('=');
+
+                    if (param1[1].ToUpperInvariant() == "MEMORY")
                     {
-                        fileCabinetService = new FileCabinetMemoryService(new Validators.DefaultValidator());
-                        inputValidator = new Validators.InpitValidator.DefaultValidator();
-                        Console.WriteLine("Using default validation rules.");
+                        fileCabinetService = new FileCabinetMemoryService(recordValidators[param[1].ToUpperInvariant()]);
+                        inputValidator = inputValidators[param[1].ToUpperInvariant()];
+                        Console.WriteLine("Using {0} validation rules.", param[1].ToUpperInvariant());
                     }
 
-                    if (args[1].ToUpperInvariant() == "CUSTOM")
+                    if (param1[1].ToUpperInvariant() == "FILE")
                     {
-                        fileCabinetService = new FileCabinetMemoryService(new Validators.CustomValidator());
-                        inputValidator = new Validators.InpitValidator.CustomValidator();
-                        Console.WriteLine("Using custom validation rules.");
+                        fileCabinetService = new FileCabinetFileSystemService(recordValidators[param[1].ToUpperInvariant()]);
+                        inputValidator = inputValidators[param[1].ToUpperInvariant()];
+                        Console.WriteLine("Using {0} validation rules.", param[1].ToUpperInvariant());
+                    }
+
+                }
+            }
+
+            if (args.Length == 4)
+            {
+                if (args[2] == "-s")
+                {
+                    if (args[3].ToUpperInvariant() == "MEMORY")
+                    {
+                        fileCabinetService = new FileCabinetMemoryService(recordValidators[args[1].ToUpperInvariant()]);
+                        inputValidator = inputValidators[args[1].ToUpperInvariant()];
+                        Console.WriteLine("Using {0} validation rules.", args[1].ToUpperInvariant());
+                    }
+
+                    if (args[3].ToUpperInvariant() == "FILE")
+                    {
+                        fileCabinetService = new FileCabinetFileSystemService(recordValidators[args[1].ToUpperInvariant()]);
+                        inputValidator = inputValidators[args[1].ToUpperInvariant()];
+                        Console.WriteLine("Using {0} validation rules.", args[1].ToUpperInvariant());
                     }
                 }
             }

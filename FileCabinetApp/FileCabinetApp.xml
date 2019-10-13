@@ -136,6 +136,68 @@
             </summary>
             <param name="args">The arguments.</param>
         </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetFileSystemService">
+            <summary>
+            Represents file cabinet file system service.
+            </summary>
+            <seealso cref="T:FileCabinetApp.IFileCabinetService" />
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetFileSystemService"/> class.
+            </summary>
+            <param name="validator">The validator.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.CreateRecord(FileCabinetApp.RecordParams)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByDateOfBirth(System.DateTime)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByFirstName(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByLastName(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.GetRecords">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.GetStat">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.MakeSnapshot">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetServiceSnapshot">
+            <summary>
+            Represents file cabinet snapshot.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.MakeSnapshot(System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Makes the snapshot.
+            </summary>
+            <param name="list">The list.</param>
+            <returns>Snapshot.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.SaveToCsw(System.IO.StreamWriter)">
+            <summary>
+            Saves to CSW.
+            </summary>
+            <param name="stream">The stream.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when stream is null.</exception>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.SaveToXml(System.IO.StreamWriter)">
+            <summary>
+            Saves to XML.
+            </summary>
+            <param name="stream">The stream.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when stream is null.</exception>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetMemoryService">
             <summary>
             Represents abstract file cabinet service.
@@ -202,32 +264,6 @@
             <returns>
             Snapshot.
             </returns>
-        </member>
-        <member name="T:FileCabinetApp.Service.FileCabinetServiceSnapshot">
-            <summary>
-            Represents file cabinet snapshot.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.MakeSnapshot(System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Makes the snapshot.
-            </summary>
-            <param name="list">The list.</param>
-            <returns>Snapshot.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.SaveToCsw(System.IO.StreamWriter)">
-            <summary>
-            Saves to CSW.
-            </summary>
-            <param name="stream">The stream.</param>
-            <exception cref="T:System.ArgumentNullException">Throws when stream is null.</exception>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.SaveToXml(System.IO.StreamWriter)">
-            <summary>
-            Saves to XML.
-            </summary>
-            <param name="stream">The stream.</param>
-            <exception cref="T:System.ArgumentNullException">Throws when stream is null.</exception>
         </member>
         <member name="T:FileCabinetApp.IFileCabinetService">
             <summary>
