@@ -120,6 +120,59 @@
             <param name="dateOfBirth">The date of birth.</param>
             <returns>Found records.</returns>
         </member>
+        <member name="T:FileCabinetApp.IFileCabinetService">
+            <summary>
+            Represent file cabinet service .
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Creates the record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <returns>The identifier.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
+            <summary>
+            Edits the record.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentException">wrong {nameof(id)}.</exception>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.GetRecords">
+            <summary>
+            Gets the records.
+            </summary>
+            <returns>The records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.GetStat">
+            <summary>
+            Gets the stat.
+            </summary>
+            <returns>Number of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>Found records.</returns>
+        </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
             Class program.

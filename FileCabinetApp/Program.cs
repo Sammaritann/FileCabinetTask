@@ -40,7 +40,7 @@ namespace FileCabinetApp
             new string[] { "find", "finds a records", "The 'find' command finds a records." },
         };
 
-        private static FileCabinetService fileCabinetService;
+        private static IFileCabinetService fileCabinetService;
 
         /// <summary>
         /// Defines the entry point of the application.
