@@ -115,7 +115,7 @@ namespace FileCabinetApp.Service
         /// <inheritdoc/>
         public int GetStat()
         {
-            throw new NotImplementedException();
+            return (int)(this.fileStream.Length / 276L);
         }
 
         /// <inheritdoc/>
