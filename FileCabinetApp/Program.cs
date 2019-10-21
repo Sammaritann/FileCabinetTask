@@ -31,6 +31,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("export", Export),
+            new Tuple<string, Action<string>>("import", Import),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -41,8 +42,9 @@ namespace FileCabinetApp
             new string[] { "create", "creates a new record", "The 'create' command creates a new record." },
             new string[] { "list", "prints list of records", "The 'list' command prints list of records." },
             new string[] { "edit", "edits a record", "The 'edit' command edits a record." },
-            new string[] { "export", "eports records", "The 'export' command eports  records." },
-            new string[] { "find", "finds a records", "The 'find' command finds a records." },
+            new string[] { "export", "eports records", "The 'export' command exports  records." },
+            new string[] { "find", "finds  records", "The 'find' command finds records." },
+            new string[] { "import", "imports  records", "The 'import' command imports records." },
         };
 
         private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
@@ -435,6 +437,11 @@ namespace FileCabinetApp
 
             Console.WriteLine("All records are exported to file {0}", param[1]);
             fileStream.Close();
+        }
+
+        private static void Import(string parameters)
+        {
+
         }
 
         private static void Exit(string parameters)
