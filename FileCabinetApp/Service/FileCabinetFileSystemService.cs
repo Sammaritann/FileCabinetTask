@@ -14,8 +14,8 @@ namespace FileCabinetApp.Service
     /// <seealso cref="FileCabinetApp.IFileCabinetService" />
     public class FileCabinetFileSystemService : IFileCabinetService, IDisposable
     {
-        private FileStream fileStream;
         private readonly IRecordValidator validator;
+        private FileStream fileStream;
         private int id = 0;
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace FileCabinetApp.Service
             this.fileStream.Position = 0;
             while (this.fileStream.Read(buffer, 0, 276) != 0)
             {
-                FileCabinetRecord record = RecordFromBytes(buffer);
+                FileCabinetRecord record = this.RecordFromBytes(buffer);
 
                 result.Add(record);
             }
@@ -208,7 +208,6 @@ namespace FileCabinetApp.Service
             record.DateOfBirth = new DateTime(year, month, day);
 
             return record;
-
         }
 
         [StructLayout(LayoutKind.Explicit)]
