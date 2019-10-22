@@ -192,7 +192,6 @@ namespace FileCabinetApp
             {
                 try
                 {
-                    this.validator.ValidateCabinetRecord(RecordToParams(record));
                     this.EditRecord(record.Id, RecordToParams(record));
                 }
                 catch (ArgumentException e)

@@ -467,7 +467,7 @@ namespace FileCabinetApp
                 Console.WriteLine("Import failed: can't open file {0}", param[1]);
                 return;
             }
-            catch(Exception)
+            catch (UnauthorizedAccessException)
             {
                 return;
             }
@@ -477,6 +477,7 @@ namespace FileCabinetApp
             {
                 serviceSnapshot.LoadFromCsv(new StreamReader(fileStream));
                 fileCabinetService.Restore(serviceSnapshot);
+                Console.WriteLine("records were imported from {0}", param[1]);
             }
 
             fileStream.Close();

@@ -161,7 +161,7 @@
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetFileSystemService"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetFileSystemService" /> class.
             </summary>
             <param name="validator">The validator.</param>
         </member>
@@ -169,7 +169,13 @@
             <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
-            <inheritdoc/>
+            <summary>
+            Edits the record.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when recordParams is null.</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">wrong {nameof(id)}</exception>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByDateOfBirth(System.DateTime)">
             <inheritdoc/>

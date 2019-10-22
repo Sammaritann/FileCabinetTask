@@ -19,7 +19,7 @@ namespace FileCabinetApp.Service
         private int id = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetFileSystemService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetFileSystemService" /> class.
         /// </summary>
         /// <param name="validator">The validator.</param>
         public FileCabinetFileSystemService(IRecordValidator validator)
@@ -37,28 +37,18 @@ namespace FileCabinetApp.Service
             }
 
             this.validator.ValidateCabinetRecord(recordParams);
+            this.WriteRecord(recordParams);
 
-            byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
-            byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
-            byte[] firstName = new byte[120];
-            byte[] lastName = new byte[120];
-            ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
-            byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
-            Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
-            Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.Department));
-            this.fileStream.Write(BitConverter.GetBytes(++this.id));
-            this.fileStream.Write(firstName);
-            this.fileStream.Write(lastName);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Year));
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Month));
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Day));
-            this.fileStream.Write(bytesSalary);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.Class));
             return this.id;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Edits the record.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="recordParams">The record parameters.</param>
+        /// <exception cref="ArgumentNullException">Throws when recordParams is null.</exception>
+        /// <exception cref="KeyNotFoundException">wrong {nameof(id)}</exception>
         public void EditRecord(int id, RecordParams recordParams)
         {
             if (recordParams is null)
@@ -98,7 +88,7 @@ namespace FileCabinetApp.Service
                 }
              }
 
-            throw new ArgumentException($"wrong {nameof(id)}");
+            throw new KeyNotFoundException($"wrong {nameof(id)}");
         }
 
         /// <inheritdoc/>
@@ -193,7 +183,31 @@ namespace FileCabinetApp.Service
         /// <param name="snapshot">The snapshot.</param>
         public void Restore(FileCabinetServiceSnapshot snapshot)
         {
-            throw new NotImplementedException();
+            if (snapshot is null)
+            {
+                throw new ArgumentNullException(nameof(snapshot));
+            }
+
+            foreach (FileCabinetRecord record in snapshot.Records)
+            {
+                try
+                {
+                    this.EditRecord(record.Id, RecordToParams(record));
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine($"{record.Id}: {e.Message}");
+                }
+                catch (KeyNotFoundException)
+                {
+                    this.WriteRecord(RecordToParams(record));
+                }
+            }
+        }
+
+        private static RecordParams RecordToParams(FileCabinetRecord record)
+        {
+            return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
         }
 
         /// <inheritdoc/>
@@ -240,6 +254,27 @@ namespace FileCabinetApp.Service
             record.DateOfBirth = new DateTime(year, month, day);
 
             return record;
+        }
+
+        private void WriteRecord(RecordParams recordParams)
+        {
+            byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
+            byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
+            byte[] firstName = new byte[120];
+            byte[] lastName = new byte[120];
+            ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
+            byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
+            Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
+            Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.Department));
+            this.fileStream.Write(BitConverter.GetBytes(++this.id));
+            this.fileStream.Write(firstName);
+            this.fileStream.Write(lastName);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Year));
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Month));
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Day));
+            this.fileStream.Write(bytesSalary);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.Class));
         }
 
         [StructLayout(LayoutKind.Explicit)]
