@@ -44,15 +44,15 @@ namespace FileCabinetApp.Writer
             this.writer.BaseStream.Position = 0;
             doc.Load(this.writer.BaseStream);
             var root = doc.DocumentElement;
-            var fileRecordNode = doc.CreateElement("record");
+            var fileRecordNode = doc.CreateElement("FileCabinetRecord");
 
-            AddChild("id", record.Id.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
-            AddChild("firstName", record.FirstName, fileRecordNode, doc);
-            AddChild("lastName", record.LastName, fileRecordNode, doc);
-            AddChild("dateOfBirth", record.DateOfBirth.ToString("MM/dd/YYYY", CultureInfo.InvariantCulture), fileRecordNode, doc);
-            AddChild("department", record.Department.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
-            AddChild("salary", record.Salary.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
-            AddChild("class", record.Class.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
+            AddChild("Id", record.Id.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
+            AddChild("FirstName", record.FirstName, fileRecordNode, doc);
+            AddChild("LastName", record.LastName, fileRecordNode, doc);
+            AddChild("DateOfBirth", record.DateOfBirth.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture), fileRecordNode, doc);
+            AddChild("Department", record.Department.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
+            AddChild("Salary", record.Salary.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
+            AddChild("Class", ((int)record.Class).ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
 
             root.AppendChild(fileRecordNode);
             this.writer.BaseStream.Position = 0;

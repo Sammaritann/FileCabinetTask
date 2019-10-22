@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Xml;
+using FileCabinetApp.Reader;
 using FileCabinetApp.Writer;
 
 namespace FileCabinetApp.Service
@@ -14,14 +16,29 @@ namespace FileCabinetApp.Service
     {
         private FileCabinetRecord[] records;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetServiceSnapshot"/> class.
+        /// </summary>
+        public FileCabinetServiceSnapshot()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetServiceSnapshot"/> class.
+        /// </summary>
+        /// <param name="list">The list.</param>
         private FileCabinetServiceSnapshot(List<FileCabinetRecord> list)
         {
             this.records = list.ToArray();
         }
 
-        private FileCabinetServiceSnapshot()
-        {
-        }
+        /// <summary>
+        /// Gets the records.
+        /// </summary>
+        /// <value>
+        /// The records.
+        /// </value>
+        public ReadOnlyCollection<FileCabinetRecord> Records { get; private set; }
 
         /// <summary>
         /// Makes the snapshot.
@@ -73,12 +90,32 @@ namespace FileCabinetApp.Service
             FileCabinetRecordXmlWriter writer = new FileCabinetRecordXmlWriter(stream);
             var doc = new XmlDocument();
             doc.AppendChild(doc.CreateXmlDeclaration("1.0", "UTF-8", null));
-            doc.AppendChild(doc.CreateElement("records"));
+            doc.AppendChild(doc.CreateElement("ArrayOfFileCabinetRecord"));
             doc.Save(stream);
             foreach (var item in this.records)
             {
                 writer.Write(item);
             }
+        }
+
+        /// <summary>
+        /// Loads from CSV.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        public void LoadFromCsv(StreamReader stream)
+        {
+            FileCabinetRecordCsvReader csvReader = new FileCabinetRecordCsvReader(stream);
+            this.Records = new ReadOnlyCollection<FileCabinetRecord>(csvReader.ReadAll());
+        }
+
+        /// <summary>
+        /// Loads from XML.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        public void LoadFromXml(StreamReader stream)
+        {
+            FileCabinetRecordXmlReader xmlReader = new FileCabinetRecordXmlReader(stream);
+            this.Records = new ReadOnlyCollection<FileCabinetRecord>(xmlReader.ReadAll());
         }
     }
 }

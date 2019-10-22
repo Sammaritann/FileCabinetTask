@@ -14,12 +14,12 @@ namespace FileCabinetApp.Service
     /// <seealso cref="FileCabinetApp.IFileCabinetService" />
     public class FileCabinetFileSystemService : IFileCabinetService, IDisposable
     {
-        private FileStream fileStream;
         private readonly IRecordValidator validator;
+        private FileStream fileStream;
         private int id = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetFileSystemService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetFileSystemService" /> class.
         /// </summary>
         /// <param name="validator">The validator.</param>
         public FileCabinetFileSystemService(IRecordValidator validator)
@@ -37,28 +37,18 @@ namespace FileCabinetApp.Service
             }
 
             this.validator.ValidateCabinetRecord(recordParams);
+            this.WriteRecord(recordParams);
 
-            byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
-            byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
-            byte[] firstName = new byte[120];
-            byte[] lastName = new byte[120];
-            ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
-            byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
-            Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
-            Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.Department));
-            this.fileStream.Write(BitConverter.GetBytes(++this.id));
-            this.fileStream.Write(firstName);
-            this.fileStream.Write(lastName);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Year));
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Month));
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Day));
-            this.fileStream.Write(bytesSalary);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.Class));
             return this.id;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Edits the record.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="recordParams">The record parameters.</param>
+        /// <exception cref="ArgumentNullException">Throws when recordParams is null.</exception>
+        /// <exception cref="KeyNotFoundException">Throws when Id not found.</exception>
         public void EditRecord(int id, RecordParams recordParams)
         {
             if (recordParams is null)
@@ -98,7 +88,7 @@ namespace FileCabinetApp.Service
                 }
              }
 
-            throw new ArgumentException($"wrong {nameof(id)}");
+            throw new KeyNotFoundException($"wrong {nameof(id)}");
         }
 
         /// <inheritdoc/>
@@ -167,7 +157,7 @@ namespace FileCabinetApp.Service
             this.fileStream.Position = 0;
             while (this.fileStream.Read(buffer, 0, 276) != 0)
             {
-                FileCabinetRecord record = RecordFromBytes(buffer);
+                FileCabinetRecord record = this.RecordFromBytes(buffer);
 
                 result.Add(record);
             }
@@ -185,6 +175,62 @@ namespace FileCabinetApp.Service
         public FileCabinetServiceSnapshot MakeSnapshot()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Restores the specified snapshot.
+        /// </summary>
+        /// <param name="snapshot">The snapshot.</param>
+        public void Restore(FileCabinetServiceSnapshot snapshot)
+        {
+            if (snapshot is null)
+            {
+                throw new ArgumentNullException(nameof(snapshot));
+            }
+
+            foreach (FileCabinetRecord record in snapshot.Records)
+            {
+                try
+                {
+                    this.EditRecord(record.Id, RecordToParams(record));
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine($"{record.Id}: {e.Message}");
+                }
+                catch (KeyNotFoundException)
+                {
+                    this.WriteRecord(RecordToParams(record));
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.fileStream != null)
+                {
+                    this.fileStream.Close();
+                    this.fileStream = null;
+                }
+            }
+        }
+
+        private static RecordParams RecordToParams(FileCabinetRecord record)
+        {
+            return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
         }
 
         private FileCabinetRecord RecordFromBytes(byte[] buffer)
@@ -208,7 +254,27 @@ namespace FileCabinetApp.Service
             record.DateOfBirth = new DateTime(year, month, day);
 
             return record;
+        }
 
+        private void WriteRecord(RecordParams recordParams)
+        {
+            byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
+            byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
+            byte[] firstName = new byte[120];
+            byte[] lastName = new byte[120];
+            ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
+            byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
+            Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
+            Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.Department));
+            this.fileStream.Write(BitConverter.GetBytes(++this.id));
+            this.fileStream.Write(firstName);
+            this.fileStream.Write(lastName);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Year));
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Month));
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Day));
+            this.fileStream.Write(bytesSalary);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.Class));
         }
 
         [StructLayout(LayoutKind.Explicit)]
@@ -231,25 +297,6 @@ namespace FileCabinetApp.Service
             public decimal GetDecimal()
             {
                 return this.number;
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.fileStream.Close();
             }
         }
     }

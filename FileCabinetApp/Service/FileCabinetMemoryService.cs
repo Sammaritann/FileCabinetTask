@@ -68,7 +68,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="recordParams">The record parameters.</param>
-        /// <exception cref="ArgumentException">wrong {nameof(id)}.</exception>
+        /// <exception cref="KeyNotFoundException">wrong {nameof(id)}.</exception>
         public void EditRecord(int id, RecordParams recordParams)
         {
             if (recordParams is null)
@@ -80,7 +80,7 @@ namespace FileCabinetApp
 
             if (record is null)
             {
-                throw new ArgumentException($"wrong {nameof(id)}");
+                throw new KeyNotFoundException($"wrong {nameof(id)}");
             }
 
             this.validator.ValidateCabinetRecord(recordParams);
@@ -176,6 +176,39 @@ namespace FileCabinetApp
             return FileCabinetServiceSnapshot.MakeSnapshot(this.list);
         }
 
+        /// <summary>
+        /// Restores the specified snapshot.
+        /// </summary>
+        /// <param name="snapshot">The snapshot.</param>
+        /// <exception cref="ArgumentNullException">Throws when snampshot is null.</exception>
+        public void Restore(FileCabinetServiceSnapshot snapshot)
+        {
+            if (snapshot is null)
+            {
+                throw new ArgumentNullException(nameof(snapshot));
+            }
+
+            foreach (FileCabinetRecord record in snapshot.Records)
+            {
+                try
+                {
+                    this.EditRecord(record.Id, RecordToParams(record));
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine($"{record.Id}: {e.Message}");
+                }
+                catch (KeyNotFoundException)
+                {
+                    this.list.Add(record);
+
+                    AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
+                    AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
+                    AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
+                }
+            }
+        }
+
         private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)
         {
             if (!dictioanry.ContainsKey(key))
@@ -184,6 +217,11 @@ namespace FileCabinetApp
             }
 
             dictioanry[key].Add(value);
+        }
+
+        private static RecordParams RecordToParams(FileCabinetRecord record)
+        {
+            return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
         }
     }
 }

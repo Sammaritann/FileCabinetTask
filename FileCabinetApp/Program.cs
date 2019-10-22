@@ -31,6 +31,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("export", Export),
+            new Tuple<string, Action<string>>("import", Import),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -41,8 +42,9 @@ namespace FileCabinetApp
             new string[] { "create", "creates a new record", "The 'create' command creates a new record." },
             new string[] { "list", "prints list of records", "The 'list' command prints list of records." },
             new string[] { "edit", "edits a record", "The 'edit' command edits a record." },
-            new string[] { "export", "eports records", "The 'export' command eports  records." },
-            new string[] { "find", "finds a records", "The 'find' command finds a records." },
+            new string[] { "export", "eports records", "The 'export' command exports  records." },
+            new string[] { "find", "finds  records", "The 'find' command finds records." },
+            new string[] { "import", "imports  records", "The 'import' command imports records." },
         };
 
         private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
@@ -400,6 +402,7 @@ namespace FileCabinetApp
                     result = Console.ReadLine();
                     if (result.ToUpperInvariant() == "Y")
                     {
+                        fileStream.SetLength(0);
                         break;
                     }
 
@@ -434,6 +437,57 @@ namespace FileCabinetApp
             }
 
             Console.WriteLine("All records are exported to file {0}", param[1]);
+            fileStream.Close();
+        }
+
+        private static void Import(string parameters)
+        {
+            string[] param = parameters.Split(' ');
+
+            if (param.Length != 2)
+            {
+                Console.WriteLine("Invalid number of parameters");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(param[0]) || string.IsNullOrWhiteSpace(param[1]))
+            {
+                Console.WriteLine("Invalid parameters");
+                return;
+            }
+
+            FileStream fileStream = null;
+
+            try
+            {
+                fileStream = new FileStream(param[1], FileMode.Open);
+            }
+            catch (IOException)
+            {
+                fileStream?.Close();
+                Console.WriteLine("Import failed: can't open file {0}", param[1]);
+                return;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return;
+            }
+
+            FileCabinetServiceSnapshot serviceSnapshot = new FileCabinetServiceSnapshot();
+            if (param[0].ToUpperInvariant() == "CSV")
+            {
+                serviceSnapshot.LoadFromCsv(new StreamReader(fileStream, leaveOpen: true));
+                fileCabinetService.Restore(serviceSnapshot);
+                Console.WriteLine("records were imported from {0}", param[1]);
+            }
+
+            if (param[0].ToUpperInvariant() == "XML")
+            {
+                serviceSnapshot.LoadFromXml(new StreamReader(fileStream, leaveOpen: true));
+                fileCabinetService.Restore(serviceSnapshot);
+                Console.WriteLine("records were imported from {0}", param[1]);
+            }
+
             fileStream.Close();
         }
 
