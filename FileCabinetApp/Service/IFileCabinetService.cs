@@ -63,5 +63,11 @@ namespace FileCabinetApp
         /// </summary>
         /// <returns>Snapshot.</returns>
         public FileCabinetServiceSnapshot MakeSnapshot();
+
+        /// <summary>
+        /// Restores the specified snapshot.
+        /// </summary>
+        /// <param name="snapshot">The snapshot.</param>
+        public void Restore(FileCabinetServiceSnapshot snapshot);
     }
 }

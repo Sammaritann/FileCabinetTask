@@ -441,7 +441,45 @@ namespace FileCabinetApp
 
         private static void Import(string parameters)
         {
+            string[] param = parameters.Split(' ');
 
+            if (param.Length != 2)
+            {
+                Console.WriteLine("Invalid number of parameters");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(param[0]) || string.IsNullOrWhiteSpace(param[1]))
+            {
+                Console.WriteLine("Invalid parameters");
+                return;
+            }
+
+            FileStream fileStream = null;
+
+            try
+            {
+                fileStream = new FileStream(param[1], FileMode.Open);
+            }
+            catch (IOException)
+            {
+                fileStream?.Close();
+                Console.WriteLine("Import failed: can't open file {0}", param[1]);
+                return;
+            }
+            catch(Exception)
+            {
+                return;
+            }
+
+            FileCabinetServiceSnapshot serviceSnapshot = new FileCabinetServiceSnapshot();
+            if (param[0].ToUpperInvariant() == "CSV")
+            {
+                serviceSnapshot.LoadFromCsv(new StreamReader(fileStream));
+                fileCabinetService.Restore(serviceSnapshot);
+            }
+
+            fileStream.Close();
         }
 
         private static void Exit(string parameters)

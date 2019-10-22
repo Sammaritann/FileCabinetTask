@@ -187,6 +187,38 @@ namespace FileCabinetApp.Service
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Restores the specified snapshot.
+        /// </summary>
+        /// <param name="snapshot">The snapshot.</param>
+        public void Restore(FileCabinetServiceSnapshot snapshot)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.fileStream != null)
+                {
+                    this.fileStream.Close();
+                    this.fileStream = null;
+                }
+            }
+        }
+
         private FileCabinetRecord RecordFromBytes(byte[] buffer)
         {
             ToBytesDecimal toDecimal = default(ToBytesDecimal);
@@ -230,25 +262,6 @@ namespace FileCabinetApp.Service
             public decimal GetDecimal()
             {
                 return this.number;
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.fileStream.Close();
             }
         }
     }
