@@ -90,7 +90,7 @@ namespace FileCabinetApp.Service
             FileCabinetRecordXmlWriter writer = new FileCabinetRecordXmlWriter(stream);
             var doc = new XmlDocument();
             doc.AppendChild(doc.CreateXmlDeclaration("1.0", "UTF-8", null));
-            doc.AppendChild(doc.CreateElement("ArrayOfFileCabinetRecord xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""));
+            doc.AppendChild(doc.CreateElement("ArrayOfFileCabinetRecord"));
             doc.Save(stream);
             foreach (var item in this.records)
             {
@@ -106,6 +106,16 @@ namespace FileCabinetApp.Service
         {
             FileCabinetRecordCsvReader csvReader = new FileCabinetRecordCsvReader(stream);
             this.Records = new ReadOnlyCollection<FileCabinetRecord>(csvReader.ReadAll());
+        }
+
+        /// <summary>
+        /// Loads from XML.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        public void LoadFromXml(StreamReader stream)
+        {
+            FileCabinetRecordXmlReader xmlReader = new FileCabinetRecordXmlReader(stream);
+            this.Records = new ReadOnlyCollection<FileCabinetRecord>(xmlReader.ReadAll());
         }
     }
 }

@@ -48,7 +48,7 @@ namespace FileCabinetApp.Service
         /// <param name="id">The identifier.</param>
         /// <param name="recordParams">The record parameters.</param>
         /// <exception cref="ArgumentNullException">Throws when recordParams is null.</exception>
-        /// <exception cref="KeyNotFoundException">wrong {nameof(id)}</exception>
+        /// <exception cref="KeyNotFoundException">Throws when Id not found.</exception>
         public void EditRecord(int id, RecordParams recordParams)
         {
             if (recordParams is null)
@@ -205,11 +205,6 @@ namespace FileCabinetApp.Service
             }
         }
 
-        private static RecordParams RecordToParams(FileCabinetRecord record)
-        {
-            return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
-        }
-
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -231,6 +226,11 @@ namespace FileCabinetApp.Service
                     this.fileStream = null;
                 }
             }
+        }
+
+        private static RecordParams RecordToParams(FileCabinetRecord record)
+        {
+            return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
         }
 
         private FileCabinetRecord RecordFromBytes(byte[] buffer)

@@ -402,6 +402,7 @@ namespace FileCabinetApp
                     result = Console.ReadLine();
                     if (result.ToUpperInvariant() == "Y")
                     {
+                        fileStream.SetLength(0);
                         break;
                     }
 
@@ -475,7 +476,14 @@ namespace FileCabinetApp
             FileCabinetServiceSnapshot serviceSnapshot = new FileCabinetServiceSnapshot();
             if (param[0].ToUpperInvariant() == "CSV")
             {
-                serviceSnapshot.LoadFromCsv(new StreamReader(fileStream));
+                serviceSnapshot.LoadFromCsv(new StreamReader(fileStream, leaveOpen: true));
+                fileCabinetService.Restore(serviceSnapshot);
+                Console.WriteLine("records were imported from {0}", param[1]);
+            }
+
+            if (param[0].ToUpperInvariant() == "XML")
+            {
+                serviceSnapshot.LoadFromXml(new StreamReader(fileStream, leaveOpen: true));
                 fileCabinetService.Restore(serviceSnapshot);
                 Console.WriteLine("records were imported from {0}", param[1]);
             }

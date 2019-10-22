@@ -153,6 +153,23 @@
             </summary>
             <returns>All records.</returns>
         </member>
+        <member name="T:FileCabinetApp.Reader.FileCabinetRecordXmlReader">
+            <summary>
+            Represents record xml reader.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Reader.FileCabinetRecordXmlReader.#ctor(System.IO.StreamReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Reader.FileCabinetRecordXmlReader"/> class.
+            </summary>
+            <param name="stream">The stream.</param>
+        </member>
+        <member name="M:FileCabinetApp.Reader.FileCabinetRecordXmlReader.ReadAll">
+            <summary>
+            Reads all.
+            </summary>
+            <returns>All records.</returns>
+        </member>
         <member name="T:FileCabinetApp.Service.FileCabinetFileSystemService">
             <summary>
             Represents file cabinet file system service.
@@ -175,7 +192,7 @@
             <param name="id">The identifier.</param>
             <param name="recordParams">The record parameters.</param>
             <exception cref="T:System.ArgumentNullException">Throws when recordParams is null.</exception>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">wrong {nameof(id)}</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Throws when Id not found.</exception>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByDateOfBirth(System.DateTime)">
             <inheritdoc/>
@@ -258,6 +275,12 @@
         <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.LoadFromCsv(System.IO.StreamReader)">
             <summary>
             Loads from CSV.
+            </summary>
+            <param name="stream">The stream.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.LoadFromXml(System.IO.StreamReader)">
+            <summary>
+            Loads from XML.
             </summary>
             <param name="stream">The stream.</param>
         </member>
