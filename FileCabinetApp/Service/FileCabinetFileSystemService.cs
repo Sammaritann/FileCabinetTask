@@ -18,6 +18,7 @@ namespace FileCabinetApp.Service
         private readonly Dictionary<int, long> dictionaryId = new Dictionary<int, long>();
         private FileStream fileStream;
         private int id = 0;
+        private int deleteStat = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetFileSystemService" /> class.
@@ -80,9 +81,9 @@ namespace FileCabinetApp.Service
             this.fileStream.Position = 0;
             while (this.fileStream.Read(buffer, 0, 277) != 0)
             {
-                if (BitConverter.ToInt32(buffer, 2) == id)
+                if (this.dictionaryId.ContainsKey(id))
                 {
-                    this.fileStream.Position -= 277;
+                    this.fileStream.Position = this.dictionaryId[id];
 
                     byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
                     byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
@@ -205,7 +206,6 @@ namespace FileCabinetApp.Service
                 catch (KeyNotFoundException)
                 {
                 }
-
             }
 
             return result;
@@ -265,6 +265,8 @@ namespace FileCabinetApp.Service
                         this.fileStream.Write(BitConverter.GetBytes(record.Class));
                         this.fileStream.Write(new byte[] { 0 });
                     }
+
+                    this.id = Math.Max(this.id, record.Id);
                 }
                 catch (ArgumentException e)
                 {
@@ -272,7 +274,6 @@ namespace FileCabinetApp.Service
                 }
             }
         }
-
 
         /// <summary>
         /// Removes the specified identifier.
@@ -284,6 +285,7 @@ namespace FileCabinetApp.Service
             this.dictionaryId.Remove(id);
             this.fileStream.Position = position + 276;
             this.fileStream.Write(new byte[] { 1 });
+            this.deleteStat++;
         }
 
         /// <summary>
@@ -296,6 +298,42 @@ namespace FileCabinetApp.Service
         public bool ContainsId(int id)
         {
             return this.dictionaryId.ContainsKey(id);
+        }
+
+        /// <summary>
+        /// Purges this instance.
+        /// </summary>
+        public void Purge()
+        {
+            byte[] buffer = new byte[277];
+            this.fileStream.Position = 0;
+            long startPosition = 0;
+            long endPosition = 0;
+            while (this.fileStream.Read(buffer, 0, 277) != 0)
+            {
+                if (buffer[276] == 0)
+                {
+                    int validId = BitConverter.ToInt32(buffer, 2);
+                    this.dictionaryId[validId] = startPosition;
+                    endPosition = this.fileStream.Position;
+                    this.fileStream.Position = startPosition;
+                    this.fileStream.Write(buffer);
+                    startPosition = this.fileStream.Position;
+                    this.fileStream.Position = endPosition;
+                }
+            }
+
+            this.deleteStat = 0;
+            this.fileStream.SetLength(this.dictionaryId.Count * 277);
+        }
+
+        /// <summary>
+        /// Gets the delete stat.
+        /// </summary>
+        /// <returns>Number of delete records.</returns>
+        public int GetDeleteStat()
+        {
+            return this.deleteStat;
         }
 
         /// <inheritdoc/>

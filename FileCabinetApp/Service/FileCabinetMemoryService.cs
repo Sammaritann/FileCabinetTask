@@ -19,6 +19,7 @@ namespace FileCabinetApp
         private readonly Dictionary<int, FileCabinetRecord> dictionaryId = new Dictionary<int, FileCabinetRecord>();
         private int id = 0;
 
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>
@@ -197,6 +198,8 @@ namespace FileCabinetApp
                     AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
                     AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
                     AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
+
+                    this.id = Math.Max(this.id, record.Id);
                     }
                     else
                     {
@@ -207,8 +210,6 @@ namespace FileCabinetApp
                 {
                     Console.WriteLine("{0}:{1}", record.Id, e.Message);
                 }
-
-                this.id = Math.Max(this.id, snapshot.Records[snapshot.Records.Count - 1].Id);
             }
         }
 
@@ -238,6 +239,22 @@ namespace FileCabinetApp
             return this.dictionaryId.ContainsKey(id);
         }
 
+        /// <summary>
+        /// Purges this instance.
+        /// </summary>
+        public void Purge()
+        {
+        }
+
+        /// <summary>
+        /// Gets the delete stat.
+        /// </summary>
+        /// <returns>0.</returns>
+        public int GetDeleteStat()
+        {
+            return 0;
+        }
+
         private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)
         {
             if (!dictioanry.ContainsKey(key))
@@ -252,5 +269,6 @@ namespace FileCabinetApp
         {
             return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
         }
+
     }
 }

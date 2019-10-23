@@ -85,5 +85,16 @@ namespace FileCabinetApp
         /// <param name="id">The identifier.</param>
         /// <exception cref="KeyNotFoundException">Throws when id not found.</exception>
         public void Remove(int id);
+
+        /// <summary>
+        /// Purges this instance.
+        /// </summary>
+        public void Purge();
+
+        /// <summary>
+        /// Gets the delete stat.
+        /// </summary>
+        /// <returns>Number of delete records.</returns>
+        public int GetDeleteStat();
     }
 }
