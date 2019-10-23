@@ -22,8 +22,17 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="recordParams">The record parameters.</param>
-        /// <exception cref="ArgumentException">wrong {nameof(id)}.</exception>
+        /// <exception cref="KeyNotFoundException">Throws when id not found.</exception>
         public void EditRecord(int id, RecordParams recordParams);
+
+        /// <summary>
+        /// Determines whether the specified identifier contains identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified identifier contains identifier; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsId(int id);
 
         /// <summary>
         /// Gets the records.
@@ -69,5 +78,23 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="snapshot">The snapshot.</param>
         public void Restore(FileCabinetServiceSnapshot snapshot);
+
+        /// <summary>
+        /// Removes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <exception cref="KeyNotFoundException">Throws when id not found.</exception>
+        public void Remove(int id);
+
+        /// <summary>
+        /// Purges this instance.
+        /// </summary>
+        public void Purge();
+
+        /// <summary>
+        /// Gets the delete stat.
+        /// </summary>
+        /// <returns>Number of delete records.</returns>
+        public int GetDeleteStat();
     }
 }

@@ -15,8 +15,10 @@ namespace FileCabinetApp.Service
     public class FileCabinetFileSystemService : IFileCabinetService, IDisposable
     {
         private readonly IRecordValidator validator;
+        private readonly Dictionary<int, long> dictionaryId = new Dictionary<int, long>();
         private FileStream fileStream;
         private int id = 0;
+        private int deleteStat = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetFileSystemService" /> class.
@@ -37,8 +39,26 @@ namespace FileCabinetApp.Service
             }
 
             this.validator.ValidateCabinetRecord(recordParams);
-            this.WriteRecord(recordParams);
 
+            this.dictionaryId.Add(this.id + 1, this.fileStream.Position);
+            byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
+            byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
+            byte[] firstName = new byte[120];
+            byte[] lastName = new byte[120];
+            ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
+            byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
+            Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
+            Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.Department));
+            this.fileStream.Write(BitConverter.GetBytes(++this.id));
+            this.fileStream.Write(firstName);
+            this.fileStream.Write(lastName);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Year));
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Month));
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Day));
+            this.fileStream.Write(bytesSalary);
+            this.fileStream.Write(BitConverter.GetBytes(recordParams.Class));
+            this.fileStream.Write(new byte[] { 0 });
             return this.id;
         }
 
@@ -57,13 +77,13 @@ namespace FileCabinetApp.Service
             }
 
             this.validator.ValidateCabinetRecord(recordParams);
-            byte[] buffer = new byte[276];
+            byte[] buffer = new byte[277];
             this.fileStream.Position = 0;
-            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            while (this.fileStream.Read(buffer, 0, 277) != 0)
             {
-                if (BitConverter.ToInt32(buffer, 2) == id)
+                if (this.dictionaryId.ContainsKey(id))
                 {
-                    this.fileStream.Position -= 276;
+                    this.fileStream.Position = this.dictionaryId[id];
 
                     byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
                     byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
@@ -82,7 +102,7 @@ namespace FileCabinetApp.Service
                     this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Day));
                     this.fileStream.Write(bytesSalary);
                     this.fileStream.Write(BitConverter.GetBytes(recordParams.Class));
-
+                    this.fileStream.Write(new byte[] { 0 });
                     this.fileStream.Position = this.fileStream.Length;
                     return;
                 }
@@ -98,9 +118,9 @@ namespace FileCabinetApp.Service
             int year;
             int month;
             int day;
-            byte[] buffer = new byte[276];
+            byte[] buffer = new byte[277];
             this.fileStream.Position = 0;
-            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            while (this.fileStream.Read(buffer, 0, 277) != 0)
             {
                 year = BitConverter.ToInt32(buffer, 246);
                 month = BitConverter.ToInt32(buffer, 250);
@@ -108,7 +128,14 @@ namespace FileCabinetApp.Service
 
                 if (dateOfBirth == new DateTime(year, month, day))
                 {
-                    result.Add(this.RecordFromBytes(buffer));
+                    try
+                    {
+                        FileCabinetRecord record = this.RecordFromBytes(buffer);
+                        result.Add(record);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                    }
                 }
             }
 
@@ -119,13 +146,20 @@ namespace FileCabinetApp.Service
         public IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            byte[] buffer = new byte[276];
+            byte[] buffer = new byte[277];
             this.fileStream.Position = 0;
-            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            while (this.fileStream.Read(buffer, 0, 277) != 0)
             {
                 if (firstName.ToUpperInvariant() == Encoding.Default.GetString(buffer, 6, 120).Trim('\0').ToUpperInvariant())
                 {
-                    result.Add(this.RecordFromBytes(buffer));
+                    try
+                    {
+                        FileCabinetRecord record = this.RecordFromBytes(buffer);
+                        result.Add(record);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                    }
                 }
             }
 
@@ -136,13 +170,20 @@ namespace FileCabinetApp.Service
         public IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            byte[] buffer = new byte[276];
+            byte[] buffer = new byte[277];
             this.fileStream.Position = 0;
-            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            while (this.fileStream.Read(buffer, 0, 277) != 0)
             {
                 if (lastName.ToUpperInvariant() == Encoding.Default.GetString(buffer, 126, 120).Trim('\0').ToUpperInvariant())
                 {
-                    result.Add(this.RecordFromBytes(buffer));
+                    try
+                    {
+                        FileCabinetRecord record = this.RecordFromBytes(buffer);
+                        result.Add(record);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                    }
                 }
             }
 
@@ -152,14 +193,19 @@ namespace FileCabinetApp.Service
         /// <inheritdoc/>
         public IReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            byte[] buffer = new byte[276];
+            byte[] buffer = new byte[277];
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
             this.fileStream.Position = 0;
-            while (this.fileStream.Read(buffer, 0, 276) != 0)
+            while (this.fileStream.Read(buffer, 0, 277) != 0)
             {
-                FileCabinetRecord record = this.RecordFromBytes(buffer);
-
-                result.Add(record);
+                try
+                {
+                    FileCabinetRecord record = this.RecordFromBytes(buffer);
+                    result.Add(record);
+                }
+                catch (KeyNotFoundException)
+                {
+                }
             }
 
             return result;
@@ -168,7 +214,7 @@ namespace FileCabinetApp.Service
         /// <inheritdoc/>
         public int GetStat()
         {
-            return (int)(this.fileStream.Length / 276L);
+            return this.dictionaryId.Count;
         }
 
         /// <inheritdoc/>
@@ -192,17 +238,102 @@ namespace FileCabinetApp.Service
             {
                 try
                 {
-                    this.EditRecord(record.Id, RecordToParams(record));
+                    this.validator.ValidateCabinetRecord(RecordToParams(record));
+                    if (this.dictionaryId.ContainsKey(record.Id))
+                    {
+                        this.EditRecord(record.Id, RecordToParams(record));
+                    }
+                    else
+                    {
+                        this.dictionaryId.Add(record.Id, this.fileStream.Position);
+                        byte[] tempFirstName = Encoding.Default.GetBytes(record.FirstName);
+                        byte[] tempLastName = Encoding.Default.GetBytes(record.LastName);
+                        byte[] firstName = new byte[120];
+                        byte[] lastName = new byte[120];
+                        ToBytesDecimal toBytesDecimal = new ToBytesDecimal(record.Salary);
+                        byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
+                        Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
+                        Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
+                        this.fileStream.Write(BitConverter.GetBytes(record.Department));
+                        this.fileStream.Write(BitConverter.GetBytes(record.Id));
+                        this.fileStream.Write(firstName);
+                        this.fileStream.Write(lastName);
+                        this.fileStream.Write(BitConverter.GetBytes(record.DateOfBirth.Year));
+                        this.fileStream.Write(BitConverter.GetBytes(record.DateOfBirth.Month));
+                        this.fileStream.Write(BitConverter.GetBytes(record.DateOfBirth.Day));
+                        this.fileStream.Write(bytesSalary);
+                        this.fileStream.Write(BitConverter.GetBytes(record.Class));
+                        this.fileStream.Write(new byte[] { 0 });
+                    }
+
+                    this.id = Math.Max(this.id, record.Id);
                 }
                 catch (ArgumentException e)
                 {
                     Console.WriteLine($"{record.Id}: {e.Message}");
                 }
-                catch (KeyNotFoundException)
+            }
+        }
+
+        /// <summary>
+        /// Removes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        public void Remove(int id)
+        {
+            long position = this.dictionaryId[id];
+            this.dictionaryId.Remove(id);
+            this.fileStream.Position = position + 276;
+            this.fileStream.Write(new byte[] { 1 });
+            this.deleteStat++;
+        }
+
+        /// <summary>
+        /// Determines whether the specified identifier contains identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified identifier contains identifier; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsId(int id)
+        {
+            return this.dictionaryId.ContainsKey(id);
+        }
+
+        /// <summary>
+        /// Purges this instance.
+        /// </summary>
+        public void Purge()
+        {
+            byte[] buffer = new byte[277];
+            this.fileStream.Position = 0;
+            long startPosition = 0;
+            long endPosition = 0;
+            while (this.fileStream.Read(buffer, 0, 277) != 0)
+            {
+                if (buffer[276] == 0)
                 {
-                    this.WriteRecord(RecordToParams(record));
+                    int validId = BitConverter.ToInt32(buffer, 2);
+                    this.dictionaryId[validId] = startPosition;
+                    endPosition = this.fileStream.Position;
+                    this.fileStream.Position = startPosition;
+                    this.fileStream.Write(buffer);
+                    startPosition = this.fileStream.Position;
+                    this.fileStream.Position = endPosition;
                 }
             }
+
+            this.deleteStat = 0;
+            this.fileStream.SetLength(this.dictionaryId.Count * 277);
+        }
+
+        /// <summary>
+        /// Gets the delete stat.
+        /// </summary>
+        /// <returns>Number of delete records.</returns>
+        public int GetDeleteStat()
+        {
+            return this.deleteStat;
         }
 
         /// <inheritdoc/>
@@ -253,28 +384,7 @@ namespace FileCabinetApp.Service
             record.Class = BitConverter.ToChar(buffer, 274);
             record.DateOfBirth = new DateTime(year, month, day);
 
-            return record;
-        }
-
-        private void WriteRecord(RecordParams recordParams)
-        {
-            byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
-            byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
-            byte[] firstName = new byte[120];
-            byte[] lastName = new byte[120];
-            ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
-            byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
-            Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
-            Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.Department));
-            this.fileStream.Write(BitConverter.GetBytes(++this.id));
-            this.fileStream.Write(firstName);
-            this.fileStream.Write(lastName);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Year));
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Month));
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.DateOfBirth.Day));
-            this.fileStream.Write(bytesSalary);
-            this.fileStream.Write(BitConverter.GetBytes(recordParams.Class));
+            return buffer[276] == 0 ? record : throw new KeyNotFoundException();
         }
 
         [StructLayout(LayoutKind.Explicit)]

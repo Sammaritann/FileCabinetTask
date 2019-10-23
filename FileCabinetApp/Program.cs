@@ -32,6 +32,8 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("export", Export),
             new Tuple<string, Action<string>>("import", Import),
+            new Tuple<string, Action<string>>("remove", Remove),
+            new Tuple<string, Action<string>>("purge", Purge),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -45,6 +47,8 @@ namespace FileCabinetApp
             new string[] { "export", "eports records", "The 'export' command exports  records." },
             new string[] { "find", "finds  records", "The 'find' command finds records." },
             new string[] { "import", "imports  records", "The 'import' command imports records." },
+            new string[] { "remove", "removes a record", "The 'remove' command removes a record." },
+            new string[] { "purge", "perges records", "The 'purge' command purges  records." },
         };
 
         private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
@@ -246,7 +250,9 @@ namespace FileCabinetApp
         private static void Stat(string parameters)
         {
             int recordsCount = Program.fileCabinetService.GetStat();
+            int recordsDelete = Program.fileCabinetService.GetDeleteStat();
             Console.WriteLine($"{recordsCount} record(s).");
+            Console.WriteLine($"{recordsDelete} record(s) delete.");
         }
 
         private static void Create(string parameters)
@@ -296,19 +302,25 @@ namespace FileCabinetApp
                 return;
             }
 
-            foreach (var item in Program.fileCabinetService.GetRecords())
+            try
             {
-                if (item.Id == id)
+                if (Program.fileCabinetService.ContainsId(id))
                 {
                     ReadRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
                     RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
 
                     Program.fileCabinetService.EditRecord(id, recordParams);
-                    return;
+                }
+                else
+                {
+                    Console.WriteLine("#id record is not found");
                 }
             }
-
-            Console.WriteLine("#id record is not found");
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine("#id record is not found");
+                return;
+            }
         }
 
         private static void Find(string parameters)
@@ -491,10 +503,34 @@ namespace FileCabinetApp
             fileStream.Close();
         }
 
+        private static void Remove(string parameters)
+        {
+            if (!int.TryParse(parameters, out int id))
+            {
+                Console.WriteLine("param not a number");
+                return;
+            }
+
+            try
+            {
+                Program.fileCabinetService.Remove(id);
+                Console.WriteLine("Record #{0} is removed.", id);
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine("Record #{0} doesn't exists", id);
+            }
+        }
+
         private static void Exit(string parameters)
         {
             Console.WriteLine("Exiting an application...");
             isRunning = false;
+        }
+
+        private static void Purge(string parameters)
+        {
+            Program.fileCabinetService.Purge();
         }
 
         private static T ReadInput<T>(Func<string, ValueTuple<bool, string, T>> converter, Func<T, ValueTuple<bool, string>> validator)
