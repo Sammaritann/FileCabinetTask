@@ -16,6 +16,8 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
         private readonly IRecordValidator validator;
+        private readonly Dictionary<int, FileCabinetRecord> dictionaryId = new Dictionary<int, FileCabinetRecord>();
+        private int id = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
@@ -46,7 +48,7 @@ namespace FileCabinetApp
 
             FileCabinetRecord record = new FileCabinetRecord
             {
-                Id = this.list.Count + 1,
+                Id = ++this.id,
                 FirstName = recordParams.FirstName,
                 LastName = recordParams.LastName,
                 DateOfBirth = recordParams.DateOfBirth,
@@ -56,7 +58,7 @@ namespace FileCabinetApp
             };
 
             this.list.Add(record);
-
+            this.dictionaryId.Add(record.Id, record);
             AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), record);
             AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), record);
             AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, recordParams.DateOfBirth, record);
@@ -68,7 +70,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="recordParams">The record parameters.</param>
-        /// <exception cref="KeyNotFoundException">wrong {nameof(id)}.</exception>
+        /// <exception cref="KeyNotFoundException">Throws when id not found.</exception>
         public void EditRecord(int id, RecordParams recordParams)
         {
             if (recordParams is null)
@@ -76,12 +78,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException($"{nameof(recordParams)} must nit be null");
             }
 
-            FileCabinetRecord record = this.list.Find((x) => x.Id == id);
-
-            if (record is null)
-            {
-                throw new KeyNotFoundException($"wrong {nameof(id)}");
-            }
+            FileCabinetRecord record = this.dictionaryId[id];
 
             this.validator.ValidateCabinetRecord(recordParams);
 
@@ -192,21 +189,53 @@ namespace FileCabinetApp
             {
                 try
                 {
-                    this.EditRecord(record.Id, RecordToParams(record));
-                }
-                catch (ArgumentException e)
-                {
-                    Console.WriteLine($"{record.Id}: {e.Message}");
-                }
-                catch (KeyNotFoundException)
-                {
+                    if (!this.dictionaryId.ContainsKey(record.Id))
+                    {
+                    this.validator.ValidateCabinetRecord(RecordToParams(record));
                     this.list.Add(record);
-
+                    this.dictionaryId.Add(record.Id, record);
                     AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
                     AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
                     AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
+                    }
+                    else
+                    {
+                    this.EditRecord(record.Id, RecordToParams(record));
+                    }
                 }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine("{0}:{1}", record.Id, e.Message);
+                }
+
+                this.id = Math.Max(this.id, snapshot.Records[snapshot.Records.Count - 1].Id);
             }
+        }
+
+        /// <summary>
+        /// Removes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <exception cref="KeyNotFoundException">Throws when id not found.</exception>
+        public void Remove(int id)
+        {
+            this.list.Remove(this.dictionaryId[id]);
+            this.dateOfBirthDictionary.Remove(this.dictionaryId[id].DateOfBirth);
+            this.firstNameDictionary.Remove(this.dictionaryId[id].FirstName);
+            this.lastNameDictionary.Remove(this.dictionaryId[id].LastName);
+            this.dictionaryId.Remove(id);
+        }
+
+        /// <summary>
+        /// Determines whether the specified identifier contains identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified identifier contains identifier; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsId(int id)
+        {
+            return this.dictionaryId.ContainsKey(id);
         }
 
         private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)

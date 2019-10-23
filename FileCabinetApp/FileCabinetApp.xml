@@ -218,6 +218,21 @@
             </summary>
             <param name="snapshot">The snapshot.</param>
         </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.Remove(System.Int32)">
+            <summary>
+            Removes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.ContainsId(System.Int32)">
+            <summary>
+            Determines whether the specified identifier contains identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <c>true</c> if the specified identifier contains identifier; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.Dispose">
             <inheritdoc/>
         </member>
@@ -308,7 +323,7 @@
             </summary>
             <param name="id">The identifier.</param>
             <param name="recordParams">The record parameters.</param>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">wrong {nameof(id)}.</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Throws when id not found.</exception>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.GetRecords">
             <summary>
@@ -358,6 +373,22 @@
             <param name="snapshot">The snapshot.</param>
             <exception cref="T:System.ArgumentNullException">Throws when snampshot is null.</exception>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Remove(System.Int32)">
+            <summary>
+            Removes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Throws when id not found.</exception>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.ContainsId(System.Int32)">
+            <summary>
+            Determines whether the specified identifier contains identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <c>true</c> if the specified identifier contains identifier; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="T:FileCabinetApp.IFileCabinetService">
             <summary>
             Represent file cabinet service .
@@ -376,7 +407,16 @@
             </summary>
             <param name="id">The identifier.</param>
             <param name="recordParams">The record parameters.</param>
-            <exception cref="T:System.ArgumentException">wrong {nameof(id)}.</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Throws when id not found.</exception>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.ContainsId(System.Int32)">
+            <summary>
+            Determines whether the specified identifier contains identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <c>true</c> if the specified identifier contains identifier; otherwise, <c>false</c>.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.IFileCabinetService.GetRecords">
             <summary>
@@ -422,6 +462,13 @@
             Restores the specified snapshot.
             </summary>
             <param name="snapshot">The snapshot.</param>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.Remove(System.Int32)">
+            <summary>
+            Removes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Throws when id not found.</exception>
         </member>
         <member name="T:FileCabinetApp.Validators.InpitValidator.CustomValidator">
             <summary>
