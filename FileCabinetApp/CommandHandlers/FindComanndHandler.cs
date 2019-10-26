@@ -7,6 +7,13 @@ namespace FileCabinetApp.CommandHandlers
 {
    public class FindComanndHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        public FindComanndHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest.Command.ToUpperInvariant() != "FIND")
@@ -24,7 +31,7 @@ namespace FileCabinetApp.CommandHandlers
 
             if (param[0].ToUpperInvariant() == "FIRSTNAME")
             {
-                foreach (FileCabinetRecord item in Program.fileCabinetService.FindByFirstName(param[1].Trim('\"')))
+                foreach (FileCabinetRecord item in service.FindByFirstName(param[1].Trim('\"')))
                 {
                     Console.WriteLine(
                         "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
@@ -40,7 +47,7 @@ namespace FileCabinetApp.CommandHandlers
 
             if (param[0].ToUpperInvariant() == "LASTNAME")
             {
-                foreach (FileCabinetRecord item in Program.fileCabinetService.FindByLastName(param[1].Trim('\"')))
+                foreach (FileCabinetRecord item in service.FindByLastName(param[1].Trim('\"')))
                 {
                     Console.WriteLine(
                         "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
@@ -63,7 +70,7 @@ namespace FileCabinetApp.CommandHandlers
                     return;
                 }
 
-                foreach (FileCabinetRecord item in Program.fileCabinetService.FindByDateOfBirth(dateOfBirth))
+                foreach (FileCabinetRecord item in service.FindByDateOfBirth(dateOfBirth))
                 {
                     Console.WriteLine(
                         "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",

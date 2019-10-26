@@ -6,6 +6,12 @@ namespace FileCabinetApp.CommandHandlers
 {
   public class EditComanndHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        public EditComanndHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
         public override void Handle(AppCommandRequest commandRequest)
         {
             if(commandRequest.Command.ToUpperInvariant()!="EDIT")
@@ -29,12 +35,12 @@ namespace FileCabinetApp.CommandHandlers
 
             try
             {
-                if (Program.fileCabinetService.ContainsId(id))
+                if (service.ContainsId(id))
                 {
                     ReadRecord(out firstName, out lastName, out dateOfBirth, out department, out salary, out clas);
                     RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
 
-                    Program.fileCabinetService.EditRecord(id, recordParams);
+                    service.EditRecord(id, recordParams);
                 }
                 else
                 {

@@ -8,6 +8,13 @@ namespace FileCabinetApp.CommandHandlers
 {
   public class ImportComanndHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        public ImportComanndHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest.Command.ToUpperInvariant() != "IMPORT")
@@ -50,14 +57,14 @@ namespace FileCabinetApp.CommandHandlers
             if (param[0].ToUpperInvariant() == "CSV")
             {
                 serviceSnapshot.LoadFromCsv(new StreamReader(fileStream, leaveOpen: true));
-                Program.fileCabinetService.Restore(serviceSnapshot);
+                service.Restore(serviceSnapshot);
                 Console.WriteLine("records were imported from {0}", param[1]);
             }
 
             if (param[0].ToUpperInvariant() == "XML")
             {
                 serviceSnapshot.LoadFromXml(new StreamReader(fileStream, leaveOpen: true));
-                Program.fileCabinetService.Restore(serviceSnapshot);
+                service.Restore(serviceSnapshot);
                 Console.WriteLine("records were imported from {0}", param[1]);
             }
 

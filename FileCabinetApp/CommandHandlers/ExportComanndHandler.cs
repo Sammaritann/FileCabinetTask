@@ -7,6 +7,13 @@ namespace FileCabinetApp.CommandHandlers
 {
    public class ExportComanndHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        public ExportComanndHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest.Command.ToUpperInvariant() != "EXPORT")
@@ -61,7 +68,7 @@ namespace FileCabinetApp.CommandHandlers
                 return;
             }
 
-            var snapshot = Program.fileCabinetService.MakeSnapshot();
+            var snapshot = service.MakeSnapshot();
 
             if (param[0].ToUpperInvariant() == "CSV")
             {

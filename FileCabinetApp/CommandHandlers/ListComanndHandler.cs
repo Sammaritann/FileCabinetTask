@@ -7,6 +7,13 @@ namespace FileCabinetApp.CommandHandlers
 {
    public class ListComanndHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        public ListComanndHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest.Command.ToUpperInvariant() != "LIST")
@@ -15,7 +22,7 @@ namespace FileCabinetApp.CommandHandlers
                 return;
             }
 
-            foreach (FileCabinetRecord item in Program.fileCabinetService.GetRecords())
+            foreach (FileCabinetRecord item in service.GetRecords())
             {
                 Console.WriteLine(
                     "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",

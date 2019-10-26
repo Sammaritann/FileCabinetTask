@@ -6,6 +6,12 @@ namespace FileCabinetApp.CommandHandlers
 {
    public class RemoveComanndHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        public RemoveComanndHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest.Command.ToUpperInvariant() != "REMOVE")
@@ -22,7 +28,7 @@ namespace FileCabinetApp.CommandHandlers
 
             try
             {
-                Program.fileCabinetService.Remove(id);
+                service.Remove(id);
                 Console.WriteLine("Record #{0} is removed.", id);
             }
             catch (KeyNotFoundException)

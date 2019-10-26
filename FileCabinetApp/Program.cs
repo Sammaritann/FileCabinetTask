@@ -31,7 +31,7 @@ namespace FileCabinetApp
             { "CUSTOM", new Validators.InpitValidator.DefaultValidator() },
         };
 
-        public static IFileCabinetService fileCabinetService;
+        private static IFileCabinetService fileCabinetService;
 
         public static IInputValidator inputValidator;
 
@@ -177,18 +177,18 @@ namespace FileCabinetApp
 
         private static ICommandHandler CreateCommandHandler()
         {
-            var createHandler = new CreateComanndHandler();
-            var editHandler = new EditComanndHandler();
+            var createHandler = new CreateComanndHandler(Program.fileCabinetService);
+            var editHandler = new EditComanndHandler(Program.fileCabinetService);
             var exitHandler = new ExitComanndHandler();
-            var exportHandler = new ExportComanndHandler();
-            var findHandler = new FindComanndHandler();
+            var exportHandler = new ExportComanndHandler(Program.fileCabinetService);
+            var findHandler = new FindComanndHandler(Program.fileCabinetService);
             var helpHandler = new HelpComanndHandler();
-            var listHandler = new ListComanndHandler();
-            var importHandler = new ImportComanndHandler();
+            var listHandler = new ListComanndHandler(Program.fileCabinetService);
+            var importHandler = new ImportComanndHandler(Program.fileCabinetService);
             var missedHandler = new MIssedComanndHandler();
-            var purgeHandler = new PurgeComanndHandler();
-            var removeHandler = new RemoveComanndHandler();
-            var statHandler = new StatComanndHandler();
+            var purgeHandler = new PurgeComanndHandler(Program.fileCabinetService);
+            var removeHandler = new RemoveComanndHandler(Program.fileCabinetService);
+            var statHandler = new StatComanndHandler(Program.fileCabinetService);
 
             helpHandler.SetNext(createHandler);
             createHandler.SetNext(editHandler);
