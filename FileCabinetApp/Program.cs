@@ -18,7 +18,7 @@ namespace FileCabinetApp
         private const string DeveloperName = "Frigin Pavel";
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
 
-        public static bool isRunning = true;
+        private static bool isRunning = true;
 
         private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
         {
@@ -180,7 +180,7 @@ namespace FileCabinetApp
         {
             var createHandler = new CreateComanndHandler(Program.fileCabinetService);
             var editHandler = new EditComanndHandler(Program.fileCabinetService);
-            var exitHandler = new ExitComanndHandler();
+            var exitHandler = new ExitComanndHandler(x=>isRunning=x);
             var exportHandler = new ExportComanndHandler(Program.fileCabinetService);
             var findHandler = new FindComanndHandler(Program.fileCabinetService);
             var helpHandler = new HelpComanndHandler();

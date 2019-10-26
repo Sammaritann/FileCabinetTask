@@ -6,6 +6,13 @@ namespace FileCabinetApp.CommandHandlers
 {
   public  class ExitComanndHandler : CommandHandlerBase
     {
+        private Action<bool> isRunning;
+
+        public ExitComanndHandler(Action<bool> isRunning)
+        {
+            this.isRunning = isRunning;
+        }
+
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest.Command.ToUpperInvariant() != "EXIT")
@@ -15,7 +22,7 @@ namespace FileCabinetApp.CommandHandlers
             }
 
             Console.WriteLine("Exiting an application...");
-            Program.isRunning = false;
+            isRunning(false);
         }
     }
 }
