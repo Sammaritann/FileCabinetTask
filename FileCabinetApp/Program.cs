@@ -175,9 +175,35 @@ namespace FileCabinetApp
             while (isRunning);
         }
 
-        private static CommandHandler CreateCommandHandler()
+        private static ICommandHandler CreateCommandHandler()
         {
-            return new CommandHandler();
+            var createHandler = new CreateComanndHandler();
+            var editHandler = new EditComanndHandler();
+            var exitHandler = new ExitComanndHandler();
+            var exportHandler = new ExportComanndHandler();
+            var findHandler = new FindComanndHandler();
+            var helpHandler = new HelpComanndHandler();
+            var listHandler = new ListComanndHandler();
+            var importHandler = new ImportComanndHandler();
+            var missedHandler = new MIssedComanndHandler();
+            var purgeHandler = new PurgeComanndHandler();
+            var removeHandler = new RemoveComanndHandler();
+            var statHandler = new StatComanndHandler();
+
+            helpHandler.SetNext(createHandler);
+            createHandler.SetNext(editHandler);
+            editHandler.SetNext(exitHandler);
+            exitHandler.SetNext(exportHandler);
+            exportHandler.SetNext(findHandler);
+            findHandler.SetNext(purgeHandler);
+            purgeHandler.SetNext(removeHandler);
+            removeHandler.SetNext(statHandler);
+            statHandler.SetNext(listHandler);
+            listHandler.SetNext(importHandler);
+            importHandler.SetNext(missedHandler);
+
+            return helpHandler;
+
         }
     }
 }
