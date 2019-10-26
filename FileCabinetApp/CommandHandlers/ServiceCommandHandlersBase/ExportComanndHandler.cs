@@ -1,22 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-   public class ExportComanndHandler : ServiceCommandHandlerBase
+    /// <summary>
+    /// Represents export command handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
+    public class ExportComanndHandler : ServiceCommandHandlerBase
     {
-
-        public ExportComanndHandler(IFileCabinetService service):base(service)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExportComanndHandler"/> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        public ExportComanndHandler(IFileCabinetService service)
+            : base(service)
         {
         }
 
+        /// <summary>
+        /// Handles the specified command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
+        /// <exception cref="ArgumentNullException">Throws when commandRequest is null.</exception>
         public override void Handle(AppCommandRequest commandRequest)
         {
+            if (commandRequest is null)
+            {
+                throw new ArgumentNullException(nameof(commandRequest));
+            }
+
             if (commandRequest.Command.ToUpperInvariant() != "EXPORT")
             {
-                nextHandler.Handle(commandRequest);
+                this.NextHandler.Handle(commandRequest);
                 return;
             }
 
@@ -66,7 +82,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            var snapshot = service.MakeSnapshot();
+            var snapshot = this.Service.MakeSnapshot();
 
             if (param[0].ToUpperInvariant() == "CSV")
             {

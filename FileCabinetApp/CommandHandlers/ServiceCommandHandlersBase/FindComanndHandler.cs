@@ -1,21 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FileCabinetApp.CommandHandlers.Printers;
+using System;
 using System.Globalization;
-using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-   public class FindComanndHandler : ServiceCommandHandlerBase
+    /// <summary>
+    /// Represents find command handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
+    public class FindComanndHandler : ServiceCommandHandlerBase
     {
-        public FindComanndHandler(IFileCabinetService service):base(service)
+        private IRecordPrinter printer;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FindComanndHandler" /> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        /// <param name="printer">The printer.</param>
+        public FindComanndHandler(IFileCabinetService service, IRecordPrinter printer)
+            : base(service)
         {
+            this.printer = printer;
         }
 
+        /// <summary>
+        /// Handles the specified command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
+            if (commandRequest is null)
+            {
+                throw new ArgumentNullException(nameof(commandRequest));
+            }
+
             if (commandRequest.Command.ToUpperInvariant() != "FIND")
             {
-                nextHandler.Handle(commandRequest);
+                this.NextHandler.Handle(commandRequest);
                 return;
             }
 
@@ -28,34 +49,12 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             if (param[0].ToUpperInvariant() == "FIRSTNAME")
             {
-                foreach (FileCabinetRecord item in service.FindByFirstName(param[1].Trim('\"')))
-                {
-                    Console.WriteLine(
-                        "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                        item.Id,
-                        item.FirstName,
-                        item.LastName,
-                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
-                        item.Department,
-                        item.Salary,
-                        item.Class);
-                }
+                this.printer.Print(this.Service.FindByFirstName(param[1].Trim('\"')));
             }
 
             if (param[0].ToUpperInvariant() == "LASTNAME")
             {
-                foreach (FileCabinetRecord item in service.FindByLastName(param[1].Trim('\"')))
-                {
-                    Console.WriteLine(
-                        "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                        item.Id,
-                        item.FirstName,
-                        item.LastName,
-                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
-                        item.Department,
-                        item.Salary,
-                        item.Class);
-                }
+                this.printer.Print(this.Service.FindByLastName(param[1].Trim('\"')));
             }
 
             if (param[0].ToUpperInvariant() == "DATEOFBIRTH")
@@ -67,18 +66,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                     return;
                 }
 
-                foreach (FileCabinetRecord item in service.FindByDateOfBirth(dateOfBirth))
-                {
-                    Console.WriteLine(
-                        "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                        item.Id,
-                        item.FirstName,
-                        item.LastName,
-                        item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
-                        item.Department,
-                        item.Salary,
-                        item.Class);
-                }
+                this.printer.Print(this.Service.FindByDateOfBirth(dateOfBirth));
             }
         }
     }

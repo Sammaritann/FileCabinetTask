@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using FileCabinetApp.CommandHandlers;
+using FileCabinetApp.CommandHandlers.Printers;
 using FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
@@ -180,13 +181,13 @@ namespace FileCabinetApp
         {
             var createHandler = new CreateComanndHandler(Program.fileCabinetService);
             var editHandler = new EditComanndHandler(Program.fileCabinetService);
-            var exitHandler = new ExitComanndHandler(x=>isRunning=x);
+            var exitHandler = new ExitComanndHandler(x => isRunning = x);
             var exportHandler = new ExportComanndHandler(Program.fileCabinetService);
-            var findHandler = new FindComanndHandler(Program.fileCabinetService);
+            var findHandler = new FindComanndHandler(Program.fileCabinetService, new DefaultRecordPrinter());
             var helpHandler = new HelpComanndHandler();
-            var listHandler = new ListComanndHandler(Program.fileCabinetService);
+            var listHandler = new ListComanndHandler(Program.fileCabinetService, new DefaultRecordPrinter());
             var importHandler = new ImportComanndHandler(Program.fileCabinetService);
-            var missedHandler = new MIssedComanndHandler();
+            var missedHandler = new MissedComanndHandler();
             var purgeHandler = new PurgeComanndHandler(Program.fileCabinetService);
             var removeHandler = new RemoveComanndHandler(Program.fileCabinetService);
             var statHandler = new StatComanndHandler(Program.fileCabinetService);
@@ -204,7 +205,6 @@ namespace FileCabinetApp
             importHandler.SetNext(missedHandler);
 
             return helpHandler;
-
         }
     }
 }

@@ -19,7 +19,6 @@ namespace FileCabinetApp
         private readonly Dictionary<int, FileCabinetRecord> dictionaryId = new Dictionary<int, FileCabinetRecord>();
         private int id = 0;
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>
@@ -269,6 +268,5 @@ namespace FileCabinetApp
         {
             return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
         }
-
     }
 }

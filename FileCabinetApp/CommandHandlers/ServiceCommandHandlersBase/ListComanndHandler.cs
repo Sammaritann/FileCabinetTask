@@ -1,36 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FileCabinetApp.CommandHandlers.Printers;
+using System;
 using System.Globalization;
-using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-   public class ListComanndHandler : ServiceCommandHandlerBase
+    /// <summary>
+    /// Represents list command handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
+    public class ListComanndHandler : ServiceCommandHandlerBase
     {
-        public ListComanndHandler(IFileCabinetService service):base(service)
+        private IRecordPrinter printer;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListComanndHandler" /> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        /// <param name="printer">The printer.</param>
+        public ListComanndHandler(IFileCabinetService service, IRecordPrinter printer)
+            : base(service)
         {
+            this.printer = printer;
         }
 
+        /// <summary>
+        /// Handles the specified command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
+        /// <exception cref="ArgumentNullException">Throws when commandRequest is null.</exception>
         public override void Handle(AppCommandRequest commandRequest)
         {
+            if (commandRequest is null)
+            {
+                throw new ArgumentNullException(nameof(commandRequest));
+            }
+
             if (commandRequest.Command.ToUpperInvariant() != "LIST")
             {
-                nextHandler.Handle(commandRequest);
+                this.NextHandler.Handle(commandRequest);
                 return;
             }
 
-            foreach (FileCabinetRecord item in service.GetRecords())
-            {
-                Console.WriteLine(
-                    "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                    item.Id,
-                    item.FirstName,
-                    item.LastName,
-                    item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
-                    item.Department,
-                    item.Salary,
-                    item.Class);
-            }
+            this.printer.Print(this.Service.GetRecords());
         }
     }
 }

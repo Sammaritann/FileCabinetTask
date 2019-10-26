@@ -1,12 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FileCabinetApp.CommandHandlers
 {
-   public class HelpComanndHandler : CommandHandlerBase
+    /// <summary>
+    /// Represents help command handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.CommandHandlerBase" />
+    public class HelpComanndHandler : CommandHandlerBase
     {
-        private static string[][] helpMessages = new string[][]
+        private const int CommandHelpIndex = 0;
+        private const int DescriptionHelpIndex = 1;
+        private const int ExplanationHelpIndex = 2;
+
+        private static readonly string[][] HelpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
@@ -20,22 +26,31 @@ namespace FileCabinetApp.CommandHandlers
             new string[] { "remove", "removes a record", "The 'remove' command removes a record." },
             new string[] { "purge", "perges records", "The 'purge' command purges  records." },
         };
-        private const int CommandHelpIndex = 0;
-        private const int DescriptionHelpIndex = 1;
-        private const int ExplanationHelpIndex = 2;
+
+        /// <summary>
+        /// Handles the specified command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
+        /// <exception cref="ArgumentNullException">Throws when commandRequest is null.</exception>
         public override void Handle(AppCommandRequest commandRequest)
         {
+            if (commandRequest is null)
+            {
+                throw new ArgumentNullException(nameof(commandRequest));
+            }
+
             if (commandRequest.Command.ToUpperInvariant() != "HELP")
             {
-                nextHandler.Handle(commandRequest);
+                this.NextHandler.Handle(commandRequest);
                 return;
             }
+
             if (!string.IsNullOrEmpty(commandRequest.Parameters))
             {
-                int index = Array.FindIndex(helpMessages, 0, helpMessages.Length, i => string.Equals(i[CommandHelpIndex], commandRequest.Parameters, StringComparison.InvariantCultureIgnoreCase));
+                int index = Array.FindIndex(HelpMessages, 0, HelpMessages.Length, i => string.Equals(i[CommandHelpIndex], commandRequest.Parameters, StringComparison.InvariantCultureIgnoreCase));
                 if (index >= 0)
                 {
-                    Console.WriteLine(helpMessages[index][ExplanationHelpIndex]);
+                    Console.WriteLine(HelpMessages[index][ExplanationHelpIndex]);
                 }
                 else
                 {
@@ -46,7 +61,7 @@ namespace FileCabinetApp.CommandHandlers
             {
                 Console.WriteLine("Available commands:");
 
-                foreach (string[] helpMessage in helpMessages)
+                foreach (string[] helpMessage in HelpMessages)
                 {
                     Console.WriteLine("\t{0}\t- {1}", helpMessage[CommandHelpIndex], helpMessage[DescriptionHelpIndex]);
                 }

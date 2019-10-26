@@ -1,17 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
+﻿namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-    public abstract class ServiceCommandHandlerBase:CommandHandlerBase
+    /// <summary>
+    /// Represents service command base handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.CommandHandlerBase" />
+    public abstract class ServiceCommandHandlerBase : CommandHandlerBase
     {
-        protected IFileCabinetService service;
+        /// <summary>
+        /// The service.
+        /// </summary>
+        private IFileCabinetService service;
 
-        public ServiceCommandHandlerBase(IFileCabinetService service)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServiceCommandHandlerBase"/> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        protected ServiceCommandHandlerBase(IFileCabinetService service)
         {
-            this.service = service;
+            this.Service = service;
         }
 
+        /// <summary>
+        /// Gets or sets the service.
+        /// </summary>
+        /// <value>
+        /// The service.
+        /// </value>
+        protected IFileCabinetService Service { get => this.service; set => this.service = value; }
     }
 }

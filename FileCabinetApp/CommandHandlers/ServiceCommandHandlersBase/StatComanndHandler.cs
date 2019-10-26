@@ -1,24 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-   public class StatComanndHandler : ServiceCommandHandlerBase
+    /// <summary>
+    /// Represents stat command handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
+    public class StatComanndHandler : ServiceCommandHandlerBase
     {
-        public StatComanndHandler(IFileCabinetService service) : base(service)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatComanndHandler"/> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        public StatComanndHandler(IFileCabinetService service)
+            : base(service)
         {
         }
+
+        /// <summary>
+        /// Handles the specified command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
+        /// <exception cref="ArgumentNullException">Throws when commandRequest is null.</exception>
         public override void Handle(AppCommandRequest commandRequest)
         {
+            if (commandRequest is null)
+            {
+                throw new ArgumentNullException(nameof(commandRequest));
+            }
+
             if (commandRequest.Command.ToUpperInvariant() != "STAT")
             {
-                nextHandler.Handle(commandRequest);
+                this.NextHandler.Handle(commandRequest);
                 return;
             }
 
-            int recordsCount = service.GetStat();
-            int recordsDelete = service.GetDeleteStat();
+            int recordsCount = this.Service.GetStat();
+            int recordsDelete = this.Service.GetDeleteStat();
             Console.WriteLine($"{recordsCount} record(s).");
             Console.WriteLine($"{recordsDelete} record(s) delete.");
         }
