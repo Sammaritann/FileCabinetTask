@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FileCabinetApp.CommandHandlers
+namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-   public class StatComanndHandler : CommandHandlerBase
+   public class StatComanndHandler : ServiceCommandHandlerBase
     {
-        private IFileCabinetService service;
-
-        public StatComanndHandler(IFileCabinetService service)
+        public StatComanndHandler(IFileCabinetService service) : base(service)
         {
-            this.service = service;
         }
-
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest.Command.ToUpperInvariant() != "STAT")

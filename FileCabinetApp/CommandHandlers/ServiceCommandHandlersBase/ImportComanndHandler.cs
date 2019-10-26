@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace FileCabinetApp.CommandHandlers
+namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-  public class ImportComanndHandler : CommandHandlerBase
+  public class ImportComanndHandler : ServiceCommandHandlerBase
     {
-        private IFileCabinetService service;
 
-        public ImportComanndHandler(IFileCabinetService service)
+        public ImportComanndHandler(IFileCabinetService service):base(service)
         {
-            this.service = service;
         }
 
         public override void Handle(AppCommandRequest commandRequest)

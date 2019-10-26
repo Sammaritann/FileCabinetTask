@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace FileCabinetApp.CommandHandlers
+namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-   public class FindComanndHandler : CommandHandlerBase
+   public class FindComanndHandler : ServiceCommandHandlerBase
     {
-        private IFileCabinetService service;
-
-        public FindComanndHandler(IFileCabinetService service)
+        public FindComanndHandler(IFileCabinetService service):base(service)
         {
-            this.service = service;
         }
 
         public override void Handle(AppCommandRequest commandRequest)

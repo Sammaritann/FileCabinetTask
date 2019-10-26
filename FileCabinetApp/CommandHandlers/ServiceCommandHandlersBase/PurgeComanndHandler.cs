@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FileCabinetApp.CommandHandlers
+namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-   public class PurgeComanndHandler : CommandHandlerBase
+   public class PurgeComanndHandler : ServiceCommandHandlerBase
     {
-        private IFileCabinetService service;
 
-        public PurgeComanndHandler(IFileCabinetService service)
+
+        public PurgeComanndHandler(IFileCabinetService service):base(service)
         {
-            this.service = service;
         }
         public override void Handle(AppCommandRequest commandRequest)
         {
