@@ -11,7 +11,7 @@ namespace FileCabinetApp.Reader
     /// </summary>
     public class FileCabinetRecordCsvReader
     {
-        private StreamReader reader;
+        private readonly StreamReader reader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetRecordCsvReader"/> class.

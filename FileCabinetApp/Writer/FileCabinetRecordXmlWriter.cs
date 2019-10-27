@@ -49,7 +49,7 @@ namespace FileCabinetApp.Writer
             AddChild("Id", record.Id.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
             AddChild("FirstName", record.FirstName, fileRecordNode, doc);
             AddChild("LastName", record.LastName, fileRecordNode, doc);
-            AddChild("DateOfBirth", record.DateOfBirth.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture), fileRecordNode, doc);
+            AddChild("DateOfBirth", record.DateOfBirth.ToString("o", CultureInfo.InvariantCulture), fileRecordNode, doc);
             AddChild("Department", record.Department.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
             AddChild("Salary", record.Salary.ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
             AddChild("Class", ((int)record.Class).ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
