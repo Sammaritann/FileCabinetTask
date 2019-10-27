@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using FileCabinetApp.CommandHandlers;
 using FileCabinetApp.CommandHandlers.Printers;
@@ -9,6 +8,7 @@ using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 using FileCabinetApp.Validators.InpitValidator;
 using FileCabinetApp.Validators.RecordValidator;
+using Microsoft.Extensions.Configuration;
 
 namespace FileCabinetApp
 {
@@ -22,6 +22,7 @@ namespace FileCabinetApp
 
         private static bool isRunning = true;
 
+        private static IConfigurationRoot config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("validation-rules.json").Build();
         private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
         {
             { "DEFAULT", new ValidatorBuilder().CreateDefault() },
@@ -64,9 +65,9 @@ namespace FileCabinetApp
 
                 if (param[0] == "--validation-rules")
                 {
-                        fileCabinetService = new FileCabinetMemoryService(recordValidators[param[1].ToUpperInvariant()]);
-                        inputValidator = inputValidators[param[1].ToUpperInvariant()];
-                        Console.WriteLine("Using {0} validation rules.", param[1].ToUpperInvariant());
+                    fileCabinetService = new FileCabinetMemoryService(recordValidators[param[1].ToUpperInvariant()]);
+                    inputValidator = inputValidators[param[1].ToUpperInvariant()];
+                    Console.WriteLine("Using {0} validation rules.", param[1].ToUpperInvariant());
                 }
 
                 if (param[0] == "--storage")
@@ -98,19 +99,19 @@ namespace FileCabinetApp
 
                 if (args[0] == "-s")
                 {
-                        if (args[1].ToUpperInvariant() == "MEMORY")
-                        {
-                            fileCabinetService = new FileCabinetMemoryService(recordValidators["DEFAULT"]);
-                            inputValidator = inputValidators["DEFAULT"];
-                            Console.WriteLine("Using DEFAULT validation rules.");
-                        }
+                    if (args[1].ToUpperInvariant() == "MEMORY")
+                    {
+                        fileCabinetService = new FileCabinetMemoryService(recordValidators["DEFAULT"]);
+                        inputValidator = inputValidators["DEFAULT"];
+                        Console.WriteLine("Using DEFAULT validation rules.");
+                    }
 
-                        if (args[1].ToUpperInvariant() == "FILE")
-                        {
-                            fileCabinetService = new FileCabinetFileSystemService(recordValidators["DEFAULT"]);
-                            inputValidator = inputValidators["DEFAULT"];
-                            Console.WriteLine("Using DEFAULT validation rules.");
-                        }
+                    if (args[1].ToUpperInvariant() == "FILE")
+                    {
+                        fileCabinetService = new FileCabinetFileSystemService(recordValidators["DEFAULT"]);
+                        inputValidator = inputValidators["DEFAULT"];
+                        Console.WriteLine("Using DEFAULT validation rules.");
+                    }
                 }
 
                 if (args[1] == "--storage")
@@ -210,25 +211,29 @@ namespace FileCabinetApp
 
         private static IRecordValidator CreateDefault(this ValidatorBuilder validator)
         {
-         return validator
-                .ValidateFirstName(2, 60)
-                .ValidateLastName(2, 60)
-                .ValidateDateOfBirthValidator(new DateTime(1950, 1, 1), DateTime.Now)
-                .ValidateSalary(0, decimal.MaxValue)
-                .ValidateDepartment(0, short.MaxValue)
-                .ValidateClass('A', 'Z')
+            var defaultConfig = config.GetSection("default");
+
+            return validator
+                .ValidateFirstName(defaultConfig.GetSection("firstName:min").Get<int>(), defaultConfig.GetSection("firstName:max").Get<int>())
+                .ValidateLastName(defaultConfig.GetSection("lastName:min").Get<int>(), defaultConfig.GetSection("lastName:max").Get<int>())
+                .ValidateDateOfBirthValidator(defaultConfig.GetSection("dateOfBirth:from").Get<DateTime>(), defaultConfig.GetSection("dateOfBirth:to").Get<DateTime>())
+                .ValidateSalary(defaultConfig.GetSection("salary:min").Get<decimal>(), defaultConfig.GetSection("salary:max").Get<decimal>())
+                .ValidateDepartment(defaultConfig.GetSection("department:from").Get<short>(), defaultConfig.GetSection("department:to").Get<short>())
+                .ValidateClass(defaultConfig.GetSection("class:min").Get<char>(), defaultConfig.GetSection("class:max").Get<char>())
                 .Create();
         }
 
         private static IRecordValidator CreateCustom(this ValidatorBuilder validator)
         {
-         return validator
-                .ValidateFirstName(4, 30)
-                .ValidateLastName(4, 30)
-                .ValidateDateOfBirthValidator(new DateTime(1900, 1, 1), DateTime.Now)
-                .ValidateSalary(0, decimal.MaxValue)
-                .ValidateDepartment(0, short.MaxValue)
-                .ValidateClass('A', 'F')
+            var customConfig = config.GetSection("custom");
+
+            return validator
+                .ValidateFirstName(customConfig.GetSection("firstName:min").Get<int>(), customConfig.GetSection("firstName:max").Get<int>())
+                .ValidateLastName(customConfig.GetSection("lastName:min").Get<int>(), customConfig.GetSection("lastName:max").Get<int>())
+                .ValidateDateOfBirthValidator(customConfig.GetSection("dateOfBirth:from").Get<DateTime>(), customConfig.GetSection("dateOfBirth:to").Get<DateTime>())
+                .ValidateSalary(customConfig.GetSection("salary:min").Get<decimal>(), customConfig.GetSection("salary:max").Get<decimal>())
+                .ValidateDepartment(customConfig.GetSection("department:from").Get<short>(), customConfig.GetSection("department:to").Get<short>())
+                .ValidateClass(customConfig.GetSection("class:min").Get<char>(), customConfig.GetSection("class:max").Get<char>())
                 .Create();
         }
     }
