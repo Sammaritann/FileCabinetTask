@@ -993,13 +993,13 @@
             <param name="clas">The clas.</param>
             <returns>Validation result.</returns>
         </member>
-        <member name="T:FileCabinetApp.Validators.CustomValidator">
+        <member name="T:FileCabinetApp.Validators.RecordValidator.CustomValidator">
             <summary>
             Represent custom validator.
             </summary>
             <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
         </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+        <member name="M:FileCabinetApp.Validators.RecordValidator.CustomValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
             <summary>
             Validates the cabinet record.
             </summary>
@@ -1011,13 +1011,13 @@
             Throw when  the parameters are incorrect.
             </exception>
         </member>
-        <member name="T:FileCabinetApp.Validators.DefaultValidator">
+        <member name="T:FileCabinetApp.Validators.RecordValidator.DefaultValidator">
             <summary>
             Represent default validator.
             </summary>
             <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
         </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+        <member name="M:FileCabinetApp.Validators.RecordValidator.DefaultValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
             <summary>
             Validates the cabinet record.
             </summary>

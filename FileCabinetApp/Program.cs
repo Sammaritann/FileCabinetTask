@@ -23,8 +23,8 @@ namespace FileCabinetApp
 
         private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
         {
-            { "DEFAULT", new Validators.DefaultValidator() },
-            { "CUSTOM", new Validators.DefaultValidator() },
+            { "DEFAULT", new Validators.RecordValidator.DefaultValidator() },
+            { "CUSTOM", new Validators.RecordValidator.DefaultValidator() },
         };
 
         private static Dictionary<string, IInputValidator> inputValidators = new Dictionary<string, IInputValidator>

@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace FileCabinetApp.Validators.RecordValidator
+{
+   public class CustomLastNameValidator:IRecordValidator
+    {
+        private const int MinNameLength = 4;
+        private const int MaxNameLength = 30;
+        public void ValidateCabinetRecord(RecordParams recordParams)
+        {
+            if (string.IsNullOrWhiteSpace(recordParams.LastName))
+            {
+                throw new ArgumentNullException($"{nameof(recordParams.LastName)} must not be null or contain only spaces");
+            }
+
+            if ((recordParams.LastName.Length < MinNameLength) || (recordParams.LastName.Length > MaxNameLength))
+            {
+                throw new ArgumentException($"{nameof(recordParams.LastName)} length should be between 2 and 60");
+            }
+        }
+    }
+}
