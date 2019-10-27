@@ -577,6 +577,14 @@
             The class.
             </value>
         </member>
+        <member name="M:FileCabinetApp.RecordParams.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
             Class program.
@@ -761,6 +769,30 @@
             Loads from XML.
             </summary>
             <param name="stream">The stream.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.ServiceLogger">
+            <summary>
+            Represents logger service.
+            </summary>
+            <seealso cref="T:FileCabinetApp.IFileCabinetService" />
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.#ctor(FileCabinetApp.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceLogger"/> class.
+            </summary>
+            <param name="service">The service.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.ServiceMeter">
+            <summary>
+            Represents meter service.
+            </summary>
+            <seealso cref="T:FileCabinetApp.IFileCabinetService" />
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.#ctor(FileCabinetApp.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceMeter"/> class.
+            </summary>
+            <param name="service">The service.</param>
         </member>
         <member name="T:FileCabinetApp.FileCabinetMemoryService">
             <summary>

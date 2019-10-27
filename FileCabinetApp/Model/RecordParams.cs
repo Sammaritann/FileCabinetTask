@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace FileCabinetApp
@@ -79,5 +80,16 @@ namespace FileCabinetApp
         /// The class.
         /// </value>
         public char Class { get; }
+
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="string" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return $"FirstName = \'{this.FirstName}\', LastName = \'{this.LastName}\' DateofBirth = \'{this.DateOfBirth.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}\' Department = \'{this.Department}\' Salary = \'{this.Salary}\' Class = \'{this.Class}\'";
+        }
     }
 }
