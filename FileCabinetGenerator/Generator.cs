@@ -14,14 +14,16 @@ namespace FileCabinetGenerator
 
             for (int i = starId; i < starId + count; i++)
             {
-                FileCabinetRecord record = new FileCabinetRecord();
-                record.FirstName = StringGenerate(random);
-                record.LastName = StringGenerate(random);
-                record.Department = (short)random.Next(0, 32766);
-                record.Salary = (decimal)(random.NextDouble() * 1000);
-                record.Class = CharGenerate(random);
-                record.DateOfBirth = DateTimeGenerate(random);
-                record.Id = i;
+                FileCabinetRecord record = new FileCabinetRecord
+                {
+                    FirstName = StringGenerate(random),
+                    LastName = StringGenerate(random),
+                    Department = (short)random.Next(0, 32766),
+                    Salary = (decimal)(random.NextDouble() * 1000),
+                    Class = CharGenerate(random),
+                    DateOfBirth = DateTimeGenerate(random),
+                    Id = i
+                };
                 yield return record;
             }
         }

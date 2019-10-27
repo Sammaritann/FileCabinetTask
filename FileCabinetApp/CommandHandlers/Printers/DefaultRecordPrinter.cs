@@ -17,6 +17,11 @@ namespace FileCabinetApp.CommandHandlers.Printers
         /// <param name="records">The records.</param>
         public void Print(IEnumerable<FileCabinetRecord> records)
         {
+            if (records is null)
+            {
+                throw new ArgumentNullException(nameof(records));
+            }
+
             foreach (FileCabinetRecord item in records)
             {
                 Console.WriteLine(

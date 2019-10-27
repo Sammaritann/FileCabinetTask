@@ -1,6 +1,6 @@
-﻿using FileCabinetApp.CommandHandlers.Printers;
-using System;
+﻿using System;
 using System.Globalization;
+using FileCabinetApp.CommandHandlers.Printers;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {

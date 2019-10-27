@@ -1,18 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FileCabinetApp.Validators.RecordValidator
 {
-    public abstract class CompositeValidator : IRecordValidator
+    /// <summary>
+    /// Represents composite validator.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.Validators.IRecordValidator" />
+    public class CompositeValidator : IRecordValidator
     {
         private List<IRecordValidator> validators;
 
-        protected CompositeValidator(IEnumerable<IRecordValidator> validators)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompositeValidator"/> class.
+        /// </summary>
+        /// <param name="validators">The validators.</param>
+        public CompositeValidator(IEnumerable<IRecordValidator> validators)
         {
             this.validators = new List<IRecordValidator>(validators);
         }
 
+        /// <summary>
+        /// Validates the cabinet record.
+        /// </summary>
+        /// <param name="recordParams">The record parameters.</param>
+        /// <exception cref="ArgumentNullException">Throws when recordsParams is null.</exception>
         public void ValidateCabinetRecord(RecordParams recordParams)
         {
             if (recordParams is null)

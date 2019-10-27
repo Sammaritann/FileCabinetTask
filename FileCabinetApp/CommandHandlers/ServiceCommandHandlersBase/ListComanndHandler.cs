@@ -1,6 +1,6 @@
-﻿using FileCabinetApp.CommandHandlers.Printers;
-using System;
+﻿using System;
 using System.Globalization;
+using FileCabinetApp.CommandHandlers.Printers;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -10,7 +10,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class ListComanndHandler : ServiceCommandHandlerBase
     {
-        private IRecordPrinter printer;
+        private readonly IRecordPrinter printer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListComanndHandler" /> class.

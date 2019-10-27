@@ -8,6 +8,7 @@ using FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 using FileCabinetApp.Validators.InpitValidator;
+using FileCabinetApp.Validators.RecordValidator;
 
 namespace FileCabinetApp
 {
@@ -23,8 +24,8 @@ namespace FileCabinetApp
 
         private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
         {
-            { "DEFAULT", new Validators.RecordValidator.DefaultValidator() },
-            { "CUSTOM", new Validators.RecordValidator.DefaultValidator() },
+            { "DEFAULT", new ValidatorBuilder().CreateDefault() },
+            { "CUSTOM", new ValidatorBuilder().CreateCustom() },
         };
 
         private static Dictionary<string, IInputValidator> inputValidators = new Dictionary<string, IInputValidator>
@@ -35,7 +36,7 @@ namespace FileCabinetApp
 
         private static IFileCabinetService fileCabinetService;
 
-        public static IInputValidator inputValidator;
+        private static IInputValidator inputValidator;
 
         /// <summary>
         /// Defines the entry point of the application.
@@ -179,8 +180,8 @@ namespace FileCabinetApp
 
         private static ICommandHandler CreateCommandHandler()
         {
-            var createHandler = new CreateComanndHandler(Program.fileCabinetService);
-            var editHandler = new EditComanndHandler(Program.fileCabinetService);
+            var createHandler = new CreateComanndHandler(Program.fileCabinetService, inputValidator);
+            var editHandler = new EditComanndHandler(Program.fileCabinetService, inputValidator);
             var exitHandler = new ExitComanndHandler(x => isRunning = x);
             var exportHandler = new ExportComanndHandler(Program.fileCabinetService);
             var findHandler = new FindComanndHandler(Program.fileCabinetService, new DefaultRecordPrinter());
@@ -205,6 +206,30 @@ namespace FileCabinetApp
             importHandler.SetNext(missedHandler);
 
             return helpHandler;
+        }
+
+        private static IRecordValidator CreateDefault(this ValidatorBuilder validator)
+        {
+         return validator
+                .ValidateFirstName(2, 60)
+                .ValidateLastName(2, 60)
+                .ValidateDateOfBirthValidator(new DateTime(1950, 1, 1), DateTime.Now)
+                .ValidateSalary(0, decimal.MaxValue)
+                .ValidateDepartment(0, short.MaxValue)
+                .ValidateClass('A', 'Z')
+                .Create();
+        }
+
+        private static IRecordValidator CreateCustom(this ValidatorBuilder validator)
+        {
+         return validator
+                .ValidateFirstName(4, 30)
+                .ValidateLastName(4, 30)
+                .ValidateDateOfBirthValidator(new DateTime(1900, 1, 1), DateTime.Now)
+                .ValidateSalary(0, decimal.MaxValue)
+                .ValidateDepartment(0, short.MaxValue)
+                .ValidateClass('A', 'F')
+                .Create();
         }
     }
 }

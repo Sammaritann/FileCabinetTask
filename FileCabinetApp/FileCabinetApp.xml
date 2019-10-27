@@ -64,61 +64,6 @@
             <param name="commandHandler">The command handler.</param>
             <exception cref="T:System.ArgumentNullException">commandHandler.</exception>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.CommandHandlerBase.ReadInput``1(System.Func{System.String,System.ValueTuple{System.Boolean,System.String,``0}},System.Func{``0,System.ValueTuple{System.Boolean,System.String}})">
-            <summary>
-            Reads the input.
-            </summary>
-            <typeparam name="T">Read tupe.</typeparam>
-            <param name="converter">The converter.</param>
-            <param name="validator">The validator.</param>
-            <returns>Read item.</returns>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.CommandHandlerBase.ReadRecord(System.String@,System.String@,System.DateTime@,System.Int16@,System.Decimal@,System.Char@)">
-            <summary>
-            Reads the record.
-            </summary>
-            <param name="firstName">The first name.</param>
-            <param name="lastName">The last name.</param>
-            <param name="dateOfBirth">The date of birth.</param>
-            <param name="department">The department.</param>
-            <param name="salary">The salary.</param>
-            <param name="clas">The clas.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.CommandHandlerBase.StringConverter(System.String)">
-            <summary>
-            Strings the converter.
-            </summary>
-            <param name="str">The string.</param>
-            <returns>Convert string.</returns>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.CommandHandlerBase.DateConverter(System.String)">
-            <summary>
-            Dates the converter.
-            </summary>
-            <param name="str">The string.</param>
-            <returns>Convert date.</returns>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.CommandHandlerBase.ShortConverter(System.String)">
-            <summary>
-            Shorts the converter.
-            </summary>
-            <param name="str">The string.</param>
-            <returns>Convert short.</returns>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.CommandHandlerBase.DecimalConverter(System.String)">
-            <summary>
-            Decimals the converter.
-            </summary>
-            <param name="str">The string.</param>
-            <returns>Convert deciminal.</returns>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.CommandHandlerBase.CharConverter(System.String)">
-            <summary>
-            Characters the converter.
-            </summary>
-            <param name="str">The string.</param>
-            <returns>Convert char.</returns>
-        </member>
         <member name="T:FileCabinetApp.CommandHandlers.ExitComanndHandler">
             <summary>
             Represents exit command handler.
@@ -210,11 +155,12 @@
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.Validators.InpitValidator.IInputValidator)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler" /> class.
             </summary>
             <param name="service">The service.</param>
+            <param name="validator">The validator.</param>
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
@@ -222,17 +168,73 @@
             </summary>
             <param name="commandRequest">The command request.</param>
         </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.ReadInput``1(System.Func{System.String,System.ValueTuple{System.Boolean,System.String,``0}},System.Func{``0,System.ValueTuple{System.Boolean,System.String}})">
+            <summary>
+            Reads the input.
+            </summary>
+            <typeparam name="T">Read tupe.</typeparam>
+            <param name="converter">The converter.</param>
+            <param name="validator">The validator.</param>
+            <returns>Read item.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.StringConverter(System.String)">
+            <summary>
+            Strings the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert string.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.DateConverter(System.String)">
+            <summary>
+            Dates the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert date.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.ShortConverter(System.String)">
+            <summary>
+            Shorts the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert short.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.DecimalConverter(System.String)">
+            <summary>
+            Decimals the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert deciminal.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.CharConverter(System.String)">
+            <summary>
+            Characters the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert char.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.ReadRecord(System.String@,System.String@,System.DateTime@,System.Int16@,System.Decimal@,System.Char@)">
+            <summary>
+            Reads the record.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="dateOfBirth">The date of birth.</param>
+            <param name="department">The department.</param>
+            <param name="salary">The salary.</param>
+            <param name="clas">The clas.</param>
+        </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler">
             <summary>
             Represents edit command handler.
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.Validators.InpitValidator.IInputValidator)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler" /> class.
             </summary>
             <param name="service">The service.</param>
+            <param name="validator">The validator.</param>
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
@@ -240,6 +242,61 @@
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.ReadInput``1(System.Func{System.String,System.ValueTuple{System.Boolean,System.String,``0}},System.Func{``0,System.ValueTuple{System.Boolean,System.String}})">
+            <summary>
+            Reads the input.
+            </summary>
+            <typeparam name="T">Read tupe.</typeparam>
+            <param name="converter">The converter.</param>
+            <param name="validator">The validator.</param>
+            <returns>Read item.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.StringConverter(System.String)">
+            <summary>
+            Strings the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert string.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.DateConverter(System.String)">
+            <summary>
+            Dates the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert date.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.ShortConverter(System.String)">
+            <summary>
+            Shorts the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert short.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.DecimalConverter(System.String)">
+            <summary>
+            Decimals the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert deciminal.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.CharConverter(System.String)">
+            <summary>
+            Characters the converter.
+            </summary>
+            <param name="str">The string.</param>
+            <returns>Convert char.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.EditComanndHandler.ReadRecord(System.String@,System.String@,System.DateTime@,System.Int16@,System.Decimal@,System.Char@)">
+            <summary>
+            Reads the record.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="dateOfBirth">The date of birth.</param>
+            <param name="department">The department.</param>
+            <param name="salary">The salary.</param>
+            <param name="clas">The clas.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportComanndHandler">
             <summary>
@@ -993,17 +1050,214 @@
             <param name="clas">The clas.</param>
             <returns>Validation result.</returns>
         </member>
-        <member name="T:FileCabinetApp.Validators.RecordValidator.CustomValidator">
+        <member name="T:FileCabinetApp.Validators.RecordValidator.ClassValidator">
             <summary>
-            Represent custom validator.
+            Represents class validator.
             </summary>
             <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
         </member>
-        <member name="T:FileCabinetApp.Validators.RecordValidator.DefaultValidator">
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ClassValidator.#ctor(System.Char,System.Char)">
             <summary>
-            Represent default validator.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.ClassValidator"/> class.
+            </summary>
+            <param name="minClass">The minimum class.</param>
+            <param name="maxClass">The maximum class.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ClassValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when recordParams is null. </exception>
+            <exception cref="T:System.ArgumentException">Throws when validate is false.</exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.RecordValidator.CompositeValidator">
+            <summary>
+            Represents composite validator.
             </summary>
             <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.CompositeValidator.#ctor(System.Collections.Generic.IEnumerable{FileCabinetApp.Validators.IRecordValidator})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.CompositeValidator"/> class.
+            </summary>
+            <param name="validators">The validators.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.CompositeValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when recordsParams is null.</exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.RecordValidator.DateOfBirthValidator">
+            <summary>
+            Represents date of birth  validator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.DateOfBirthValidator.#ctor(System.DateTime,System.DateTime)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.DateOfBirthValidator"/> class.
+            </summary>
+            <param name="from">From.</param>
+            <param name="to">To.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.DateOfBirthValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when recordsParams is null.</exception>
+            <exception cref="T:System.ArgumentException">Throws when validate is false.</exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.RecordValidator.DepartmentValidator">
+            <summary>
+            Represents department validator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.DepartmentValidator.#ctor(System.Int16,System.Int16)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.DepartmentValidator"/> class.
+            </summary>
+            <param name="from">From.</param>
+            <param name="to">To.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.DepartmentValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when recordParams is null.</exception>
+            <exception cref="T:System.ArgumentException">Throws when validate is false.</exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.RecordValidator.FirstNameValidator">
+            <summary>
+            Represents first name validator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.FirstNameValidator.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.FirstNameValidator" /> class.
+            </summary>
+            <param name="minLength">The minimum length.</param>
+            <param name="maxLength">The maximum length.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.FirstNameValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when recordsParams is null.</exception>
+            <exception cref="T:System.ArgumentException">Throws when validate is false.</exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.RecordValidator.LastNameValidator">
+            <summary>
+            Represents last name validator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.LastNameValidator.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.LastNameValidator"/> class.
+            </summary>
+            <param name="minLength">The minimum length.</param>
+            <param name="maxLength">The maximum length.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.LastNameValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when recordsParams is null.</exception>
+            <exception cref="T:System.ArgumentException">Throws when validate is false.</exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.RecordValidator.SalaryValidator">
+            <summary>
+            Represents salary validator.
+            </summary>
+            <seealso cref="T:FileCabinetApp.Validators.IRecordValidator" />
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.SalaryValidator.#ctor(System.Decimal,System.Decimal)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.SalaryValidator"/> class.
+            </summary>
+            <param name="minSalary">The minimum salary.</param>
+            <param name="maxSalary">The maximum salary.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.SalaryValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Validates the cabinet record.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when recordsParams is null.</exception>
+            <exception cref="T:System.ArgumentException">Throws when validate is false.</exception>
+        </member>
+        <member name="T:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder">
+            <summary>
+            Represents validator builder.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder"/> class.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder.ValidateFirstName(System.Int32,System.Int32)">
+            <summary>
+            Validates the first name.
+            </summary>
+            <param name="min">The minimum.</param>
+            <param name="max">The maximum.</param>
+            <returns>This.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder.ValidateLastName(System.Int32,System.Int32)">
+            <summary>
+            Validates the last name.
+            </summary>
+            <param name="min">The minimum.</param>
+            <param name="max">The maximum.</param>
+            <returns>This.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder.ValidateDateOfBirthValidator(System.DateTime,System.DateTime)">
+            <summary>
+            Validates the date of birth validator.
+            </summary>
+            <param name="from">From.</param>
+            <param name="to">To.</param>
+            <returns>This.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder.ValidateDepartment(System.Int16,System.Int16)">
+            <summary>
+            Validates the department.
+            </summary>
+            <param name="from">From.</param>
+            <param name="to">To.</param>
+            <returns>This.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder.ValidateSalary(System.Decimal,System.Decimal)">
+            <summary>
+            Validates the salary.
+            </summary>
+            <param name="min">The minimum.</param>
+            <param name="max">The maximum.</param>
+            <returns>This.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder.ValidateClass(System.Char,System.Char)">
+            <summary>
+            Validates the class.
+            </summary>
+            <param name="min">The minimum.</param>
+            <param name="max">The maximum.</param>
+            <returns>This.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.RecordValidator.ValidatorBuilder.Create">
+            <summary>
+            Creates this instance.
+            </summary>
+            <returns>This.</returns>
         </member>
         <member name="T:FileCabinetApp.Validators.IRecordValidator">
             <summary>

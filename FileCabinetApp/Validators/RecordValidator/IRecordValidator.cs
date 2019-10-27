@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FileCabinetApp.Validators
+﻿namespace FileCabinetApp.Validators
 {
     /// <summary>
     /// Represent validator.
@@ -13,6 +9,6 @@ namespace FileCabinetApp.Validators
         /// Validates the cabinet record.
         /// </summary>
         /// <param name="recordParams">The record parameters.</param>
-       public void ValidateCabinetRecord(RecordParams recordParams);
+        public void ValidateCabinetRecord(RecordParams recordParams);
     }
 }

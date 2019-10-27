@@ -366,7 +366,7 @@ namespace FileCabinetApp.Service
 
         private FileCabinetRecord RecordFromBytes(byte[] buffer)
         {
-            ToBytesDecimal toDecimal = default(ToBytesDecimal);
+            ToBytesDecimal toDecimal = default;
             int year;
             int month;
             int day;
