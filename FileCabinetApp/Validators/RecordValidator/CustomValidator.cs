@@ -10,12 +10,6 @@ namespace FileCabinetApp.Validators.RecordValidator
     /// <seealso cref="FileCabinetApp.Validators.IRecordValidator" />
     public class CustomValidator : IRecordValidator
     {
-        private const int MinNameLength = 4;
-        private const int MaxNameLength = 30;
-        private const char MinClass = 'A';
-        private const char MaxClass = 'F';
-        private static readonly DateTime DateMin = new DateTime(1900, 1, 1);
-
         /// <summary>
         /// Validates the cabinet record.
         /// </summary>
@@ -32,12 +26,13 @@ namespace FileCabinetApp.Validators.RecordValidator
             {
                 throw new ArgumentNullException($"{nameof(recordParams)} must not be null");
             }
-            new CustomFirstNameValidator().ValidateCabinetRecord(recordParams);
-            new CustomLastNameValidator().ValidateCabinetRecord(recordParams);
-            new CustomDateOfBirthValidator().ValidateCabinetRecord(recordParams);
-            new CustomtSalaryValidator().ValidateCabinetRecord(recordParams);
-            new CustomDepartmentValidator().ValidateCabinetRecord(recordParams);
-            new CustomClassValidator().ValidateCabinetRecord(recordParams);
+
+            new FirstNameValidator(4,30).ValidateCabinetRecord(recordParams);
+            new LastNameValidator(4,30).ValidateCabinetRecord(recordParams);
+            new DateOfBirthValidator(new DateTime(1900, 1, 1),DateTime.Now).ValidateCabinetRecord(recordParams);
+            new SalaryValidator(0,decimal.MaxValue).ValidateCabinetRecord(recordParams);
+            new DepartmentValidator(0,short.MaxValue).ValidateCabinetRecord(recordParams);
+            new ClassValidator('A','F').ValidateCabinetRecord(recordParams);
         }
     }
 }

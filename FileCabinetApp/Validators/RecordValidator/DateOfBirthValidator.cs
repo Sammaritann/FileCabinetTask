@@ -4,12 +4,21 @@ using System.Text;
 
 namespace FileCabinetApp.Validators.RecordValidator
 {
-   public class DefaultDateOfBirthValidator:IRecordValidator
+    public class DateOfBirthValidator : IRecordValidator
     {
-        private static readonly DateTime DateMin = new DateTime(1950, 1, 1);
+        private readonly DateTime from;
+
+        private readonly DateTime to;
+
+        public DateOfBirthValidator(DateTime from, DateTime to)
+        {
+            this.from = from;
+            this.to = to;
+        }
+
         public void ValidateCabinetRecord(RecordParams recordParams)
         {
-            if (recordParams.DateOfBirth < DateMin || recordParams.DateOfBirth > DateTime.Now)
+            if (recordParams.DateOfBirth < this.from || recordParams.DateOfBirth > this.to)
             {
                 throw new ArgumentException($"{nameof(recordParams.DateOfBirth)} shoud be between  01-Jan-1950 and now");
             }
