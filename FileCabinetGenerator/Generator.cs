@@ -44,7 +44,9 @@ namespace FileCabinetGenerator
         {
             DateTime start = new DateTime(1950, 1, 1);
             long diff = DateTime.Now.Ticks - start.Ticks;
-            return start.AddTicks((long)(random.NextDouble() * diff));
+            DateTime bufferData = start.AddTicks((long)(random.NextDouble() * diff));
+
+            return new DateTime(bufferData.Year,bufferData.Month,bufferData.Day);
         }
     }
 }
