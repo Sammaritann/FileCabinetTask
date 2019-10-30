@@ -73,7 +73,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             var sw = Stopwatch.StartNew();
             var result = this.service.FindByDateOfBirth(dateOfBirth);
@@ -89,7 +89,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             var sw = Stopwatch.StartNew();
             var result = this.service.FindByFirstName(firstName);
@@ -105,7 +105,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
             var sw = Stopwatch.StartNew();
             var result = this.service.FindByLastName(lastName);

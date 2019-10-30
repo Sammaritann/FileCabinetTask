@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
@@ -131,11 +130,15 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">The first name.</param>
         /// <returns>Found records.</returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            return this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant())
-                 ? this.firstNameDictionary[firstName.ToUpperInvariant()]
-                 : new List<FileCabinetRecord>();
+            if (this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant()))
+            {
+                foreach (var item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>
@@ -143,11 +146,15 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">The last name.</param>
         /// <returns>Found records.</returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            return this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant())
-                 ? this.lastNameDictionary[lastName.ToUpperInvariant()]
-                 : new List<FileCabinetRecord>();
+            if (this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant()))
+            {
+                foreach (var item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>
@@ -155,11 +162,15 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">The date of birth.</param>
         /// <returns>Found records.</returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
-            return this.dateOfBirthDictionary.ContainsKey(dateOfBirth)
-                 ? this.dateOfBirthDictionary[dateOfBirth]
-                 : new List<FileCabinetRecord>();
+            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>

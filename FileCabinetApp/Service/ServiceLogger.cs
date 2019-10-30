@@ -75,7 +75,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with dateOfBirth = {2}\n", DateTime.Now, "FindByDateOfBirth()", dateOfBirth);
             File.AppendAllText("logger.txt", context);
@@ -92,7 +92,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with firstName = {2}\n", DateTime.Now, "FindByFirstName()", firstName);
             File.AppendAllText("logger.txt", context);
@@ -109,7 +109,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
             string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with lastName = {2}\n", DateTime.Now, "FindByLastName()", lastName);
             File.AppendAllText("logger.txt", context);

@@ -132,22 +132,22 @@
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
+        <member name="M:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter.Print(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Prints the specified records.
             </summary>
-            <param name="records">The records.</param>
+            <param name="record">The record.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter">
             <summary>
             Represents record printer interface.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
+        <member name="M:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter.Print(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Prints the specified records.
             </summary>
-            <param name="records">The records.</param>
+            <param name="record">The record.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler">
             <summary>
@@ -455,6 +455,43 @@
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
+        </member>
+        <member name="T:FileCabinetApp.ConsoleOption">
+            <summary>
+            Represents console option.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.ConsoleOption.Validator">
+            <summary>
+            Gets or sets the validator.
+            </summary>
+            <value>
+            The validator.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ConsoleOption.FileSystem">
+            <summary>
+            Gets or sets the file system.
+            </summary>
+            <value>
+            The file system.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ConsoleOption.Watch">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:FileCabinetApp.ConsoleOption"/> is watch.
+            </summary>
+            <value>
+              <c>true</c> if watch; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ConsoleOption.Logger">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:FileCabinetApp.ConsoleOption"/> is logger.
+            </summary>
+            <value>
+              <c>true</c> if logger; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
@@ -782,6 +819,107 @@
             </summary>
             <param name="service">The service.</param>
         </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.ContainsId(System.Int32)">
+            <summary>
+            Determines whether the specified identifier contains identifier and measures time.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <c>true</c> if the specified identifier contains identifier; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.CreateRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Creates the record and measures time.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <returns>
+            The identifier.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
+            <summary>
+            Edits the record and measures time.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="recordParams">The record parameters.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date and measures time.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name and measures time.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name and measures time.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.GetDeleteStat">
+            <summary>
+            Gets the delete stat and measures time.
+            </summary>
+            <returns>
+            Number of delete records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.GetRecords">
+            <summary>
+            Gets the records and measures time.
+            </summary>
+            <returns>
+            The records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.GetStat">
+            <summary>
+            Gets the stat and measures time.
+            </summary>
+            <returns>
+            Number of records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.MakeSnapshot">
+            <summary>
+            Makes the snapshot and measures time.
+            </summary>
+            <returns>
+            Snapshot.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.Purge">
+            <summary>
+            Purges this instance and measures time.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.Remove(System.Int32)">
+            <summary>
+            Removes the specified identifier and measures time.
+            </summary>
+            <param name="id">The identifier.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.Restore(FileCabinetApp.Service.FileCabinetServiceSnapshot)">
+            <summary>
+            Restores the specified snapshot and measures time.
+            </summary>
+            <param name="snapshot">The snapshot.</param>
+        </member>
         <member name="T:FileCabinetApp.Service.ServiceMeter">
             <summary>
             Represents meter service.
@@ -793,6 +931,107 @@
             Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceMeter"/> class.
             </summary>
             <param name="service">The service.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.ContainsId(System.Int32)">
+            <summary>
+            Determines whether the specified identifier contains identifier and logs.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>
+              <c>true</c> if the specified identifier contains identifier; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.CreateRecord(FileCabinetApp.RecordParams)">
+            <summary>
+            Creates the record and logs.
+            </summary>
+            <param name="recordParams">The record parameters.</param>
+            <returns>
+            The identifier.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.EditRecord(System.Int32,FileCabinetApp.RecordParams)">
+            <summary>
+            Edits the record and logs.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="recordParams">The record parameters.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date and logs.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name and logs.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name and logs.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.GetDeleteStat">
+            <summary>
+            Gets the delete stat and logs.
+            </summary>
+            <returns>
+            Number of delete records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.GetRecords">
+            <summary>
+            Gets the records and logs.
+            </summary>
+            <returns>
+            The records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.GetStat">
+            <summary>
+            Gets the stat and logs.
+            </summary>
+            <returns>
+            Number of records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.MakeSnapshot">
+            <summary>
+            Makes the snapshot and logs.
+            </summary>
+            <returns>
+            Snapshot.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.Purge">
+            <summary>
+            Purges this instance and logs.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.Remove(System.Int32)">
+            <summary>
+            Removes the specified identifier and logs.
+            </summary>
+            <param name="id">The identifier.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.Restore(FileCabinetApp.Service.FileCabinetServiceSnapshot)">
+            <summary>
+            Restores the specified snapshot and logs.
+            </summary>
+            <param name="snapshot">The snapshot.</param>
         </member>
         <member name="T:FileCabinetApp.FileCabinetMemoryService">
             <summary>

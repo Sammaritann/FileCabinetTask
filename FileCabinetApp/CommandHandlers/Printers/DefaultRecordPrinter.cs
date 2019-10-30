@@ -14,26 +14,23 @@ namespace FileCabinetApp.CommandHandlers.Printers
         /// <summary>
         /// Prints the specified records.
         /// </summary>
-        /// <param name="records">The records.</param>
-        public void Print(IEnumerable<FileCabinetRecord> records)
+        /// <param name="record">The record.</param>
+        public void Print(FileCabinetRecord record)
         {
-            if (records is null)
+            if (record is null)
             {
-                throw new ArgumentNullException(nameof(records));
+                throw new ArgumentNullException(nameof(record));
             }
 
-            foreach (FileCabinetRecord item in records)
-            {
-                Console.WriteLine(
+            Console.WriteLine(
                     "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                    item.Id,
-                    item.FirstName,
-                    item.LastName,
-                    item.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
-                    item.Department,
-                    item.Salary,
-                    item.Class);
+                    record.Id,
+                    record.FirstName,
+                    record.LastName,
+                    record.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
+                    record.Department,
+                    record.Salary,
+                    record.Class);
             }
-        }
     }
 }
