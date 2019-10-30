@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FileCabinetApp.Service;
+using FileCabinetApp.Service.Iterator;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -51,21 +52,21 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">The first name.</param>
         /// <returns>Found records.</returns>
-        IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName);
+        IRecordIterator FindByFirstName(string firstName);
 
         /// <summary>
         /// Finds all records by last name.
         /// </summary>
         /// <param name="lastName">The last name.</param>
         /// <returns>Found records.</returns>
-        IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName);
+        IRecordIterator FindByLastName(string lastName);
 
         /// <summary>
         /// Finds all records by Date.
         /// </summary>
         /// <param name="dateOfBirth">The date of birth.</param>
         /// <returns>Found records.</returns>
-        IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
+        IRecordIterator FindByDateOfBirth(DateTime dateOfBirth);
 
         /// <summary>
         /// Makes the snapshot.

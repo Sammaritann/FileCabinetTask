@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using FileCabinetApp.Service.Iterator;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp.Service
@@ -143,50 +144,28 @@ namespace FileCabinetApp.Service
         }
 
         /// <inheritdoc/>
-        public IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public IRecordIterator FindByDateOfBirth(DateTime dateOfBirth)
         {
-            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            byte[] buffer = new byte[277];
-            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
-            {
-                foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
-                {
-                    this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
-                    FileCabinetRecord record = this.RecordFromBytes(buffer);
-                    result.Add(record);
-                }
-            }
-
-            return result;
+            return this.dateOfBirthDictionary.ContainsKey(dateOfBirth)
+                 ? new FileIterator(this.dateOfBirthDictionary[dateOfBirth], this.fileStream)
+                 : new FileIterator(new List<long>(), this.fileStream);
         }
 
         /// <inheritdoc/>
-        public IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IRecordIterator FindByFirstName(string firstName)
         {
             if (firstName is null)
             {
                 throw new ArgumentNullException(nameof(firstName));
             }
 
-            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            byte[] buffer = new byte[277];
-            if (this.firstNameDictionary.ContainsKey(firstName.ToUpperInvariant()))
-            {
-                foreach (var item in this.firstNameDictionary[firstName.ToUpperInvariant()])
-                {
-                    this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
-                    FileCabinetRecord record = this.RecordFromBytes(buffer);
-                    result.Add(record);
-                }
-            }
-
-            return result;
+            return this.firstNameDictionary.ContainsKey(firstName.ToUpperInvariant())
+                             ? new FileIterator(this.firstNameDictionary[firstName.ToUpperInvariant()], this.fileStream)
+                             : new FileIterator(new List<long>(), this.fileStream);
         }
 
         /// <inheritdoc/>
-        public IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IRecordIterator FindByLastName(string lastName)
         {
             if (lastName is null)
             {
@@ -195,18 +174,9 @@ namespace FileCabinetApp.Service
 
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
             byte[] buffer = new byte[277];
-            if (this.lastNameDictionary.ContainsKey(lastName.ToUpperInvariant()))
-            {
-                foreach (var item in this.lastNameDictionary[lastName.ToUpperInvariant()])
-                {
-                    this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
-                    FileCabinetRecord record = this.RecordFromBytes(buffer);
-                    result.Add(record);
-                }
-            }
-
-            return result;
+            return this.lastNameDictionary.ContainsKey(lastName.ToUpperInvariant())
+                                 ? new FileIterator(this.lastNameDictionary[lastName.ToUpperInvariant()], this.fileStream)
+                 : new FileIterator(new List<long>(), this.fileStream);
         }
 
         /// <inheritdoc/>

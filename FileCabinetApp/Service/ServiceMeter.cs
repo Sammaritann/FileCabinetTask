@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileCabinetApp.Service.Iterator;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -73,7 +74,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public IRecordIterator FindByDateOfBirth(DateTime dateOfBirth)
         {
             var sw = Stopwatch.StartNew();
             var result = this.service.FindByDateOfBirth(dateOfBirth);
@@ -89,7 +90,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IRecordIterator FindByFirstName(string firstName)
         {
             var sw = Stopwatch.StartNew();
             var result = this.service.FindByFirstName(firstName);
@@ -105,7 +106,7 @@ namespace FileCabinetApp.Service
         /// <returns>
         /// Found records.
         /// </returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IRecordIterator FindByLastName(string lastName)
         {
             var sw = Stopwatch.StartNew();
             var result = this.service.FindByLastName(lastName);

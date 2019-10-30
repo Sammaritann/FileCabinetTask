@@ -132,7 +132,7 @@
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
+        <member name="M:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter.Print(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Prints the specified records.
             </summary>
@@ -143,11 +143,11 @@
             Represents record printer interface.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
+        <member name="M:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter.Print(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Prints the specified records.
             </summary>
-            <param name="records">The records.</param>
+            <param name="record">The record.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler">
             <summary>

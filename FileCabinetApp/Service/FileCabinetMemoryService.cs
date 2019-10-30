@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using FileCabinetApp.Service;
+using FileCabinetApp.Service.Iterator;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -131,11 +132,11 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">The first name.</param>
         /// <returns>Found records.</returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IRecordIterator FindByFirstName(string firstName)
         {
             return this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant())
-                 ? this.firstNameDictionary[firstName.ToUpperInvariant()]
-                 : new List<FileCabinetRecord>();
+                 ? new MemoryIterator(this.firstNameDictionary[firstName.ToUpperInvariant()])
+                 : new MemoryIterator(new List<FileCabinetRecord>());
         }
 
         /// <summary>
@@ -143,11 +144,11 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">The last name.</param>
         /// <returns>Found records.</returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IRecordIterator FindByLastName(string lastName)
         {
             return this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant())
-                 ? this.lastNameDictionary[lastName.ToUpperInvariant()]
-                 : new List<FileCabinetRecord>();
+                 ? new MemoryIterator(this.lastNameDictionary[lastName.ToUpperInvariant()])
+                 : new MemoryIterator(new List<FileCabinetRecord>());
         }
 
         /// <summary>
@@ -155,11 +156,11 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">The date of birth.</param>
         /// <returns>Found records.</returns>
-        public IReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public IRecordIterator FindByDateOfBirth(DateTime dateOfBirth)
         {
             return this.dateOfBirthDictionary.ContainsKey(dateOfBirth)
-                 ? this.dateOfBirthDictionary[dateOfBirth]
-                 : new List<FileCabinetRecord>();
+                 ? new MemoryIterator(this.dateOfBirthDictionary[dateOfBirth])
+                 : new MemoryIterator(new List<FileCabinetRecord>());
         }
 
         /// <summary>

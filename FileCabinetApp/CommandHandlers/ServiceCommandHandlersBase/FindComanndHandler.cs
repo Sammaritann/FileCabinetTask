@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using FileCabinetApp.CommandHandlers.Printers;
+using FileCabinetApp.Service.Iterator;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -49,12 +50,20 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             if (param[0].ToUpperInvariant() == "FIRSTNAME")
             {
-                this.printer.Print(this.Service.FindByFirstName(param[1].Trim('\"')));
+                IRecordIterator iterator = this.Service.FindByFirstName(param[1].Trim('\"'));
+                while (iterator.HasMore())
+                {
+                    this.printer.Print(iterator.GetNext());
+                }
             }
 
             if (param[0].ToUpperInvariant() == "LASTNAME")
             {
-                this.printer.Print(this.Service.FindByLastName(param[1].Trim('\"')));
+                IRecordIterator iterator = this.Service.FindByLastName(param[1].Trim('\"'));
+                while (iterator.HasMore())
+                {
+                    this.printer.Print(iterator.GetNext());
+                }
             }
 
             if (param[0].ToUpperInvariant() == "DATEOFBIRTH")
@@ -66,7 +75,11 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                     return;
                 }
 
-                this.printer.Print(this.Service.FindByDateOfBirth(dateOfBirth));
+                IRecordIterator iterator = this.Service.FindByDateOfBirth(dateOfBirth);
+                while (iterator.HasMore())
+                {
+                    this.printer.Print(iterator.GetNext());
+                }
             }
         }
     }
