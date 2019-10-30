@@ -1,10 +1,9 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FileCabinetApp.Service.Iterator
 {
-    public class MemoryIterator : IRecordIterator
+    public class MemoryIterator : IEnumerator<FileCabinetRecord>,IEnumerable<FileCabinetRecord>
     {
         private int index = -1;
         private List<FileCabinetRecord> list;
@@ -14,15 +13,34 @@ namespace FileCabinetApp.Service.Iterator
             this.list = list;
         }
 
-        public FileCabinetRecord GetNext()
+        public FileCabinetRecord Current => list[index];
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
         {
-            index++;
-            return list[index];
         }
 
-        public bool HasMore()
+        public IEnumerator<FileCabinetRecord> GetEnumerator()
         {
-            return this.index < this.list.Count - 1;
+            return this;
+        }
+
+        public bool MoveNext()
+        {
+            index++;
+
+            return index < list.Count;
+        }
+
+        public void Reset()
+        {
+            index = -1;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
         }
     }
 }

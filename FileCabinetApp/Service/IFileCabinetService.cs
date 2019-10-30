@@ -52,21 +52,21 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">The first name.</param>
         /// <returns>Found records.</returns>
-        IRecordIterator FindByFirstName(string firstName);
+        IEnumerable<FileCabinetRecord> FindByFirstName(string firstName);
 
         /// <summary>
         /// Finds all records by last name.
         /// </summary>
         /// <param name="lastName">The last name.</param>
         /// <returns>Found records.</returns>
-        IRecordIterator FindByLastName(string lastName);
+        IEnumerable<FileCabinetRecord> FindByLastName(string lastName);
 
         /// <summary>
         /// Finds all records by Date.
         /// </summary>
         /// <param name="dateOfBirth">The date of birth.</param>
         /// <returns>Found records.</returns>
-        IRecordIterator FindByDateOfBirth(DateTime dateOfBirth);
+        IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
 
         /// <summary>
         /// Makes the snapshot.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -6,31 +7,56 @@ using System.Text;
 
 namespace FileCabinetApp.Service.Iterator
 {
-    public class FileIterator : IRecordIterator
+    public class FileIterator : IEnumerator<FileCabinetRecord>,IEnumerable<FileCabinetRecord>
     {
         private List<long> positions;
         private int index = -1;
         private FileStream stream;
-
+        private FileCabinetRecord record;
         public FileIterator(List<long> positions, FileStream stream)
         {
             this.positions = positions;
             this.stream = stream;
         }
 
-        public FileCabinetRecord GetNext()
+        public FileCabinetRecord Current =>record;
+
+        object IEnumerator.Current => record;
+
+        public void Dispose()
         {
-            index++;
-            byte[] buffer = new byte[277];
-            this.stream.Position = this.positions[index];
-            this.stream.Read(buffer, 0, 277);
-            FileCabinetRecord record = this.RecordFromBytes(buffer);
-            return record;
         }
 
-        public bool HasMore()
+        public IEnumerator<FileCabinetRecord> GetEnumerator()
         {
-            return this.index < this.positions.Count - 1;
+            return this;
+        }
+
+        public bool MoveNext()
+        {
+            index++;         
+            if(index<positions.Count)
+            {
+                byte[] buffer = new byte[277];
+                this.stream.Position = this.positions[index];
+                this.stream.Read(buffer, 0, 277);
+                FileCabinetRecord record = this.RecordFromBytes(buffer);
+                this.record= record;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public void Reset()
+        {
+            index = -1;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
         }
 
         private FileCabinetRecord RecordFromBytes(byte[] buffer)

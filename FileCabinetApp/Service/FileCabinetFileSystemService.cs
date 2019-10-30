@@ -144,7 +144,7 @@ namespace FileCabinetApp.Service
         }
 
         /// <inheritdoc/>
-        public IRecordIterator FindByDateOfBirth(DateTime dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             return this.dateOfBirthDictionary.ContainsKey(dateOfBirth)
                  ? new FileIterator(this.dateOfBirthDictionary[dateOfBirth], this.fileStream)
@@ -152,7 +152,7 @@ namespace FileCabinetApp.Service
         }
 
         /// <inheritdoc/>
-        public IRecordIterator FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             if (firstName is null)
             {
@@ -165,7 +165,7 @@ namespace FileCabinetApp.Service
         }
 
         /// <inheritdoc/>
-        public IRecordIterator FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
             if (lastName is null)
             {

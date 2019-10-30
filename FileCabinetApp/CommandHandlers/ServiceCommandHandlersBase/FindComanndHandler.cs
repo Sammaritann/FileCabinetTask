@@ -50,19 +50,19 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             if (param[0].ToUpperInvariant() == "FIRSTNAME")
             {
-                IRecordIterator iterator = this.Service.FindByFirstName(param[1].Trim('\"'));
-                while (iterator.HasMore())
+                var iterator = this.Service.FindByFirstName(param[1].Trim('\"'));
+                foreach (var item in iterator)
                 {
-                    this.printer.Print(iterator.GetNext());
+                    this.printer.Print(item);
                 }
             }
 
             if (param[0].ToUpperInvariant() == "LASTNAME")
             {
-                IRecordIterator iterator = this.Service.FindByLastName(param[1].Trim('\"'));
-                while (iterator.HasMore())
+                var iterator = this.Service.FindByLastName(param[1].Trim('\"'));
+                foreach (var item in iterator)
                 {
-                    this.printer.Print(iterator.GetNext());
+                    this.printer.Print(item);
                 }
             }
 
@@ -75,10 +75,10 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                     return;
                 }
 
-                IRecordIterator iterator = this.Service.FindByDateOfBirth(dateOfBirth);
-                while (iterator.HasMore())
+                var iterator = this.Service.FindByDateOfBirth(dateOfBirth);
+                foreach (var item in iterator)
                 {
-                    this.printer.Print(iterator.GetNext());
+                    this.printer.Print(item);
                 }
             }
         }

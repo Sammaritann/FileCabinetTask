@@ -132,7 +132,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">The first name.</param>
         /// <returns>Found records.</returns>
-        public IRecordIterator FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             return this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant())
                  ? new MemoryIterator(this.firstNameDictionary[firstName.ToUpperInvariant()])
@@ -144,7 +144,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">The last name.</param>
         /// <returns>Found records.</returns>
-        public IRecordIterator FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
             return this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant())
                  ? new MemoryIterator(this.lastNameDictionary[lastName.ToUpperInvariant()])
@@ -156,7 +156,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">The date of birth.</param>
         /// <returns>Found records.</returns>
-        public IRecordIterator FindByDateOfBirth(DateTime dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             return this.dateOfBirthDictionary.ContainsKey(dateOfBirth)
                  ? new MemoryIterator(this.dateOfBirthDictionary[dateOfBirth])
