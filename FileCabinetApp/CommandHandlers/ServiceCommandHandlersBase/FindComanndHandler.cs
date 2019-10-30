@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using FileCabinetApp.CommandHandlers.Printers;
-using FileCabinetApp.Service.Iterator;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -50,8 +49,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             if (param[0].ToUpperInvariant() == "FIRSTNAME")
             {
-                var iterator = this.Service.FindByFirstName(param[1].Trim('\"'));
-                foreach (var item in iterator)
+                foreach (var item in this.Service.FindByFirstName(param[1].Trim('\"')))
                 {
                     this.printer.Print(item);
                 }
@@ -59,8 +57,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             if (param[0].ToUpperInvariant() == "LASTNAME")
             {
-                var iterator = this.Service.FindByLastName(param[1].Trim('\"'));
-                foreach (var item in iterator)
+                foreach (var item in this.Service.FindByLastName(param[1].Trim('\"')))
                 {
                     this.printer.Print(item);
                 }
@@ -75,8 +72,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                     return;
                 }
 
-                var iterator = this.Service.FindByDateOfBirth(dateOfBirth);
-                foreach (var item in iterator)
+                foreach (var item in this.Service.FindByDateOfBirth(dateOfBirth))
                 {
                     this.printer.Print(item);
                 }

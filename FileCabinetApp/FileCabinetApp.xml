@@ -136,7 +136,7 @@
             <summary>
             Prints the specified records.
             </summary>
-            <param name="records">The records.</param>
+            <param name="record">The record.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter">
             <summary>

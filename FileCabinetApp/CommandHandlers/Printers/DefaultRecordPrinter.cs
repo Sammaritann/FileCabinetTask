@@ -14,13 +14,14 @@ namespace FileCabinetApp.CommandHandlers.Printers
         /// <summary>
         /// Prints the specified records.
         /// </summary>
-        /// <param name="records">The records.</param>
+        /// <param name="record">The record.</param>
         public void Print(FileCabinetRecord record)
         {
             if (record is null)
             {
                 throw new ArgumentNullException(nameof(record));
             }
+
             Console.WriteLine(
                     "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
                     record.Id,
@@ -31,6 +32,5 @@ namespace FileCabinetApp.CommandHandlers.Printers
                     record.Salary,
                     record.Class);
             }
-        
     }
 }

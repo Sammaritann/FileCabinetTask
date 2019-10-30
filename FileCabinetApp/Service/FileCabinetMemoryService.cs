@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using FileCabinetApp.Service;
-using FileCabinetApp.Service.Iterator;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -134,9 +132,13 @@ namespace FileCabinetApp
         /// <returns>Found records.</returns>
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            return this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant())
-                 ? new MemoryIterator(this.firstNameDictionary[firstName.ToUpperInvariant()])
-                 : new MemoryIterator(new List<FileCabinetRecord>());
+            if (this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant()))
+            {
+                foreach (var item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>
@@ -146,9 +148,13 @@ namespace FileCabinetApp
         /// <returns>Found records.</returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            return this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant())
-                 ? new MemoryIterator(this.lastNameDictionary[lastName.ToUpperInvariant()])
-                 : new MemoryIterator(new List<FileCabinetRecord>());
+            if (this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant()))
+            {
+                foreach (var item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>
@@ -158,9 +164,13 @@ namespace FileCabinetApp
         /// <returns>Found records.</returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
-            return this.dateOfBirthDictionary.ContainsKey(dateOfBirth)
-                 ? new MemoryIterator(this.dateOfBirthDictionary[dateOfBirth])
-                 : new MemoryIterator(new List<FileCabinetRecord>());
+            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>

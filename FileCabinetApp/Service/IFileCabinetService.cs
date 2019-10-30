@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FileCabinetApp.Service;
-using FileCabinetApp.Service.Iterator;
-using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
