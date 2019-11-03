@@ -97,6 +97,7 @@ namespace FileCabinetApp
             var selectHandler = new SelectComanndHandler(Program.fileCabinetService, new CustomRecordPrinter());
             var insertHandler = new InserCommandHandler(Program.fileCabinetService);
             var deleteHandler = new DeleteCommandHandler(Program.fileCabinetService);
+            var updateHandler = new UpdateCommandHandler(Program.fileCabinetService);
 
             helpHandler.SetNext(createHandler);
             createHandler.SetNext(editHandler);
@@ -110,7 +111,8 @@ namespace FileCabinetApp
             listHandler.SetNext(importHandler);
             importHandler.SetNext(selectHandler);
             selectHandler.SetNext(deleteHandler);
-            deleteHandler.SetNext(missedHandler);
+            deleteHandler.SetNext(updateHandler);
+            updateHandler.SetNext(missedHandler);
 
             return helpHandler;
         }

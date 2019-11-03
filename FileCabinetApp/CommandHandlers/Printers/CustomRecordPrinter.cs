@@ -37,6 +37,11 @@ namespace FileCabinetApp.CommandHandlers.Printers
             this.titles = columName.Select(x => x.ToUpperInvariant())
                 .Where(x => this.titlesName.Contains(x))
                 .ToArray();
+            if(this.titles.Length == 0)
+            {
+                return;
+            }
+
             this.lengths = new int[this.titles.Length];
             this.rows = new List<string>[this.titles.Length];
             for (int i = 0; i < this.titles.Length; i++)

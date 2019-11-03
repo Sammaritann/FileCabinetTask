@@ -76,21 +76,21 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                     case "SALARY":
                         if (!decimal.TryParse(values[i],NumberStyles.AllowDecimalPoint,CultureInfo.InvariantCulture, out salary))
                         {
-                            salary = -1;
+                            salary = default;
                         }
 
                         break;
                     case "DEPARTMENT":
                         if (!short.TryParse(values[i], out department))
                         {
-                            department = -1;
+                            department = default;
                         }
 
                         break;
                     case "CLASS":
                         if (!char.TryParse(values[i], out clas))
                         {
-                            clas = ' ';
+                            clas = default;
                         }
 
                         break;

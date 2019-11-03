@@ -29,9 +29,11 @@ namespace FileCabinetApp
             this.Class = clas;
         }
 
-        private RecordParams()
-        {
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecordParams"/> class.
+        /// </summary>
+        public RecordParams()
+        { }
 
         /// <summary>
         /// Gets the first name.
@@ -39,7 +41,7 @@ namespace FileCabinetApp
         /// <value>
         /// The first name.
         /// </value>
-        public string FirstName { get; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Gets the last name.
@@ -47,7 +49,7 @@ namespace FileCabinetApp
         /// <value>
         /// The last name.
         /// </value>
-        public string LastName { get; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Gets the date of birth.
@@ -55,7 +57,7 @@ namespace FileCabinetApp
         /// <value>
         /// The date of birth.
         /// </value>
-        public DateTime DateOfBirth { get; }
+        public DateTime DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets the department.
@@ -63,7 +65,7 @@ namespace FileCabinetApp
         /// <value>
         /// The department.
         /// </value>
-        public short Department { get; }
+        public short Department { get; set; }
 
         /// <summary>
         /// Gets the salary.
@@ -71,7 +73,7 @@ namespace FileCabinetApp
         /// <value>
         /// The salary.
         /// </value>
-        public decimal Salary { get; }
+        public decimal Salary { get; set; }
 
         /// <summary>
         /// Gets the class.
@@ -79,7 +81,7 @@ namespace FileCabinetApp
         /// <value>
         /// The class.
         /// </value>
-        public char Class { get; }
+        public char Class { get; set; }
 
         /// <summary>
         /// Converts to string.
