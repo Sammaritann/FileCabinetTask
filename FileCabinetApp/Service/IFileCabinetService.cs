@@ -69,6 +69,8 @@ namespace FileCabinetApp
 
         IEnumerable<FileCabinetRecord> Where(string param);
 
+        void Insert(FileCabinetRecord record);
+
         /// <summary>
         /// Makes the snapshot.
         /// </summary>

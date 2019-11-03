@@ -30,9 +30,21 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             }
 
             int subIndex = commandRequest.Parameters.IndexOf(" where ");
-            var param = commandRequest.Parameters.Substring(0, subIndex).Replace(",", " ",StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)), param);
+            if (subIndex == -1)
+            {
+                var param = commandRequest.Parameters.Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+
+                this.printer.Print(this.Service.GetRecords(), param);
+            }
+            else
+            {
+
+                var param = commandRequest.Parameters.Substring(0, subIndex).Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)), param);
+            }
 
         }
     }

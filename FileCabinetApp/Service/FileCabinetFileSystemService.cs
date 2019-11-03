@@ -193,7 +193,12 @@ namespace FileCabinetApp.Service
 
         public IEnumerable<FileCabinetRecord> Where(string param)
         {
-            yield return null;
+            ValidateEntity entity = new ValidateEntity().Create(param);
+
+            foreach (var record in entity.Filtering(this.GetRecords()))
+            {
+                yield return record;
+            }
         }
 
         /// <inheritdoc/>
@@ -430,6 +435,54 @@ namespace FileCabinetApp.Service
             record.DateOfBirth = new DateTime(year, month, day);
 
             return buffer[276] == 0 ? record : throw new KeyNotFoundException();
+        }
+
+        public void Insert(FileCabinetRecord record)
+        {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record));
+            }
+
+            if (record.Id == -1)
+            {
+                throw new ArgumentException(nameof(record));
+            }
+
+            this.validator.ValidateCabinetRecord(RecordToParams(record));
+            if (this.dictionaryId.ContainsKey(record.Id))
+            {
+                throw new ArgumentException("Such identifier already exists.");
+            }
+            else
+            {
+                this.fileStream.Position = this.fileStream.Length;
+                this.dictionaryId.Add(record.Id, this.fileStream.Position);
+                AddToDictionary<string, long>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), this.fileStream.Position);
+                AddToDictionary<string, long>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), this.fileStream.Position);
+                AddToDictionary<DateTime, long>(this.dateOfBirthDictionary, record.DateOfBirth, this.fileStream.Position);
+
+                byte[] tempFirstName = Encoding.Default.GetBytes(record.FirstName);
+                byte[] tempLastName = Encoding.Default.GetBytes(record.LastName);
+                byte[] firstName = new byte[120];
+                byte[] lastName = new byte[120];
+                ToBytesDecimal toBytesDecimal = new ToBytesDecimal(record.Salary);
+                byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
+                Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
+                Array.Copy(tempLastName, 0, lastName, 0, tempLastName.Length);
+                this.fileStream.Write(BitConverter.GetBytes(record.Department));
+                this.fileStream.Write(BitConverter.GetBytes(record.Id));
+                this.fileStream.Write(firstName);
+                this.fileStream.Write(lastName);
+                this.fileStream.Write(BitConverter.GetBytes(record.DateOfBirth.Year));
+                this.fileStream.Write(BitConverter.GetBytes(record.DateOfBirth.Month));
+                this.fileStream.Write(BitConverter.GetBytes(record.DateOfBirth.Day));
+                this.fileStream.Write(bytesSalary);
+                this.fileStream.Write(BitConverter.GetBytes(record.Class));
+                this.fileStream.Write(new byte[] { 0 });
+            }
+
+            this.id = Math.Max(this.id, record.Id);
         }
 
         [StructLayout(LayoutKind.Explicit)]

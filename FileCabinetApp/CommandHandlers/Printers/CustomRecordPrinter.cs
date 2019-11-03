@@ -47,6 +47,7 @@ namespace FileCabinetApp.CommandHandlers.Printers
             this.AddRows(records);
             this.PrintHat();
 
+            Console.WriteLine();
             for (int i = 0; i < this.rows[0].Count; i++)
             {
                 string line = string.Empty;

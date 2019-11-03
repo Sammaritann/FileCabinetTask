@@ -290,5 +290,34 @@ namespace FileCabinetApp
                 yield return record;
             }
         }
+
+        public void Insert(FileCabinetRecord record)
+        {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record));
+            }
+
+            if (record.Id == -1)
+            {
+                throw new ArgumentException(nameof(record));
+            }
+
+            if (!this.dictionaryId.ContainsKey(record.Id))
+            {
+                this.validator.ValidateCabinetRecord(RecordToParams(record));
+                this.list.Add(record);
+                this.dictionaryId.Add(record.Id, record);
+                AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
+                AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
+                AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
+
+                this.id = Math.Max(this.id, record.Id);
+            }
+            else
+            {
+                throw new ArgumentException("Such identifier already exists.");
+            }
+        }
     }
 }

@@ -167,6 +167,11 @@ namespace FileCabinetApp.Service
             return result;
         }
 
+        public void Insert(FileCabinetRecord record)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Makes the snapshot and measures time.
         /// </summary>

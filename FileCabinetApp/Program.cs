@@ -95,9 +95,10 @@ namespace FileCabinetApp
             var removeHandler = new RemoveComanndHandler(Program.fileCabinetService);
             var statHandler = new StatComanndHandler(Program.fileCabinetService);
             var selectHandler = new SelectComanndHandler(Program.fileCabinetService, new CustomRecordPrinter());
+            var InsertHandler = new InserCommandHandler(Program.fileCabinetService);
 
-            helpHandler.SetNext(createHandler);
-            createHandler.SetNext(editHandler);
+            helpHandler.SetNext(InsertHandler);
+            InsertHandler.SetNext(editHandler);
             editHandler.SetNext(exitHandler);
             exitHandler.SetNext(exportHandler);
             exportHandler.SetNext(findHandler);
