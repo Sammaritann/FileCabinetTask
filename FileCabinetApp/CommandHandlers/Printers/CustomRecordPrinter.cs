@@ -33,6 +33,7 @@ namespace FileCabinetApp.CommandHandlers.Printers
                 throw new ArgumentNullException(nameof(records));
             }
 
+
             this.titles = columName.Select(x => x.ToUpperInvariant())
                 .Where(x => this.titlesName.Contains(x))
                 .ToArray();

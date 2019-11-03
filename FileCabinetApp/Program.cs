@@ -95,10 +95,11 @@ namespace FileCabinetApp
             var removeHandler = new RemoveComanndHandler(Program.fileCabinetService);
             var statHandler = new StatComanndHandler(Program.fileCabinetService);
             var selectHandler = new SelectComanndHandler(Program.fileCabinetService, new CustomRecordPrinter());
-            var InsertHandler = new InserCommandHandler(Program.fileCabinetService);
+            var insertHandler = new InserCommandHandler(Program.fileCabinetService);
+            var deleteHandler = new DeleteCommandHandler(Program.fileCabinetService);
 
-            helpHandler.SetNext(InsertHandler);
-            InsertHandler.SetNext(editHandler);
+            helpHandler.SetNext(createHandler);
+            createHandler.SetNext(editHandler);
             editHandler.SetNext(exitHandler);
             exitHandler.SetNext(exportHandler);
             exportHandler.SetNext(findHandler);
@@ -108,7 +109,8 @@ namespace FileCabinetApp
             statHandler.SetNext(listHandler);
             listHandler.SetNext(importHandler);
             importHandler.SetNext(selectHandler);
-            selectHandler.SetNext(missedHandler);
+            selectHandler.SetNext(deleteHandler);
+            deleteHandler.SetNext(missedHandler);
 
             return helpHandler;
         }

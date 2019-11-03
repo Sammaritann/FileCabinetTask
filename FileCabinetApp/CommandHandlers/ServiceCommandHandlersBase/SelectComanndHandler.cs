@@ -31,6 +31,12 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             int subIndex = commandRequest.Parameters.IndexOf(" where ");
 
+            if (string.IsNullOrWhiteSpace(commandRequest.Parameters))
+            {
+                this.printer.Print(this.Service.GetRecords());
+                return;
+            }
+
             if (subIndex == -1)
             {
                 var param = commandRequest.Parameters.Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
