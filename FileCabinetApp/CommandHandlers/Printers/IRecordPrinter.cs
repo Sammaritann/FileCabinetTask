@@ -13,6 +13,8 @@ namespace FileCabinetApp.CommandHandlers.Printers
         /// Prints the specified records.
         /// </summary>
         /// <param name="record">The record.</param>
-        public void Print(FileCabinetRecord record);
+        public void Print(IEnumerable<FileCabinetRecord> records);
+
+        public void Print(IEnumerable<FileCabinetRecord> records, params string[] param);
     }
 }

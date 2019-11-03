@@ -66,6 +66,9 @@ namespace FileCabinetApp
         /// <returns>Found records.</returns>
         IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
 
+
+        IEnumerable<FileCabinetRecord> Where(string param);
+
         /// <summary>
         /// Makes the snapshot.
         /// </summary>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.Printers
 {
@@ -14,23 +13,30 @@ namespace FileCabinetApp.CommandHandlers.Printers
         /// <summary>
         /// Prints the specified records.
         /// </summary>
-        /// <param name="record">The record.</param>
-        public void Print(FileCabinetRecord record)
+        /// <param name="records">The records.</param>
+        public void Print(IEnumerable<FileCabinetRecord> records)
         {
-            if (record is null)
+            if (records is null)
             {
-                throw new ArgumentNullException(nameof(record));
+                throw new ArgumentNullException(nameof(records));
             }
+            foreach (var record in records)
+            {
+                Console.WriteLine(
+                       "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                       record.Id,
+                       record.FirstName,
+                       record.LastName,
+                       record.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
+                       record.Department,
+                       record.Salary,
+                       record.Class);
+            }
+        }
 
-            Console.WriteLine(
-                    "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                    record.Id,
-                    record.FirstName,
-                    record.LastName,
-                    record.DateOfBirth.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture),
-                    record.Department,
-                    record.Salary,
-                    record.Class);
-            }
+        public void Print(IEnumerable<FileCabinetRecord> records, params string[] param)
+        {
+            this.Print(records);
+        }
     }
 }

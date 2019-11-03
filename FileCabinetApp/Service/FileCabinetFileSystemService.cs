@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using FileCabinetApp.CommandHandlers.ValidateHandler;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp.Service
@@ -188,6 +189,11 @@ namespace FileCabinetApp.Service
                     yield return record;
                 }
             }
+        }
+
+        public IEnumerable<FileCabinetRecord> Where(string param)
+        {
+            yield return null;
         }
 
         /// <inheritdoc/>

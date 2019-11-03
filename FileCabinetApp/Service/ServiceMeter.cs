@@ -208,5 +208,14 @@ namespace FileCabinetApp.Service
             sw.Stop();
             Console.WriteLine("Restore method execution duration is {0} ticks", sw.ElapsedTicks);
         }
+
+        public IEnumerable<FileCabinetRecord> Where(string param)
+        {
+            var sw = Stopwatch.StartNew();
+            var result= this.service.Where(param);
+            sw.Stop();
+            Console.WriteLine("Restore method execution duration is {0} ticks", sw.ElapsedTicks);
+            return result;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FileCabinetApp.CommandHandlers.ValidateHandler;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
@@ -278,6 +279,16 @@ namespace FileCabinetApp
         private static RecordParams RecordToParams(FileCabinetRecord record)
         {
             return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
+        }
+
+        public IEnumerable<FileCabinetRecord> Where(string param)
+        {
+            ValidateEntity entity = new ValidateEntity().Create(param);
+
+            foreach (var record in entity.Filtering(this.list))
+            {
+                yield return record;
+            }
         }
     }
 }

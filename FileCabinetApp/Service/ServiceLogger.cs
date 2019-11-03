@@ -214,5 +214,10 @@ namespace FileCabinetApp.Service
             File.AppendAllText("logger.txt", context);
             this.service.Restore(snapshot);
         }
+
+        public IEnumerable<FileCabinetRecord> Where(string param)
+        {
+            return this.service.Where(param);
+        }
     }
 }

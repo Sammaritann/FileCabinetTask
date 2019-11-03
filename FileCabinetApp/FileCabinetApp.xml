@@ -132,18 +132,18 @@
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter.Print(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
             <summary>
             Prints the specified records.
             </summary>
-            <param name="record">The record.</param>
+            <param name="records">The records.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter">
             <summary>
             Represents record printer interface.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter.Print(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
             <summary>
             Prints the specified records.
             </summary>
@@ -455,6 +455,19 @@
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateGenerator">
+            <summary>
+            Represent predicate generator.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateGenerator.Create(System.String)">
+            <summary>
+            Creates the specified validate parameter.
+            </summary>
+            <param name="validateParam">The validate parameter.</param>
+            <returns>Validation predicate.</returns>
+            <exception cref="T:System.ArgumentNullException">validateParam</exception>
         </member>
         <member name="T:FileCabinetApp.ConsoleOption">
             <summary>
