@@ -160,6 +160,18 @@ namespace FileCabinetApp.Service
         }
 
         /// <summary>
+        /// Inserts the specified record.
+        /// </summary>
+        /// <param name="record">The record.</param>
+        public void Insert(FileCabinetRecord record)
+        {
+            var sw = Stopwatch.StartNew();
+            this.service.Insert(record);
+            sw.Stop();
+            Console.WriteLine("Insert method execution duration is {0} ticks", sw.ElapsedTicks);
+        }
+
+        /// <summary>
         /// Makes the snapshot and logs.
         /// </summary>
         /// <returns>
@@ -207,6 +219,20 @@ namespace FileCabinetApp.Service
             this.service.Restore(snapshot);
             sw.Stop();
             Console.WriteLine("Restore method execution duration is {0} ticks", sw.ElapsedTicks);
+        }
+
+        /// <summary>
+        /// Wheres the specified parameter.
+        /// </summary>
+        /// <param name="param">The parameter.</param>
+        /// <returns>FileCabinetRecord.</returns>
+        public IEnumerable<FileCabinetRecord> Where(string param)
+        {
+            var sw = Stopwatch.StartNew();
+            var result = this.service.Where(param);
+            sw.Stop();
+            Console.WriteLine("Where method execution duration is {0} ticks", sw.ElapsedTicks);
+            return result;
         }
     }
 }

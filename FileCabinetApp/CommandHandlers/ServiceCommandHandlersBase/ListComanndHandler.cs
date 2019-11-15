@@ -41,10 +41,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            foreach (var item in this.Service.GetRecords())
-            {
-                this.printer.Print(item);
-            }
+            this.printer.Print(this.Service.GetRecords());
         }
     }
 }

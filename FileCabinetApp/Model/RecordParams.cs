@@ -29,57 +29,60 @@ namespace FileCabinetApp
             this.Class = clas;
         }
 
-        private RecordParams()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecordParams"/> class.
+        /// </summary>
+        public RecordParams()
         {
         }
 
         /// <summary>
-        /// Gets the first name.
+        /// Gets or sets the first name.
         /// </summary>
         /// <value>
         /// The first name.
         /// </value>
-        public string FirstName { get; }
+        public string FirstName { get; set; }
 
         /// <summary>
-        /// Gets the last name.
+        /// Gets or sets the last name.
         /// </summary>
         /// <value>
         /// The last name.
         /// </value>
-        public string LastName { get; }
+        public string LastName { get; set; }
 
         /// <summary>
-        /// Gets the date of birth.
+        /// Gets or sets the date of birth.
         /// </summary>
         /// <value>
         /// The date of birth.
         /// </value>
-        public DateTime DateOfBirth { get; }
+        public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// Gets the department.
+        /// Gets or sets the department.
         /// </summary>
         /// <value>
         /// The department.
         /// </value>
-        public short Department { get; }
+        public short Department { get; set; }
 
         /// <summary>
-        /// Gets the salary.
+        /// Gets or sets the salary.
         /// </summary>
         /// <value>
         /// The salary.
         /// </value>
-        public decimal Salary { get; }
+        public decimal Salary { get; set; }
 
         /// <summary>
-        /// Gets the class.
+        /// Gets or sets the class.
         /// </summary>
         /// <value>
         /// The class.
         /// </value>
-        public char Class { get; }
+        public char Class { get; set; }
 
         /// <summary>
         /// Converts to string.

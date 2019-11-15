@@ -49,18 +49,12 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             if (param[0].ToUpperInvariant() == "FIRSTNAME")
             {
-                foreach (var item in this.Service.FindByFirstName(param[1].Trim('\"')))
-                {
-                    this.printer.Print(item);
-                }
+                    this.printer.Print(this.Service.FindByFirstName(param[1].Trim('\"')));
             }
 
             if (param[0].ToUpperInvariant() == "LASTNAME")
             {
-                foreach (var item in this.Service.FindByLastName(param[1].Trim('\"')))
-                {
-                    this.printer.Print(item);
-                }
+                    this.printer.Print(this.Service.FindByLastName(param[1].Trim('\"')));
             }
 
             if (param[0].ToUpperInvariant() == "DATEOFBIRTH")
@@ -72,10 +66,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                     return;
                 }
 
-                foreach (var item in this.Service.FindByDateOfBirth(dateOfBirth))
-                {
-                    this.printer.Print(item);
-                }
+                this.printer.Print(this.Service.FindByDateOfBirth(dateOfBirth));
             }
         }
     }

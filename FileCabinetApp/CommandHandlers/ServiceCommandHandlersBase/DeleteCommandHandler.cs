@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
     /// <summary>
-    /// Represents remove command handler.
+    /// Represents delete command handler.
     /// </summary>
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
-    public class RemoveComanndHandler : ServiceCommandHandlerBase
+    public class DeleteCommandHandler : ServiceCommandHandlerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RemoveComanndHandler"/> class.
+        /// Initializes a new instance of the <see cref="DeleteCommandHandler"/> class.
         /// </summary>
         /// <param name="service">The service.</param>
-        public RemoveComanndHandler(IFileCabinetService service)
+        public DeleteCommandHandler(IFileCabinetService service)
             : base(service)
         {
         }
@@ -22,6 +23,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
         /// Handles the specified command request.
         /// </summary>
         /// <param name="commandRequest">The command request.</param>
+        /// <exception cref="ArgumentNullException">Throws when commandRequest is null.</exception>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -29,26 +31,23 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 throw new ArgumentNullException(nameof(commandRequest));
             }
 
-            if (commandRequest.Command.ToUpperInvariant() != "REMOVE")
+            if (commandRequest.Command.ToUpperInvariant() != "DELETE")
             {
                 this.NextHandler.Handle(commandRequest);
                 return;
             }
 
-            if (!int.TryParse(commandRequest.Parameters, out int id))
+            int subIndex = commandRequest.Parameters.IndexOf("where ", StringComparison.InvariantCultureIgnoreCase);
+
+            if (subIndex == -1)
             {
-                Console.WriteLine("param not a number");
+                Console.WriteLine("Missed where.");
                 return;
             }
 
-            try
+            foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)))
             {
-                this.Service.Remove(id);
-                Console.WriteLine("Record #{0} is removed.", id);
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine("Record #{0} doesn't exists", id);
+                this.Service.Remove(record.Id);
             }
         }
     }

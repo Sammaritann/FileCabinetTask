@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FileCabinetApp.CommandHandlers.ValidateHandler;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
@@ -263,6 +264,60 @@ namespace FileCabinetApp
         public int GetDeleteStat()
         {
             return 0;
+        }
+
+        /// <summary>
+        /// Wheres the specified parameter.
+        /// </summary>
+        /// <param name="param">The parameter.</param>
+        /// <returns>FileCabinetREcords.</returns>
+        public IEnumerable<FileCabinetRecord> Where(string param)
+        {
+            ValidateEntity entity = new ValidateEntity().Create(param);
+
+            foreach (var record in entity.Filtering(this.list))
+            {
+                yield return record;
+            }
+        }
+
+        /// <summary>
+        /// Inserts the specified record.
+        /// </summary>
+        /// <param name="record">The record.</param>
+        /// <exception cref="ArgumentNullException">Throws when record is null.</exception>
+        /// <exception cref="ArgumentException">
+        /// Record id must be more than zero
+        /// or
+        /// Such identifier already exists.
+        /// </exception>
+        public void Insert(FileCabinetRecord record)
+        {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record));
+            }
+
+            if (record.Id == -1)
+            {
+                throw new ArgumentException($"Record id must be more than zero");
+            }
+
+            if (!this.dictionaryId.ContainsKey(record.Id))
+            {
+                this.validator.ValidateCabinetRecord(RecordToParams(record));
+                this.list.Add(record);
+                this.dictionaryId.Add(record.Id, record);
+                AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
+                AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
+                AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
+
+                this.id = Math.Max(this.id, record.Id);
+            }
+            else
+            {
+                throw new ArgumentException("Such identifier already exists.");
+            }
         }
 
         private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)
