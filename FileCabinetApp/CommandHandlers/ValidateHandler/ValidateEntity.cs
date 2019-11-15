@@ -3,15 +3,26 @@ using System.Collections.Generic;
 
 namespace FileCabinetApp.CommandHandlers.ValidateHandler
 {
+    /// <summary>
+    /// Represents validate entity.
+    /// </summary>
     public class ValidateEntity
     {
         private List<Predicate<FileCabinetRecord>> predicates = new List<Predicate<FileCabinetRecord>>();
         private ValidateEntity nextEntities;
         private bool isOr = false;
 
+        /// <summary>
+        /// Creates the specified parameter.
+        /// </summary>
+        /// <param name="param">The parameter.</param>
+        /// <returns>
+        /// ValidateEntity.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">Throws when param is null.</exception>
         public ValidateEntity Create(string param)
         {
-            if (param is null)
+            if (param == null)
             {
                 throw new ArgumentNullException(nameof(param));
             }
@@ -20,19 +31,20 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
             {
                 if (this.isOr)
                 {
-                    nextEntities = new ValidateEntity().Create(param);
+                    this.nextEntities = new ValidateEntity().Create(param);
                     return this;
                 }
 
-                int andIndex = param.IndexOf(" and ");
-                int orIndex = param.IndexOf(" or ");
+                int andIndex = param.IndexOf(" and ", StringComparison.InvariantCultureIgnoreCase);
+                int orIndex = param.IndexOf(" or ", StringComparison.InvariantCultureIgnoreCase);
                 int subIndex = andIndex == -1 ? orIndex : Math.Min(andIndex, orIndex);
 
                 if (subIndex == -1)
                 {
-                    predicates.Add(ValidateGenerator.Create(param));
+                    this.predicates.Add(ValidateGenerator.Create(param));
                     return this;
                 }
+
                 this.predicates.Add(ValidateGenerator.Create(param.Substring(0, subIndex)));
                 this.isOr = orIndex == subIndex ? true : false;
                 param = this.isOr ? param.Substring(subIndex + 4) : param.Substring(subIndex + 5);
@@ -41,8 +53,19 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
             return this;
         }
 
+        /// <summary>
+        /// Filterings the specified records.
+        /// </summary>
+        /// <param name="records">The records.</param>
+        /// <returns>FileCabinetRecord.</returns>
+        /// <exception cref="ArgumentNullException">Throws when records is null.</exception>
         public IEnumerable<FileCabinetRecord> Filtering(IEnumerable<FileCabinetRecord> records)
         {
+            if (records is null)
+            {
+                throw new ArgumentNullException(nameof(records));
+            }
+
             HashSet<FileCabinetRecord> set = new HashSet<FileCabinetRecord>();
             foreach (var record in this.Invoke(records))
             {
@@ -51,7 +74,6 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
                     yield return record;
                 }
             }
-
         }
 
         private IEnumerable<FileCabinetRecord> Invoke(IEnumerable<FileCabinetRecord> records)
@@ -63,6 +85,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
                     yield return record;
                 }
             }
+
             if (this.nextEntities != null)
             {
                 foreach (var record in this.nextEntities.Invoke(records))
@@ -74,7 +97,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
 
         private bool Sieve(FileCabinetRecord record)
         {
-            foreach (var predicate in predicates)
+            foreach (var predicate in this.predicates)
             {
                if (predicate != null)
                 {

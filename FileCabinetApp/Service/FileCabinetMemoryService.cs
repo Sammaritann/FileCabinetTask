@@ -266,21 +266,11 @@ namespace FileCabinetApp
             return 0;
         }
 
-        private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)
-        {
-            if (!dictioanry.ContainsKey(key))
-            {
-                dictioanry.Add(key, new List<TValue>());
-            }
-
-            dictioanry[key].Add(value);
-        }
-
-        private static RecordParams RecordToParams(FileCabinetRecord record)
-        {
-            return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
-        }
-
+        /// <summary>
+        /// Wheres the specified parameter.
+        /// </summary>
+        /// <param name="param">The parameter.</param>
+        /// <returns>FileCabinetREcords.</returns>
         public IEnumerable<FileCabinetRecord> Where(string param)
         {
             ValidateEntity entity = new ValidateEntity().Create(param);
@@ -291,6 +281,16 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Inserts the specified record.
+        /// </summary>
+        /// <param name="record">The record.</param>
+        /// <exception cref="ArgumentNullException">Throws when record is null.</exception>
+        /// <exception cref="ArgumentException">
+        /// Record id must be more than zero
+        /// or
+        /// Such identifier already exists.
+        /// </exception>
         public void Insert(FileCabinetRecord record)
         {
             if (record is null)
@@ -300,7 +300,7 @@ namespace FileCabinetApp
 
             if (record.Id == -1)
             {
-                throw new ArgumentException(nameof(record));
+                throw new ArgumentException($"Record id must be more than zero");
             }
 
             if (!this.dictionaryId.ContainsKey(record.Id))
@@ -318,6 +318,21 @@ namespace FileCabinetApp
             {
                 throw new ArgumentException("Such identifier already exists.");
             }
+        }
+
+        private static void AddToDictionary<TKey, TValue>(IDictionary<TKey, List<TValue>> dictioanry, TKey key, TValue value)
+        {
+            if (!dictioanry.ContainsKey(key))
+            {
+                dictioanry.Add(key, new List<TValue>());
+            }
+
+            dictioanry[key].Add(value);
+        }
+
+        private static RecordParams RecordToParams(FileCabinetRecord record)
+        {
+            return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
         }
     }
 }

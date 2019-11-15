@@ -66,9 +66,17 @@ namespace FileCabinetApp
         /// <returns>Found records.</returns>
         IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
 
-
+        /// <summary>
+        /// Wheres the specified parameter.
+        /// </summary>
+        /// <param name="param">The parameter.</param>
+        /// <returns>FileCabinetRecord.</returns>
         IEnumerable<FileCabinetRecord> Where(string param);
 
+        /// <summary>
+        /// Inserts the specified record.
+        /// </summary>
+        /// <param name="record">The record.</param>
         void Insert(FileCabinetRecord record);
 
         /// <summary>

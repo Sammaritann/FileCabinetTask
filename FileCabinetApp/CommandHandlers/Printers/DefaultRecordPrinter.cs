@@ -20,6 +20,7 @@ namespace FileCabinetApp.CommandHandlers.Printers
             {
                 throw new ArgumentNullException(nameof(records));
             }
+
             foreach (var record in records)
             {
                 Console.WriteLine(
@@ -34,6 +35,11 @@ namespace FileCabinetApp.CommandHandlers.Printers
             }
         }
 
+        /// <summary>
+        /// Prints the specified records.
+        /// </summary>
+        /// <param name="records">The records.</param>
+        /// <param name="param">The parameter.</param>
         public void Print(IEnumerable<FileCabinetRecord> records, params string[] param)
         {
             this.Print(records);

@@ -54,7 +54,6 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             if (param[0].ToUpperInvariant() == "LASTNAME")
             {
-
                     this.printer.Print(this.Service.FindByLastName(param[1].Trim('\"')));
             }
 
@@ -67,7 +66,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                     return;
                 }
 
-                    this.printer.Print(this.Service.FindByDateOfBirth(dateOfBirth));
+                this.printer.Print(this.Service.FindByDateOfBirth(dateOfBirth));
             }
         }
     }

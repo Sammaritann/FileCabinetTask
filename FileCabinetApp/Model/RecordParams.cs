@@ -33,10 +33,11 @@ namespace FileCabinetApp
         /// Initializes a new instance of the <see cref="RecordParams"/> class.
         /// </summary>
         public RecordParams()
-        { }
+        {
+        }
 
         /// <summary>
-        /// Gets the first name.
+        /// Gets or sets the first name.
         /// </summary>
         /// <value>
         /// The first name.
@@ -44,7 +45,7 @@ namespace FileCabinetApp
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Gets the last name.
+        /// Gets or sets the last name.
         /// </summary>
         /// <value>
         /// The last name.
@@ -52,7 +53,7 @@ namespace FileCabinetApp
         public string LastName { get; set; }
 
         /// <summary>
-        /// Gets the date of birth.
+        /// Gets or sets the date of birth.
         /// </summary>
         /// <value>
         /// The date of birth.
@@ -60,7 +61,7 @@ namespace FileCabinetApp
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// Gets the department.
+        /// Gets or sets the department.
         /// </summary>
         /// <value>
         /// The department.
@@ -68,7 +69,7 @@ namespace FileCabinetApp
         public short Department { get; set; }
 
         /// <summary>
-        /// Gets the salary.
+        /// Gets or sets the salary.
         /// </summary>
         /// <value>
         /// The salary.
@@ -76,7 +77,7 @@ namespace FileCabinetApp
         public decimal Salary { get; set; }
 
         /// <summary>
-        /// Gets the class.
+        /// Gets or sets the class.
         /// </summary>
         /// <value>
         /// The class.

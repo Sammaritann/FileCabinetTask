@@ -5,11 +5,12 @@ using System.Linq;
 
 namespace FileCabinetApp.CommandHandlers.Printers
 {
+    /// <summary>
+    /// Represents custom record printer.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.Printers.IRecordPrinter" />
     public class CustomRecordPrinter : IRecordPrinter
     {
-        private string[] titles;
-        private int[] lengths;
-        private List<string>[] rows;
         private readonly string[] titlesName =
         {
             "FIRSTNAME",
@@ -21,11 +22,25 @@ namespace FileCabinetApp.CommandHandlers.Printers
             "CLASS",
         };
 
+        private string[] titles;
+        private int[] lengths;
+        private List<string>[] rows;
+
+        /// <summary>
+        /// Prints the specified records.
+        /// </summary>
+        /// <param name="records">The record.</param>
         public void Print(IEnumerable<FileCabinetRecord> records)
         {
             this.Print(records, "id", "firstname", "lastname");
         }
 
+        /// <summary>
+        /// Prints the specified records.
+        /// </summary>
+        /// <param name="records">The records.</param>
+        /// <param name="columName">Name of the colum.</param>
+        /// <exception cref="ArgumentNullException">Throws when records.</exception>
         public void Print(IEnumerable<FileCabinetRecord> records, params string[] columName)
         {
             if (records is null)
@@ -33,11 +48,10 @@ namespace FileCabinetApp.CommandHandlers.Printers
                 throw new ArgumentNullException(nameof(records));
             }
 
-
             this.titles = columName.Select(x => x.ToUpperInvariant())
                 .Where(x => this.titlesName.Contains(x))
                 .ToArray();
-            if(this.titles.Length == 0)
+            if (this.titles.Length == 0)
             {
                 return;
             }
@@ -53,7 +67,6 @@ namespace FileCabinetApp.CommandHandlers.Printers
             this.AddRows(records);
             this.PrintHat();
 
-            Console.WriteLine();
             for (int i = 0; i < this.rows[0].Count; i++)
             {
                 string line = string.Empty;
@@ -70,7 +83,6 @@ namespace FileCabinetApp.CommandHandlers.Printers
                 }
 
                 Console.WriteLine(line + "|");
-                Console.WriteLine();
             }
 
             foreach (var length in this.lengths)
@@ -79,6 +91,21 @@ namespace FileCabinetApp.CommandHandlers.Printers
             }
 
             Console.WriteLine("+");
+        }
+
+        private static string GetTitle(string title)
+        {
+            return title switch
+            {
+            "FIRSTNAME" => "FirstName",
+            "LASTNAME" => "LastName",
+            "ID" => "Id",
+            "DATEOFBIRTH" => "DateOfBirth",
+            "SALARY" => "Salary",
+            "DEPARTMENT" => "Department",
+            "CLASS" => "Class",
+            _ => string.Empty,
+            };
         }
 
         private void PrintHat()
@@ -93,7 +120,7 @@ namespace FileCabinetApp.CommandHandlers.Printers
             string line = string.Empty;
             for (int i = 0; i < this.titles.Length; i++)
             {
-                line += "| " + this.GetTitle(this.titles[i]).PadRight(this.lengths[i]) + ' ';
+                line += "| " + GetTitle(this.titles[i]).PadRight(this.lengths[i]) + ' ';
             }
 
             Console.WriteLine(line + "|");
@@ -151,20 +178,5 @@ namespace FileCabinetApp.CommandHandlers.Printers
                 this.lengths[i] = row.Length;
             }
         }
-
-        private string GetTitle(string title)
-        {
-            return title switch
-            {
-                "FIRSTNAME" => "FirstName",
-                "LASTNAME" => "LastName",
-                "ID" => "Id",
-                "DATEOFBIRTH" => "DateOfBirth",
-                "SALARY" => "Salary",
-                "DEPARTMENT" => "Department",
-                "CLASS" => "Class",
-            };
-        }
-
     }
 }

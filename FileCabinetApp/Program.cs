@@ -83,7 +83,6 @@ namespace FileCabinetApp
         private static ICommandHandler CreateCommandHandler()
         {
             var createHandler = new CreateComanndHandler(Program.fileCabinetService, inputValidator);
-            var editHandler = new EditComanndHandler(Program.fileCabinetService, inputValidator);
             var exitHandler = new ExitComanndHandler(x => isRunning = x);
             var exportHandler = new ExportComanndHandler(Program.fileCabinetService);
             var findHandler = new FindComanndHandler(Program.fileCabinetService, new CustomRecordPrinter());
@@ -92,7 +91,6 @@ namespace FileCabinetApp
             var importHandler = new ImportComanndHandler(Program.fileCabinetService);
             var missedHandler = new MissedComanndHandler();
             var purgeHandler = new PurgeComanndHandler(Program.fileCabinetService);
-            var removeHandler = new RemoveComanndHandler(Program.fileCabinetService);
             var statHandler = new StatComanndHandler(Program.fileCabinetService);
             var selectHandler = new SelectComanndHandler(Program.fileCabinetService, new CustomRecordPrinter());
             var insertHandler = new InserCommandHandler(Program.fileCabinetService);
@@ -100,19 +98,18 @@ namespace FileCabinetApp
             var updateHandler = new UpdateCommandHandler(Program.fileCabinetService);
 
             helpHandler.SetNext(createHandler);
-            createHandler.SetNext(editHandler);
-            editHandler.SetNext(exitHandler);
+            createHandler.SetNext(exitHandler);
             exitHandler.SetNext(exportHandler);
             exportHandler.SetNext(findHandler);
             findHandler.SetNext(purgeHandler);
-            purgeHandler.SetNext(removeHandler);
-            removeHandler.SetNext(statHandler);
+            purgeHandler.SetNext(statHandler);
             statHandler.SetNext(listHandler);
             listHandler.SetNext(importHandler);
             importHandler.SetNext(selectHandler);
             selectHandler.SetNext(deleteHandler);
             deleteHandler.SetNext(updateHandler);
-            updateHandler.SetNext(missedHandler);
+            updateHandler.SetNext(insertHandler);
+            insertHandler.SetNext(missedHandler);
 
             return helpHandler;
         }

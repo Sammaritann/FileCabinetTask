@@ -5,14 +5,26 @@ using System.Text.RegularExpressions;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
+    /// <summary>
+    /// Represents insert command handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class InserCommandHandler : ServiceCommandHandlerBase
     {
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InserCommandHandler"/> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
         public InserCommandHandler(IFileCabinetService service)
             : base(service)
         {
         }
 
+        /// <summary>
+        /// Handles the specified command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
+        /// <exception cref="ArgumentNullException">Throws when commandRequesst is null.</exception>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -40,13 +52,13 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            string param = commandRequest.Parameters.Replace("(", string.Empty, StringComparison.OrdinalIgnoreCase).Replace(")",string.Empty, StringComparison.OrdinalIgnoreCase);
+            string param = commandRequest.Parameters.Replace("(", string.Empty, StringComparison.OrdinalIgnoreCase).Replace(")", string.Empty, StringComparison.OrdinalIgnoreCase);
             int subIndex = param.IndexOf(" values ", StringComparison.InvariantCultureIgnoreCase);
             var fields = param.Substring(0, subIndex)
                 .Split(',', StringSplitOptions.RemoveEmptyEntries);
             var values = param.Substring(subIndex + 8)
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.Trim('\'')).ToArray();
+                .Select(x => x.Trim('\'', ' ')).ToArray();
             if (fields.Length != values.Length || fields.Length != 7)
             {
                 Console.WriteLine("The number of parameters does not match");
@@ -55,7 +67,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             for (int i = 0; i < fields.Length; i++)
             {
-                switch (fields[i].ToUpperInvariant())
+                switch (fields[i].ToUpperInvariant().Trim())
                 {
                     case "ID":
                         if (!int.TryParse(values[i], out id))
@@ -74,7 +86,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                         DateTime.TryParseExact(values[i], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth);
                         break;
                     case "SALARY":
-                        if (!decimal.TryParse(values[i],NumberStyles.AllowDecimalPoint,CultureInfo.InvariantCulture, out salary))
+                        if (!decimal.TryParse(values[i], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out salary))
                         {
                             salary = default;
                         }

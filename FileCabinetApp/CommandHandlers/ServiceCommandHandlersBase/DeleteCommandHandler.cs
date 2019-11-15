@@ -4,13 +4,26 @@ using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
-   public class DeleteCommandHandler : ServiceCommandHandlerBase
+    /// <summary>
+    /// Represents delete command handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
+    public class DeleteCommandHandler : ServiceCommandHandlerBase
     {
-        public DeleteCommandHandler(IFileCabinetService service):base(service)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteCommandHandler"/> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        public DeleteCommandHandler(IFileCabinetService service)
+            : base(service)
         {
-
         }
 
+        /// <summary>
+        /// Handles the specified command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
+        /// <exception cref="ArgumentNullException">Throws when commandRequest is null.</exception>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -24,7 +37,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            int subIndex = commandRequest.Parameters.IndexOf("where ");
+            int subIndex = commandRequest.Parameters.IndexOf("where ", StringComparison.InvariantCultureIgnoreCase);
 
             if (subIndex == -1)
             {

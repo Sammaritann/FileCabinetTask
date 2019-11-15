@@ -13,7 +13,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
         /// </summary>
         /// <param name="validateParam">The validate parameter.</param>
         /// <returns>Validation predicate.</returns>
-        /// <exception cref="ArgumentNullException">validateParam</exception>
+        /// <exception cref="ArgumentNullException">Throws when validateParam is null.</exception>
         public static Predicate<FileCabinetRecord> Create(string validateParam)
         {
             if (validateParam is null)

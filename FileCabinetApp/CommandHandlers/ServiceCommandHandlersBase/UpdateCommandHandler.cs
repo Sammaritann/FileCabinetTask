@@ -5,9 +5,26 @@ using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
+    /// <summary>
+    /// Represents update command handler.
+    /// </summary>
+    /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class UpdateCommandHandler : ServiceCommandHandlerBase
     {
-        public UpdateCommandHandler(IFileCabinetService service) : base(service) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateCommandHandler"/> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        public UpdateCommandHandler(IFileCabinetService service)
+            : base(service)
+        {
+        }
+
+        /// <summary>
+        /// Handles the specified command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
+        /// <exception cref="ArgumentNullException">Throws when commandRequest is null.</exception>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -21,9 +38,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-
-            int subIndex = commandRequest.Parameters.IndexOf(" where ");
-            int startIndex = commandRequest.Parameters.IndexOf("set ");
+            int subIndex = commandRequest.Parameters.IndexOf(" where ", StringComparison.InvariantCultureIgnoreCase);
+            int startIndex = commandRequest.Parameters.IndexOf("set ", StringComparison.InvariantCultureIgnoreCase);
 
             if (subIndex == -1)
             {
@@ -49,8 +65,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             foreach (var record in param)
             {
-                var values = record.Replace("=", " ",StringComparison.InvariantCultureIgnoreCase)
-                    .Replace("\'",string.Empty,StringComparison.InvariantCultureIgnoreCase)
+                var values = record.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("\'", string.Empty, StringComparison.InvariantCultureIgnoreCase)
                     .Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 switch (values[0].ToUpperInvariant())
                 {
@@ -89,8 +105,6 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 }
             }
 
-
-
             RecordParams recordParams = new RecordParams();
 
             foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)))
@@ -102,7 +116,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 recordParams.Department = department == default ? record.Department : department;
                 recordParams.Class = clas == default ? record.Class : clas;
 
-                this.Service.EditRecord(record.Id,recordParams);
+                this.Service.EditRecord(record.Id, recordParams);
             }
         }
     }
