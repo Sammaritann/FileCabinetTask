@@ -32,8 +32,8 @@ namespace FileCabinetApp
 
         private static Dictionary<string, IInputValidator> inputValidators = new Dictionary<string, IInputValidator>
         {
-            { "DEFAULT", new Validators.InpitValidator.DefaultValidator() },
-            { "CUSTOM", new Validators.InpitValidator.DefaultValidator() },
+            { "DEFAULT", new Validators.InpitValidator.CustomValidator(config.GetSection("default")) },
+            { "CUSTOM", new Validators.InpitValidator.CustomValidator(config.GetSection("default")) },
         };
 
         private static IFileCabinetService fileCabinetService;
@@ -114,27 +114,25 @@ namespace FileCabinetApp
         {
             var defaultConfig = config.GetSection("default");
 
-            return validator
-                .ValidateFirstName(defaultConfig.GetSection("firstName:min").Get<int>(), defaultConfig.GetSection("firstName:max").Get<int>())
-                .ValidateLastName(defaultConfig.GetSection("lastName:min").Get<int>(), defaultConfig.GetSection("lastName:max").Get<int>())
-                .ValidateDateOfBirthValidator(defaultConfig.GetSection("dateOfBirth:from").Get<DateTime>(), defaultConfig.GetSection("dateOfBirth:to").Get<DateTime>())
-                .ValidateSalary(defaultConfig.GetSection("salary:min").Get<decimal>(), defaultConfig.GetSection("salary:max").Get<decimal>())
-                .ValidateDepartment(defaultConfig.GetSection("department:from").Get<short>(), defaultConfig.GetSection("department:to").Get<short>())
-                .ValidateClass(defaultConfig.GetSection("class:min").Get<char>(), defaultConfig.GetSection("class:max").Get<char>())
-                .Create();
+            return CreateValidator(validator, defaultConfig);
         }
 
         private static IRecordValidator CreateCustom(this ValidatorBuilder validator)
         {
             var customConfig = config.GetSection("custom");
 
+            return CreateValidator(validator, customConfig);
+        }
+
+        private static IRecordValidator CreateValidator(this ValidatorBuilder validator, IConfigurationSection configuration)
+        {
             return validator
-                .ValidateFirstName(customConfig.GetSection("firstName:min").Get<int>(), customConfig.GetSection("firstName:max").Get<int>())
-                .ValidateLastName(customConfig.GetSection("lastName:min").Get<int>(), customConfig.GetSection("lastName:max").Get<int>())
-                .ValidateDateOfBirthValidator(customConfig.GetSection("dateOfBirth:from").Get<DateTime>(), customConfig.GetSection("dateOfBirth:to").Get<DateTime>())
-                .ValidateSalary(customConfig.GetSection("salary:min").Get<decimal>(), customConfig.GetSection("salary:max").Get<decimal>())
-                .ValidateDepartment(customConfig.GetSection("department:from").Get<short>(), customConfig.GetSection("department:to").Get<short>())
-                .ValidateClass(customConfig.GetSection("class:min").Get<char>(), customConfig.GetSection("class:max").Get<char>())
+                .ValidateFirstName(configuration.GetSection("firstName:min").Get<int>(), configuration.GetSection("firstName:max").Get<int>())
+                .ValidateLastName(configuration.GetSection("lastName:min").Get<int>(), configuration.GetSection("lastName:max").Get<int>())
+                .ValidateDateOfBirthValidator(configuration.GetSection("dateOfBirth:from").Get<DateTime>(), configuration.GetSection("dateOfBirth:to").Get<DateTime>())
+                .ValidateSalary(configuration.GetSection("salary:min").Get<decimal>(), configuration.GetSection("salary:max").Get<decimal>())
+                .ValidateDepartment(configuration.GetSection("department:from").Get<short>(), configuration.GetSection("department:to").Get<short>())
+                .ValidateClass(configuration.GetSection("class:min").Get<char>(), configuration.GetSection("class:max").Get<char>())
                 .Create();
         }
 

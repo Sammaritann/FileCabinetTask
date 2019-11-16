@@ -1304,47 +1304,66 @@
             </summary>
             <seealso cref="T:FileCabinetApp.Validators.InpitValidator.IInputValidator" />
         </member>
+        <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.#ctor(Microsoft.Extensions.Configuration.IConfigurationSection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.InpitValidator.CustomValidator"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when configuration is null.</exception>
+        </member>
         <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.ClassValidate(System.Char)">
-            <inheritdoc/>
+            <summary>
+            Validate the class.
+            </summary>
+            <param name="clas">The clas.</param>
+            <returns>
+            Validation result.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.DateOfBirthValidate(System.DateTime)">
-            <inheritdoc/>
+            <summary>
+            Validate the date of birth.
+            </summary>
+            <param name="dateOfBirth">The date.</param>
+            <returns>
+            Validation result.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.DepartmentValidate(System.Int16)">
-            <inheritdoc/>
+            <summary>
+            Validate the department.
+            </summary>
+            <param name="department">The department.</param>
+            <returns>
+            Validation result.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.FirstNameValidate(System.String)">
-            <inheritdoc/>
+            <summary>
+            Validate the first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>
+            Validation result.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.LastNameValidate(System.String)">
-            <inheritdoc/>
+            <summary>
+            Valdiate the last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>
+            Validation result.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.Validators.InpitValidator.CustomValidator.SalaryValidate(System.Decimal)">
-            <inheritdoc/>
-        </member>
-        <member name="T:FileCabinetApp.Validators.InpitValidator.DefaultValidator">
             <summary>
-            Represents default valdiator.
+            Validate the salsary.
             </summary>
-            <seealso cref="T:FileCabinetApp.Validators.InpitValidator.IInputValidator" />
-        </member>
-        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.ClassValidate(System.Char)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.DateOfBirthValidate(System.DateTime)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.DepartmentValidate(System.Int16)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.FirstNameValidate(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.LastNameValidate(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Validators.InpitValidator.DefaultValidator.SalaryValidate(System.Decimal)">
-            <inheritdoc/>
+            <param name="salary">The salary.</param>
+            <returns>
+            Validation result.
+            </returns>
         </member>
         <member name="T:FileCabinetApp.Validators.InpitValidator.IInputValidator">
             <summary>
