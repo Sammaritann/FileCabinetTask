@@ -131,54 +131,6 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Finds all records by first name.
-        /// </summary>
-        /// <param name="firstName">The first name.</param>
-        /// <returns>Found records.</returns>
-        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
-        {
-            if (this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant()))
-            {
-                foreach (var item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Finds all records by last name.
-        /// </summary>
-        /// <param name="lastName">The last name.</param>
-        /// <returns>Found records.</returns>
-        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
-        {
-            if (this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant()))
-            {
-                foreach (var item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Finds all records by Date.
-        /// </summary>
-        /// <param name="dateOfBirth">The date of birth.</param>
-        /// <returns>Found records.</returns>
-        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
-        {
-            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
-            {
-                foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        /// <summary>
         /// Makes the snapshot.
         /// </summary>
         /// <returns>

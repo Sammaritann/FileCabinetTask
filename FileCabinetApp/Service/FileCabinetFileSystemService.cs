@@ -151,54 +151,6 @@ namespace FileCabinetApp.Service
             throw new KeyNotFoundException($"wrong {nameof(id)}");
         }
 
-        /// <inheritdoc/>
-        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
-        {
-            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
-            {
-                foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
-                {
-                    byte[] buffer = new byte[277];
-                    this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
-                    FileCabinetRecord record = this.RecordFromBytes(buffer);
-                    yield return record;
-                }
-            }
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
-        {
-            if (this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant()))
-            {
-                foreach (var item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
-                {
-                    byte[] buffer = new byte[277];
-                    this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
-                    FileCabinetRecord record = this.RecordFromBytes(buffer);
-                    yield return record;
-                }
-            }
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
-        {
-            if (this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant()))
-            {
-                foreach (var item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
-                {
-                    byte[] buffer = new byte[277];
-                    this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
-                    FileCabinetRecord record = this.RecordFromBytes(buffer);
-                    yield return record;
-                }
-            }
-        }
-
         /// <summary>
         /// Wheres the specified parameter.
         /// </summary>

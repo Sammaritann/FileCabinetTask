@@ -54,27 +54,6 @@ namespace FileCabinetApp
         int GetStat();
 
         /// <summary>
-        /// Finds all records by first name.
-        /// </summary>
-        /// <param name="firstName">The first name.</param>
-        /// <returns>Found records.</returns>
-        IEnumerable<FileCabinetRecord> FindByFirstName(string firstName);
-
-        /// <summary>
-        /// Finds all records by last name.
-        /// </summary>
-        /// <param name="lastName">The last name.</param>
-        /// <returns>Found records.</returns>
-        IEnumerable<FileCabinetRecord> FindByLastName(string lastName);
-
-        /// <summary>
-        /// Finds all records by Date.
-        /// </summary>
-        /// <param name="dateOfBirth">The date of birth.</param>
-        /// <returns>Found records.</returns>
-        IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
-
-        /// <summary>
         /// Wheres the specified parameter.
         /// </summary>
         /// <param name="param">The parameter.</param>
