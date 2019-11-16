@@ -479,11 +479,12 @@
             Represents validate entity.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Create(System.String)">
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Create(System.String,FileCabinetApp.Service.MemEntity)">
             <summary>
             Creates the specified parameter.
             </summary>
             <param name="param">The parameter.</param>
+            <param name="memEntity">The memory entity.</param>
             <returns>
             ValidateEntity.
             </returns>
@@ -496,6 +497,23 @@
             <param name="records">The records.</param>
             <returns>FileCabinetRecord.</returns>
             <exception cref="T:System.ArgumentNullException">Throws when records is null.</exception>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+            </returns>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateGenerator">
             <summary>
@@ -738,6 +756,14 @@
             </summary>
             <param name="validator">The validator.</param>
         </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetFileSystemService.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
+        </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.CreateRecord(FileCabinetApp.RecordParams)">
             <inheritdoc/>
         </member>
@@ -883,6 +909,30 @@
             </summary>
             <param name="stream">The stream.</param>
         </member>
+        <member name="T:FileCabinetApp.Service.MemEntity">
+            <summary>
+            Represents memoization entity.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.MemEntity.TryGetMemRecords(FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity)">
+            <summary>
+            Tries the get memory records.
+            </summary>
+            <param name="entity">The entity.</param>
+            <returns>FileCabinetRecord.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.MemEntity.AddRecord(FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity,FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Adds the record.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="record">The record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.MemEntity.Clear">
+            <summary>
+            Clears this instance.
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.Service.ServiceLogger">
             <summary>
             Represents logger service.
@@ -894,6 +944,14 @@
             Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceLogger"/> class.
             </summary>
             <param name="service">The service.</param>
+        </member>
+        <member name="P:FileCabinetApp.Service.ServiceLogger.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
         </member>
         <member name="M:FileCabinetApp.Service.ServiceLogger.ContainsId(System.Int32)">
             <summary>
@@ -1021,6 +1079,14 @@
             </summary>
             <param name="service">The service.</param>
         </member>
+        <member name="P:FileCabinetApp.Service.ServiceMeter.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
+        </member>
         <member name="M:FileCabinetApp.Service.ServiceMeter.ContainsId(System.Int32)">
             <summary>
             Determines whether the specified identifier contains identifier and logs.
@@ -1146,6 +1212,14 @@
             </summary>
             <param name="validator">The validator.</param>
         </member>
+        <member name="P:FileCabinetApp.FileCabinetMemoryService.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.CreateRecord(FileCabinetApp.RecordParams)">
             <summary>
             Creates the record.
@@ -1259,6 +1333,14 @@
             <summary>
             Represent file cabinet service .
             </summary>
+        </member>
+        <member name="P:FileCabinetApp.IFileCabinetService.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
         </member>
         <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
             <summary>

@@ -35,6 +35,14 @@ namespace FileCabinetApp.Service
             this.fileStream = new FileStream("cabinet-records.db", FileMode.Create, FileAccess.ReadWrite);
         }
 
+        /// <summary>
+        /// Gets the memory entity.
+        /// </summary>
+        /// <value>
+        /// The memory entity.
+        /// </value>
+        public MemEntity MemEntity { get; } = new MemEntity();
+
         /// <inheritdoc/>
         public int CreateRecord(RecordParams recordParams)
         {
@@ -198,7 +206,7 @@ namespace FileCabinetApp.Service
         /// <returns>FileCabinetRecord.</returns>
         public IEnumerable<FileCabinetRecord> Where(string param)
         {
-            ValidateEntity entity = new ValidateEntity().Create(param);
+            ValidateEntity entity = new ValidateEntity().Create(param, this.MemEntity);
 
             foreach (var record in entity.Filtering(this.GetRecords()))
             {

@@ -14,7 +14,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
         /// <param name="validateParam">The validate parameter.</param>
         /// <returns>Validation predicate.</returns>
         /// <exception cref="ArgumentNullException">Throws when validateParam is null.</exception>
-        public static Predicate<FileCabinetRecord> Create(string validateParam)
+        public static (Predicate<FileCabinetRecord> predicate, string explanation) Create(string validateParam)
         {
             if (validateParam is null)
             {
@@ -23,7 +23,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
 
             var param = validateParam.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            return param[0].ToUpperInvariant().Trim('\'') switch
+            return (param[0].ToUpperInvariant().Trim('\'') switch
             {
                 "FIRSTNAME" => x => x.FirstName == param[1].ToUpperInvariant().Trim('\''),
                 "LASTNAME" => x => x.LastName == param[1].ToUpperInvariant().Trim('\''),
@@ -33,7 +33,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
                 "DEPARTMENT" => x => x.Department.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
                 "CLASS" => x => x.Class.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
                 _ => x => false,
-            };
+            }, param[0] + param[1]);
         }
     }
 }

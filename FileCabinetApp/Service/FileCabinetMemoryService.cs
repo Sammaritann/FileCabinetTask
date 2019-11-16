@@ -28,9 +28,13 @@ namespace FileCabinetApp
             this.validator = validator;
         }
 
-        private FileCabinetMemoryService()
-        {
-        }
+        /// <summary>
+        /// Gets the memory entity.
+        /// </summary>
+        /// <value>
+        /// The memory entity.
+        /// </value>
+        public MemEntity MemEntity { get; } = new MemEntity();
 
         /// <summary>
         /// Creates the record.
@@ -273,7 +277,7 @@ namespace FileCabinetApp
         /// <returns>FileCabinetREcords.</returns>
         public IEnumerable<FileCabinetRecord> Where(string param)
         {
-            ValidateEntity entity = new ValidateEntity().Create(param);
+            ValidateEntity entity = new ValidateEntity().Create(param, this.MemEntity);
 
             foreach (var record in entity.Filtering(this.list))
             {

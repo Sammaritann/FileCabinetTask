@@ -10,6 +10,14 @@ namespace FileCabinetApp
     public interface IFileCabinetService
     {
         /// <summary>
+        /// Gets the memory entity.
+        /// </summary>
+        /// <value>
+        /// The memory entity.
+        /// </value>
+        public MemEntity MemEntity { get; }
+
+        /// <summary>
         /// Creates the record.
         /// </summary>
         /// <param name="recordParams">The record parameters.</param>

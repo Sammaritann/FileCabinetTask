@@ -19,8 +19,22 @@ namespace FileCabinetApp.Service
         /// <param name="service">The service.</param>
         public ServiceLogger(IFileCabinetService service)
         {
+            if (service is null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+
             this.service = service;
+            this.MemEntity = service.MemEntity;
         }
+
+        /// <summary>
+        /// Gets the memory entity.
+        /// </summary>
+        /// <value>
+        /// The memory entity.
+        /// </value>
+        public MemEntity MemEntity { get; }
 
         /// <summary>
         /// Determines whether the specified identifier contains identifier and measures time.

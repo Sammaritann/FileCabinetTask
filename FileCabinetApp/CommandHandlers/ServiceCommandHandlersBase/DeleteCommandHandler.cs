@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -49,6 +50,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             {
                 this.Service.Remove(record.Id);
             }
+
+            this.Service.MemEntity.Clear();
         }
     }
 }
