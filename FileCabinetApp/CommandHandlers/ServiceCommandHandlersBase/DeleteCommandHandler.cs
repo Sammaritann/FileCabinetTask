@@ -38,7 +38,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            int subIndex = commandRequest.Parameters.IndexOf("where ", StringComparison.InvariantCultureIgnoreCase);
+            int subIndex = commandRequest.Parameters.Trim().IndexOf("where ", StringComparison.InvariantCultureIgnoreCase);
 
             if (subIndex == -1)
             {
@@ -46,7 +46,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)))
+            foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 5).Trim()))
             {
                 this.Service.Remove(record.Id);
             }

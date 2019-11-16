@@ -25,8 +25,8 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
 
             return (param[0].ToUpperInvariant().Trim('\'') switch
             {
-                "FIRSTNAME" => x => x.FirstName == param[1].ToUpperInvariant().Trim('\''),
-                "LASTNAME" => x => x.LastName == param[1].ToUpperInvariant().Trim('\''),
+                "FIRSTNAME" => x => x.FirstName.ToUpperInvariant() == param[1].ToUpperInvariant().Trim('\''),
+                "LASTNAME" => x => x.LastName.ToUpperInvariant() == param[1].ToUpperInvariant().Trim('\''),
                 "ID" => x => x.Id.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
                 "DATEOFBIRTH" => x => x.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
                 "SALARY" => x => x.Salary.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
