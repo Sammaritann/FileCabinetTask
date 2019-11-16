@@ -146,25 +146,6 @@
             <param name="columName">Name of the colum.</param>
             <exception cref="T:System.ArgumentNullException">Throws when records.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter">
-            <summary>
-            Represents default printer.
-            </summary>
-            <seealso cref="T:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter" />
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Prints the specified records.
-            </summary>
-            <param name="records">The records.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Printers.DefaultRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord},System.String[])">
-            <summary>
-            Prints the specified records.
-            </summary>
-            <param name="records">The records.</param>
-            <param name="param">The parameter.</param>
-        </member>
         <member name="T:FileCabinetApp.CommandHandlers.Printers.IRecordPrinter">
             <summary>
             Represents record printer interface.

@@ -53,7 +53,14 @@ namespace FileCabinetApp.CommandHandlers.Printers
                 .ToArray();
             if (this.titles.Length == 0)
             {
-                return;
+                if (columName.Contains("*"))
+                {
+                    this.titles = this.titlesName;
+                }
+                else
+                {
+                    return;
+                }
             }
 
             this.lengths = new int[this.titles.Length];
