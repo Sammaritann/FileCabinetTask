@@ -12,6 +12,12 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class InserCommandHandler : ServiceCommandHandlerBase
     {
+        private const string OpenBracket = "(";
+        private const string CloseBracket = ")";
+        private const char Comma = ',';
+        private const char WhiteSpace = ' ';
+        private const char Slash = '\'';
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InserCommandHandler"/> class.
         /// </summary>
@@ -53,13 +59,13 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            string param = commandRequest.Parameters.Replace("(", string.Empty, StringComparison.OrdinalIgnoreCase).Replace(")", string.Empty, StringComparison.OrdinalIgnoreCase);
+            string param = commandRequest.Parameters.Replace(OpenBracket, string.Empty, StringComparison.OrdinalIgnoreCase).Replace(CloseBracket, string.Empty, StringComparison.OrdinalIgnoreCase);
             int subIndex = param.IndexOf(" values ", StringComparison.InvariantCultureIgnoreCase);
             var fields = param.Substring(0, subIndex)
-                .Split(',', StringSplitOptions.RemoveEmptyEntries);
-            var values = param.Substring(subIndex + 8)
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.Trim('\'', ' ')).ToArray();
+                .Split(Comma, StringSplitOptions.RemoveEmptyEntries);
+            var values = param.Substring(subIndex + "values ".Length)
+                .Split(Comma, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim(Slash, WhiteSpace)).ToArray();
             if (fields.Length != values.Length || fields.Length != 7)
             {
                 Console.WriteLine("The number of parameters does not match");

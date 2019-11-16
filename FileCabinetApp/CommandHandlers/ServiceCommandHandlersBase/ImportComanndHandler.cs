@@ -10,6 +10,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class ImportComanndHandler : ServiceCommandHandlerBase
     {
+        private const char Separator = ' ';
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ImportComanndHandler"/> class.
         /// </summary>
@@ -37,7 +39,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            string[] param = commandRequest.Parameters.Split(' ');
+            string[] param = commandRequest.Parameters.Split(Separator);
 
             if (param.Length != 2)
             {
@@ -89,11 +91,11 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             }
             catch (FormatException)
             {
-                Console.WriteLine("Not correct format.");
+                Console.WriteLine("Not correct file.");
             }
             catch (InvalidOperationException)
             {
-                Console.WriteLine("Not correct format.");
+                Console.WriteLine("Not correct file.");
             }
 
             fileStream.Close();

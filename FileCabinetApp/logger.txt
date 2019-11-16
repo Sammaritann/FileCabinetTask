@@ -1,0 +1,5 @@
+11/16/2019 21:18:43 - Calling Restore() with FileCabinetApp.Service.FileCabinetServiceSnapshot
+11/16/2019 21:19:18 - Calling CreateRecord() with FirstName = 'asd', LastName = 'dsa' DateofBirth = '20/10/2000' Department = '123' Salary = '321' Class = 'A'
+11/16/2019 21:19:18 - GetStat() returned '61'
+11/16/2019 21:19:40 - Calling GetRecords()
+11/16/2019 21:19:40 - GetRecords() returned 'System.Collections.Generic.List`1[FileCabinetApp.FileCabinetRecord]'

@@ -46,7 +46,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 5).Trim()))
+            foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + "where".Length).Trim()))
             {
                 this.Service.Remove(record.Id);
             }

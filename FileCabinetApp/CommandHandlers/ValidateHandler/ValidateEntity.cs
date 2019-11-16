@@ -43,7 +43,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
 
                 int andIndex = param.IndexOf(" and ", StringComparison.InvariantCultureIgnoreCase);
                 int orIndex = param.IndexOf(" or ", StringComparison.InvariantCultureIgnoreCase);
-                int subIndex = andIndex == -1 ? orIndex : Math.Min(andIndex, orIndex);
+                int subIndex = andIndex == -1 ? orIndex : orIndex == -1 ? andIndex : Math.Min(andIndex, orIndex);
 
                 if (subIndex == -1)
                 {

@@ -9,6 +9,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class ExportComanndHandler : ServiceCommandHandlerBase
     {
+        private const char Separator = ' ';
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExportComanndHandler"/> class.
         /// </summary>
@@ -36,7 +38,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            var param = commandRequest.Parameters.Split(' ');
+            var param = commandRequest.Parameters.Split(Separator);
             if (param.Length != 2)
             {
                 Console.WriteLine("Invalid number of parameters");
