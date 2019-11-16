@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -126,6 +127,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             {
                 this.Service.Insert(record);
                 Console.WriteLine("Record #{0} is created.", id);
+                this.Service.MemEntity.Clear();
             }
             catch (ArgumentException)
             {

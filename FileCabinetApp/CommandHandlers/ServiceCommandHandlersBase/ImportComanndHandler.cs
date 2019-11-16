@@ -84,6 +84,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                     this.Service.Restore(serviceSnapshot);
                     Console.WriteLine("records were imported from {0}", param[1]);
                 }
+
+                this.Service.MemEntity.Clear();
             }
             catch (FormatException)
             {

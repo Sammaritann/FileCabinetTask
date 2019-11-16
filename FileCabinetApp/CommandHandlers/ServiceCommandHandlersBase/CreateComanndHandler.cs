@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using FileCabinetApp.Service;
 using FileCabinetApp.Validators.InpitValidator;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
@@ -52,6 +53,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             RecordParams recordParams = new RecordParams(firstName, lastName, dateOfBirth, department, salary, clas);
             int id = this.Service.CreateRecord(recordParams);
             Console.WriteLine("Record #{0} is created.", id);
+            this.Service.MemEntity.Clear();
         }
 
         /// <summary>

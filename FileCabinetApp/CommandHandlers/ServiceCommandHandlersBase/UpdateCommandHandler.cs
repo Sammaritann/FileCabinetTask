@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -118,6 +119,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
                 this.Service.EditRecord(record.Id, recordParams);
             }
+
+            this.Service.MemEntity.Clear();
         }
     }
 }

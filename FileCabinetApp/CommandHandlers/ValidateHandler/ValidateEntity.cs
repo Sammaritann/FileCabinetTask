@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ValidateHandler
 {
@@ -8,7 +10,8 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
     /// </summary>
     public class ValidateEntity
     {
-        private List<Predicate<FileCabinetRecord>> predicates = new List<Predicate<FileCabinetRecord>>();
+        private MemEntity memEntity;
+        private List<(Predicate<FileCabinetRecord> predicate, string explanation)> predicates = new List<(Predicate<FileCabinetRecord>, string)>();
         private ValidateEntity nextEntities;
         private bool isOr = false;
 
@@ -16,22 +19,25 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
         /// Creates the specified parameter.
         /// </summary>
         /// <param name="param">The parameter.</param>
+        /// <param name="memEntity">The memory entity.</param>
         /// <returns>
         /// ValidateEntity.
         /// </returns>
         /// <exception cref="ArgumentNullException">Throws when param is null.</exception>
-        public ValidateEntity Create(string param)
+        public ValidateEntity Create(string param, MemEntity memEntity)
         {
             if (param == null)
             {
                 throw new ArgumentNullException(nameof(param));
             }
 
+            this.memEntity = memEntity;
+
             while (param.Length > 0)
             {
                 if (this.isOr)
                 {
-                    this.nextEntities = new ValidateEntity().Create(param);
+                    this.nextEntities = new ValidateEntity().Create(param, memEntity);
                     return this;
                 }
 
@@ -76,11 +82,46 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            return obj is ValidateEntity entity ? this.Equals(entity) : false;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return this.predicates.Count;
+        }
+
         private IEnumerable<FileCabinetRecord> Invoke(IEnumerable<FileCabinetRecord> records)
         {
-            foreach (FileCabinetRecord record in records)
+            List<FileCabinetRecord> invokeResult;
+            if ((invokeResult = this.memEntity.TryGetMemRecords(this)) is null)
             {
-                if (this.Sieve(record))
+                foreach (FileCabinetRecord record in records)
+                {
+                    if (this.Sieve(record))
+                    {
+                        this.memEntity.AddRecord(this, record);
+                        yield return record;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var record in invokeResult)
                 {
                     yield return record;
                 }
@@ -99,12 +140,30 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
         {
             foreach (var predicate in this.predicates)
             {
-               if (predicate != null)
+               if (predicate.predicate != null)
                 {
-                    if (!predicate(record))
+                    if (!predicate.predicate(record))
                     {
                         return false;
                     }
+                }
+            }
+
+            return true;
+        }
+
+        private bool Equals(ValidateEntity obj)
+        {
+            if (this.predicates.Count != obj.predicates.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < this.predicates.Count; i++)
+            {
+                if (this.predicates[i].explanation != obj.predicates[i].explanation)
+                {
+                    return false;
                 }
             }
 

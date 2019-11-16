@@ -18,8 +18,22 @@ namespace FileCabinetApp.Service
         /// <param name="service">The service.</param>
         public ServiceMeter(IFileCabinetService service)
         {
+            if (service is null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+
             this.service = service;
+            this.MemEntity = service.MemEntity;
         }
+
+        /// <summary>
+        /// Gets the memory entity.
+        /// </summary>
+        /// <value>
+        /// The memory entity.
+        /// </value>
+        public MemEntity MemEntity { get; }
 
         /// <summary>
         /// Determines whether the specified identifier contains identifier and logs.
@@ -64,54 +78,6 @@ namespace FileCabinetApp.Service
             this.service.EditRecord(id, recordParams);
             sw.Stop();
             Console.WriteLine("EditRecord method execution duration is {0} ticks", sw.ElapsedTicks);
-        }
-
-        /// <summary>
-        /// Finds all records by Date and logs.
-        /// </summary>
-        /// <param name="dateOfBirth">The date of birth.</param>
-        /// <returns>
-        /// Found records.
-        /// </returns>
-        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
-        {
-            var sw = Stopwatch.StartNew();
-            var result = this.service.FindByDateOfBirth(dateOfBirth);
-            sw.Stop();
-            Console.WriteLine("FindByDateOfBirth method execution duration is {0} ticks", sw.ElapsedTicks);
-            return result;
-        }
-
-        /// <summary>
-        /// Finds all records by first name and logs.
-        /// </summary>
-        /// <param name="firstName">The first name.</param>
-        /// <returns>
-        /// Found records.
-        /// </returns>
-        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
-        {
-            var sw = Stopwatch.StartNew();
-            var result = this.service.FindByFirstName(firstName);
-            sw.Stop();
-            Console.WriteLine("FindByFirstName method execution duration is {0} ticks", sw.ElapsedTicks);
-            return result;
-        }
-
-        /// <summary>
-        /// Finds all records by last name and logs.
-        /// </summary>
-        /// <param name="lastName">The last name.</param>
-        /// <returns>
-        /// Found records.
-        /// </returns>
-        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
-        {
-            var sw = Stopwatch.StartNew();
-            var result = this.service.FindByLastName(lastName);
-            sw.Stop();
-            Console.WriteLine("FindByLastName method execution duration is {0} ticks", sw.ElapsedTicks);
-            return result;
         }
 
         /// <summary>

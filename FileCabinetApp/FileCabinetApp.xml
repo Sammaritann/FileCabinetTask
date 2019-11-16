@@ -295,25 +295,6 @@
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.FindComanndHandler">
-            <summary>
-            Represents find command handler.
-            </summary>
-            <seealso cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.FindComanndHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.CommandHandlers.Printers.IRecordPrinter)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.FindComanndHandler" /> class.
-            </summary>
-            <param name="service">The service.</param>
-            <param name="printer">The printer.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.FindComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
-            <summary>
-            Handles the specified command request.
-            </summary>
-            <param name="commandRequest">The command request.</param>
-        </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportComanndHandler">
             <summary>
             Represents import command handler.
@@ -351,26 +332,6 @@
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequesst is null.</exception>
-        </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ListComanndHandler">
-            <summary>
-            Represents list command handler.
-            </summary>
-            <seealso cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ListComanndHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.CommandHandlers.Printers.IRecordPrinter)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ListComanndHandler" /> class.
-            </summary>
-            <param name="service">The service.</param>
-            <param name="printer">The printer.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ListComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
-            <summary>
-            Handles the specified command request.
-            </summary>
-            <param name="commandRequest">The command request.</param>
-            <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.PurgeComanndHandler">
             <summary>
@@ -479,11 +440,12 @@
             Represents validate entity.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Create(System.String)">
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Create(System.String,FileCabinetApp.Service.MemEntity)">
             <summary>
             Creates the specified parameter.
             </summary>
             <param name="param">The parameter.</param>
+            <param name="memEntity">The memory entity.</param>
             <returns>
             ValidateEntity.
             </returns>
@@ -496,6 +458,23 @@
             <param name="records">The records.</param>
             <returns>FileCabinetRecord.</returns>
             <exception cref="T:System.ArgumentNullException">Throws when records is null.</exception>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+            </returns>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateGenerator">
             <summary>
@@ -738,6 +717,14 @@
             </summary>
             <param name="validator">The validator.</param>
         </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetFileSystemService.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
+        </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.CreateRecord(FileCabinetApp.RecordParams)">
             <inheritdoc/>
         </member>
@@ -749,15 +736,6 @@
             <param name="recordParams">The record parameters.</param>
             <exception cref="T:System.ArgumentNullException">Throws when recordParams is null.</exception>
             <exception cref="T:System.Collections.Generic.KeyNotFoundException">Throws when Id not found.</exception>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByDateOfBirth(System.DateTime)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByFirstName(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByLastName(System.String)">
-            <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.Where(System.String)">
             <summary>
@@ -883,6 +861,30 @@
             </summary>
             <param name="stream">The stream.</param>
         </member>
+        <member name="T:FileCabinetApp.Service.MemEntity">
+            <summary>
+            Represents memoization entity.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.MemEntity.TryGetMemRecords(FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity)">
+            <summary>
+            Tries the get memory records.
+            </summary>
+            <param name="entity">The entity.</param>
+            <returns>FileCabinetRecord.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.MemEntity.AddRecord(FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity,FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Adds the record.
+            </summary>
+            <param name="entity">The entity.</param>
+            <param name="record">The record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.MemEntity.Clear">
+            <summary>
+            Clears this instance.
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.Service.ServiceLogger">
             <summary>
             Represents logger service.
@@ -894,6 +896,14 @@
             Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceLogger"/> class.
             </summary>
             <param name="service">The service.</param>
+        </member>
+        <member name="P:FileCabinetApp.Service.ServiceLogger.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
         </member>
         <member name="M:FileCabinetApp.Service.ServiceLogger.ContainsId(System.Int32)">
             <summary>
@@ -919,33 +929,6 @@
             </summary>
             <param name="id">The identifier.</param>
             <param name="recordParams">The record parameters.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Finds all records by Date and measures time.
-            </summary>
-            <param name="dateOfBirth">The date of birth.</param>
-            <returns>
-            Found records.
-            </returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByFirstName(System.String)">
-            <summary>
-            Finds all records by first name and measures time.
-            </summary>
-            <param name="firstName">The first name.</param>
-            <returns>
-            Found records.
-            </returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByLastName(System.String)">
-            <summary>
-            Finds all records by last name and measures time.
-            </summary>
-            <param name="lastName">The last name.</param>
-            <returns>
-            Found records.
-            </returns>
         </member>
         <member name="M:FileCabinetApp.Service.ServiceLogger.GetDeleteStat">
             <summary>
@@ -1021,6 +1004,14 @@
             </summary>
             <param name="service">The service.</param>
         </member>
+        <member name="P:FileCabinetApp.Service.ServiceMeter.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
+        </member>
         <member name="M:FileCabinetApp.Service.ServiceMeter.ContainsId(System.Int32)">
             <summary>
             Determines whether the specified identifier contains identifier and logs.
@@ -1045,33 +1036,6 @@
             </summary>
             <param name="id">The identifier.</param>
             <param name="recordParams">The record parameters.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Finds all records by Date and logs.
-            </summary>
-            <param name="dateOfBirth">The date of birth.</param>
-            <returns>
-            Found records.
-            </returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByFirstName(System.String)">
-            <summary>
-            Finds all records by first name and logs.
-            </summary>
-            <param name="firstName">The first name.</param>
-            <returns>
-            Found records.
-            </returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByLastName(System.String)">
-            <summary>
-            Finds all records by last name and logs.
-            </summary>
-            <param name="lastName">The last name.</param>
-            <returns>
-            Found records.
-            </returns>
         </member>
         <member name="M:FileCabinetApp.Service.ServiceMeter.GetDeleteStat">
             <summary>
@@ -1146,6 +1110,14 @@
             </summary>
             <param name="validator">The validator.</param>
         </member>
+        <member name="P:FileCabinetApp.FileCabinetMemoryService.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.CreateRecord(FileCabinetApp.RecordParams)">
             <summary>
             Creates the record.
@@ -1172,27 +1144,6 @@
             Gets the stat.
             </summary>
             <returns>Number of records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByFirstName(System.String)">
-            <summary>
-            Finds all records by first name.
-            </summary>
-            <param name="firstName">The first name.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByLastName(System.String)">
-            <summary>
-            Finds all records by last name.
-            </summary>
-            <param name="lastName">The last name.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Finds all records by Date.
-            </summary>
-            <param name="dateOfBirth">The date of birth.</param>
-            <returns>Found records.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.MakeSnapshot">
             <summary>
@@ -1260,6 +1211,14 @@
             Represent file cabinet service .
             </summary>
         </member>
+        <member name="P:FileCabinetApp.IFileCabinetService.MemEntity">
+            <summary>
+            Gets the memory entity.
+            </summary>
+            <value>
+            The memory entity.
+            </value>
+        </member>
         <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.RecordParams)">
             <summary>
             Creates the record.
@@ -1295,27 +1254,6 @@
             Gets the stat.
             </summary>
             <returns>Number of records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Finds all records by first name.
-            </summary>
-            <param name="firstName">The first name.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Finds all records by last name.
-            </summary>
-            <param name="lastName">The last name.</param>
-            <returns>Found records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Finds all records by Date.
-            </summary>
-            <param name="dateOfBirth">The date of birth.</param>
-            <returns>Found records.</returns>
         </member>
         <member name="M:FileCabinetApp.IFileCabinetService.Where(System.String)">
             <summary>

@@ -10,6 +10,14 @@ namespace FileCabinetApp
     public interface IFileCabinetService
     {
         /// <summary>
+        /// Gets the memory entity.
+        /// </summary>
+        /// <value>
+        /// The memory entity.
+        /// </value>
+        public MemEntity MemEntity { get; }
+
+        /// <summary>
         /// Creates the record.
         /// </summary>
         /// <param name="recordParams">The record parameters.</param>
@@ -44,27 +52,6 @@ namespace FileCabinetApp
         /// </summary>
         /// <returns>Number of records.</returns>
         int GetStat();
-
-        /// <summary>
-        /// Finds all records by first name.
-        /// </summary>
-        /// <param name="firstName">The first name.</param>
-        /// <returns>Found records.</returns>
-        IEnumerable<FileCabinetRecord> FindByFirstName(string firstName);
-
-        /// <summary>
-        /// Finds all records by last name.
-        /// </summary>
-        /// <param name="lastName">The last name.</param>
-        /// <returns>Found records.</returns>
-        IEnumerable<FileCabinetRecord> FindByLastName(string lastName);
-
-        /// <summary>
-        /// Finds all records by Date.
-        /// </summary>
-        /// <param name="dateOfBirth">The date of birth.</param>
-        /// <returns>Found records.</returns>
-        IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
 
         /// <summary>
         /// Wheres the specified parameter.

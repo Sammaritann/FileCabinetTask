@@ -1,0 +1,55 @@
+{
+  "default": {
+    "firstName": {
+      "min": 2,
+      "max": 60
+    },
+    "lastName": {
+      "min": 2,
+      "max": 60
+    },
+    "dateOfBirth": {
+      "from": "1/1/1950",
+      "to": "10/8/2019"
+    },
+    "salary": {
+      "min": "0",
+      "max": "79228162514264337593543950335"
+    },
+    "department": {
+      "from": "0",
+      "to": "32767"
+    },
+    "class": {
+      "min": "A",
+      "max": "Z"
+    }
+
+  },
+  "custom": {
+    "firstName": {
+      "min": 4,
+      "max": 30
+    },
+    "lastName": {
+      "min": 4,
+      "max": 30
+    },
+    "dateOfBirth": {
+      "from": "1/1/1900",
+      "to": "10/8/2019"
+    },
+    "salary": {
+      "min": "0",
+      "max": "79228162514264337593543950335"
+    },
+    "department": {
+      "from": "0",
+      "to": "32767"
+    },
+    "class": {
+      "min": "A",
+      "max": "F"
+    }
+  }
+}

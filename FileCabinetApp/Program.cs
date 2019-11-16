@@ -85,9 +85,7 @@ namespace FileCabinetApp
             var createHandler = new CreateComanndHandler(Program.fileCabinetService, inputValidator);
             var exitHandler = new ExitComanndHandler(x => isRunning = x);
             var exportHandler = new ExportComanndHandler(Program.fileCabinetService);
-            var findHandler = new FindComanndHandler(Program.fileCabinetService, new CustomRecordPrinter());
             var helpHandler = new HelpComanndHandler();
-            var listHandler = new ListComanndHandler(Program.fileCabinetService, new DefaultRecordPrinter());
             var importHandler = new ImportComanndHandler(Program.fileCabinetService);
             var missedHandler = new MissedComanndHandler();
             var purgeHandler = new PurgeComanndHandler(Program.fileCabinetService);
@@ -100,11 +98,9 @@ namespace FileCabinetApp
             helpHandler.SetNext(createHandler);
             createHandler.SetNext(exitHandler);
             exitHandler.SetNext(exportHandler);
-            exportHandler.SetNext(findHandler);
-            findHandler.SetNext(purgeHandler);
+            exportHandler.SetNext(purgeHandler);
             purgeHandler.SetNext(statHandler);
-            statHandler.SetNext(listHandler);
-            listHandler.SetNext(importHandler);
+            statHandler.SetNext(importHandler);
             importHandler.SetNext(selectHandler);
             selectHandler.SetNext(deleteHandler);
             deleteHandler.SetNext(updateHandler);
