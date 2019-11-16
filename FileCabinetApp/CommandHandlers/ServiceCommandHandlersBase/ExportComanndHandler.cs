@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -84,7 +85,18 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            var snapshot = this.Service.MakeSnapshot();
+            FileCabinetServiceSnapshot snapshot;
+
+            try
+            {
+                 snapshot = this.Service.MakeSnapshot();
+            }
+            catch (NotImplementedException)
+            {
+                Console.WriteLine("File storage does not support export command.");
+                fileStream.Close();
+                return;
+            }
 
             if (param[0].ToUpperInvariant() == "CSV")
             {
