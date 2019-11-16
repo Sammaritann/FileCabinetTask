@@ -116,8 +116,14 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 recordParams.Salary = salary == default ? record.Salary : salary;
                 recordParams.Department = department == default ? record.Department : department;
                 recordParams.Class = clas == default ? record.Class : clas;
-
-                this.Service.EditRecord(record.Id, recordParams);
+                try
+                {
+                    this.Service.EditRecord(record.Id, recordParams);
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
 
             this.Service.MemEntity.Clear();
