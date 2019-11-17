@@ -159,18 +159,18 @@ namespace FileCabinetApp
                 {
                     if (!this.dictionaryId.ContainsKey(record.Id))
                     {
-                    this.validator.ValidateCabinetRecord(RecordToParams(record));
-                    this.list.Add(record);
-                    this.dictionaryId.Add(record.Id, record);
-                    AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
-                    AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
-                    AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
+                        this.validator.ValidateCabinetRecord(RecordToParams(record));
+                        this.list.Add(record);
+                        this.dictionaryId.Add(record.Id, record);
+                        AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
+                        AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
+                        AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
 
-                    this.id = Math.Max(this.id, record.Id);
+                        this.id = Math.Max(this.id, record.Id);
                     }
                     else
                     {
-                    this.EditRecord(record.Id, RecordToParams(record));
+                        this.EditRecord(record.Id, RecordToParams(record));
                     }
                 }
                 catch (ArgumentException e)

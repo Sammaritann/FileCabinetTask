@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -11,18 +10,18 @@ namespace FileCabinetApp.Writer
     /// </summary>
     public class FileCabinetRecordCsvWriter
     {
-       private StreamWriter writer;
+        private StreamWriter writer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetRecordCsvWriter"/> class.
         /// </summary>
         /// <param name="writer">The writer.</param>
-       public FileCabinetRecordCsvWriter(StreamWriter writer)
+        public FileCabinetRecordCsvWriter(StreamWriter writer)
         {
             this.writer = writer;
         }
 
-       private FileCabinetRecordCsvWriter()
+        private FileCabinetRecordCsvWriter()
         {
         }
 
@@ -31,7 +30,7 @@ namespace FileCabinetApp.Writer
         /// </summary>
         /// <param name="record">The record.</param>
         /// <exception cref="ArgumentNullException">Throws when record is null.</exception>
-       public void Write(FileCabinetRecord record)
+        public void Write(FileCabinetRecord record)
         {
             if (record is null)
             {

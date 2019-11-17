@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -33,7 +31,7 @@ namespace FileCabinetApp.Reader
             FileCabinetRecord[] records;
             using (XmlReader reader = XmlReader.Create(this.reader))
             {
-               records = (FileCabinetRecord[])serializer.Deserialize(reader);
+                records = (FileCabinetRecord[])serializer.Deserialize(reader);
             }
 
             return records;

@@ -89,7 +89,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             try
             {
-                 snapshot = this.Service.MakeSnapshot();
+                snapshot = this.Service.MakeSnapshot();
             }
             catch (NotImplementedException)
             {

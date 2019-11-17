@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ValidateHandler
@@ -131,7 +130,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
             {
                 foreach (var record in this.nextEntities.Invoke(records))
                 {
-                        yield return record;
+                    yield return record;
                 }
             }
         }
@@ -140,7 +139,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
         {
             foreach (var predicate in this.predicates)
             {
-               if (predicate.predicate != null)
+                if (predicate.predicate != null)
                 {
                     if (!predicate.predicate(record))
                     {

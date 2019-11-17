@@ -104,14 +104,14 @@ namespace FileCabinetApp.CommandHandlers.Printers
         {
             return title switch
             {
-            "FIRSTNAME" => "FirstName",
-            "LASTNAME" => "LastName",
-            "ID" => "Id",
-            "DATEOFBIRTH" => "DateOfBirth",
-            "SALARY" => "Salary",
-            "DEPARTMENT" => "Department",
-            "CLASS" => "Class",
-            _ => string.Empty,
+                "FIRSTNAME" => "FirstName",
+                "LASTNAME" => "LastName",
+                "ID" => "Id",
+                "DATEOFBIRTH" => "DateOfBirth",
+                "SALARY" => "Salary",
+                "DEPARTMENT" => "Department",
+                "CLASS" => "Class",
+                _ => string.Empty,
             };
         }
 
