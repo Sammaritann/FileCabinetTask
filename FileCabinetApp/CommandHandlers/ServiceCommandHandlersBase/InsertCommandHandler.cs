@@ -9,7 +9,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// Represents insert command handler.
     /// </summary>
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
-    public class InserCommandHandler : ServiceCommandHandlerBase
+    public class InsertCommandHandler : ServiceCommandHandlerBase
     {
         private const string OpenBracket = "(";
         private const string CloseBracket = ")";
@@ -18,10 +18,10 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
         private const char Slash = '\'';
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InserCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="InsertCommandHandler"/> class.
         /// </summary>
         /// <param name="service">The service.</param>
-        public InserCommandHandler(IFileCabinetService service)
+        public InsertCommandHandler(IFileCabinetService service)
             : base(service)
         {
         }

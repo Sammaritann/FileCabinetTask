@@ -14,9 +14,10 @@ namespace FileCabinetApp.Service
         private IFileCabinetService service;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServiceLogger"/> class.
+        /// Initializes a new instance of the <see cref="ServiceLogger" /> class.
         /// </summary>
         /// <param name="service">The service.</param>
+        /// <exception cref="ArgumentNullException">Throws when service is null.</exception>
         public ServiceLogger(IFileCabinetService service)
         {
             if (service is null)

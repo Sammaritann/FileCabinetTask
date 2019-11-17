@@ -20,11 +20,17 @@ namespace FileCabinetApp
         private int id = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetMemoryService" /> class.
         /// </summary>
         /// <param name="validator">The validator.</param>
+        /// <exception cref="ArgumentNullException">Throws when validator is null.</exception>
         public FileCabinetMemoryService(IRecordValidator validator)
         {
+            if (validator is null)
+            {
+                throw new ArgumentNullException(nameof(validator));
+            }
+
             this.validator = validator;
         }
 

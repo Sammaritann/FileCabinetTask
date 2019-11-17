@@ -18,6 +18,11 @@ namespace FileCabinetApp.Reader
         /// <param name="stream">The stream.</param>
         public FileCabinetRecordCsvReader(StreamReader stream)
         {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
             this.reader = stream;
         }
 

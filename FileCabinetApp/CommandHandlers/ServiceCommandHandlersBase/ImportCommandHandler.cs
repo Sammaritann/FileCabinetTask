@@ -8,15 +8,15 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// Represents import command handler.
     /// </summary>
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
-    public class ImportComanndHandler : ServiceCommandHandlerBase
+    public class ImportCommandHandler : ServiceCommandHandlerBase
     {
         private const char Separator = ' ';
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ImportComanndHandler"/> class.
+        /// Initializes a new instance of the <see cref="ImportCommandHandler"/> class.
         /// </summary>
         /// <param name="service">The service.</param>
-        public ImportComanndHandler(IFileCabinetService service)
+        public ImportCommandHandler(IFileCabinetService service)
             : base(service)
         {
         }

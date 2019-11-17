@@ -11,11 +11,17 @@ namespace FileCabinetApp.CommandHandlers
         private readonly Action<bool> isRunning;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExitComanndHandler"/> class.
+        /// Initializes a new instance of the <see cref="ExitComanndHandler" /> class.
         /// </summary>
         /// <param name="isRunning">The is running.</param>
+        /// <exception cref="ArgumentNullException">Throws when isRunning is null.</exception>
         public ExitComanndHandler(Action<bool> isRunning)
         {
+            if (isRunning is null)
+            {
+                throw new ArgumentNullException(nameof(isRunning));
+            }
+
             this.isRunning = isRunning;
         }
 

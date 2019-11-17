@@ -13,11 +13,17 @@ namespace FileCabinetApp.Writer
         private StreamWriter writer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetRecordXmlWriter"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetRecordXmlWriter" /> class.
         /// </summary>
         /// <param name="writer">The writer.</param>
+        /// <exception cref="ArgumentNullException">Throws when writer is null.</exception>
         public FileCabinetRecordXmlWriter(StreamWriter writer)
         {
+            if (writer is null)
+            {
+                throw new ArgumentNullException(nameof(writer));
+            }
+
             this.writer = writer;
         }
 

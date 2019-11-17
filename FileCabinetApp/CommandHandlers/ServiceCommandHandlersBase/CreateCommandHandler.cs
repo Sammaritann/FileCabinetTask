@@ -8,18 +8,24 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// Represents create command handler.
     /// </summary>
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
-    public class CreateComanndHandler : ServiceCommandHandlerBase
+    public class CreateCommandHandler : ServiceCommandHandlerBase
     {
         private IInputValidator inputValidator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateComanndHandler" /> class.
+        /// Initializes a new instance of the <see cref="CreateCommandHandler" /> class.
         /// </summary>
         /// <param name="service">The service.</param>
         /// <param name="validator">The validator.</param>
-        public CreateComanndHandler(IFileCabinetService service, IInputValidator validator)
+        /// <exception cref="ArgumentNullException">Throws when validator is null.</exception>
+        public CreateCommandHandler(IFileCabinetService service, IInputValidator validator)
             : base(service)
         {
+            if (validator is null)
+            {
+                throw new ArgumentNullException(nameof(validator));
+            }
+
             this.inputValidator = validator;
         }
 

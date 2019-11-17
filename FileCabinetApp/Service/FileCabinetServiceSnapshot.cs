@@ -23,11 +23,17 @@ namespace FileCabinetApp.Service
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetServiceSnapshot"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetServiceSnapshot" /> class.
         /// </summary>
         /// <param name="list">The list.</param>
+        /// <exception cref="ArgumentNullException">Throws when list is null.</exception>
         private FileCabinetServiceSnapshot(List<FileCabinetRecord> list)
         {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
             this.records = list.ToArray();
         }
 

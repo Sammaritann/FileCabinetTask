@@ -29,8 +29,14 @@ namespace FileCabinetApp.Service
         /// Initializes a new instance of the <see cref="FileCabinetFileSystemService" /> class.
         /// </summary>
         /// <param name="validator">The validator.</param>
+        /// <exception cref="ArgumentNullException">Throws when validator is null.</exception>
         public FileCabinetFileSystemService(IRecordValidator validator)
         {
+            if (validator is null)
+            {
+                throw new ArgumentNullException(nameof(validator));
+            }
+
             this.validator = validator;
             this.fileStream = new FileStream("cabinet-records.db", FileMode.Create, FileAccess.ReadWrite);
         }

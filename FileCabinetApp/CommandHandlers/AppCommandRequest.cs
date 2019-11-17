@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp.CommandHandlers
+﻿using System;
+
+namespace FileCabinetApp.CommandHandlers
 {
     /// <summary>
     /// Represents app command request.
@@ -12,6 +14,16 @@
         /// <param name="parameters">The parameters.</param>
         public AppCommandRequest(string command, string parameters)
         {
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
+            if (parameters is null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
             this.Command = command;
 
             this.Parameters = parameters;

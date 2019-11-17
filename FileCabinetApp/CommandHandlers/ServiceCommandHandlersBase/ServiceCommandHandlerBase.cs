@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
+﻿using System;
+
+namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
     /// <summary>
     /// Represents service command base handler.
@@ -12,11 +14,17 @@
         private IFileCabinetService service;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServiceCommandHandlerBase"/> class.
+        /// Initializes a new instance of the <see cref="ServiceCommandHandlerBase" /> class.
         /// </summary>
         /// <param name="service">The service.</param>
+        /// <exception cref="ArgumentNullException">Throws when service is null.</exception>
         protected ServiceCommandHandlerBase(IFileCabinetService service)
         {
+            if (service is null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+
             this.Service = service;
         }
 

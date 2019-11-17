@@ -12,13 +12,19 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
         private IRecordPrinter printer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SelectComanndHandler"/> class.
+        /// Initializes a new instance of the <see cref="SelectComanndHandler" /> class.
         /// </summary>
         /// <param name="service">The service.</param>
         /// <param name="printer">The printer.</param>
+        /// <exception cref="ArgumentNullException">Throws when printer is null.</exception>
         public SelectComanndHandler(IFileCabinetService service, IRecordPrinter printer)
             : base(service)
         {
+            if (printer is null)
+            {
+                throw new ArgumentNullException(nameof(printer));
+            }
+
             this.printer = printer;
         }
 

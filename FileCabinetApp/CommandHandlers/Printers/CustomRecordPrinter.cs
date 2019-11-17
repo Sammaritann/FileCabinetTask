@@ -48,6 +48,11 @@ namespace FileCabinetApp.CommandHandlers.Printers
                 throw new ArgumentNullException(nameof(records));
             }
 
+            if (columName is null)
+            {
+                throw new ArgumentNullException(nameof(columName));
+            }
+
             this.titles = columName.Select(x => x.ToUpperInvariant())
                 .Where(x => this.titlesName.Contains(x))
                 .ToArray();

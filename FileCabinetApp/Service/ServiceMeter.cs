@@ -13,9 +13,10 @@ namespace FileCabinetApp.Service
         private IFileCabinetService service;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServiceMeter"/> class.
+        /// Initializes a new instance of the <see cref="ServiceMeter" /> class.
         /// </summary>
         /// <param name="service">The service.</param>
+        /// <exception cref="ArgumentNullException">Throws when service is null.</exception>
         public ServiceMeter(IFileCabinetService service)
         {
             if (service is null)

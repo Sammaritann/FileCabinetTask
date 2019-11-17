@@ -82,16 +82,16 @@ namespace FileCabinetApp
 
         private static ICommandHandler CreateCommandHandler()
         {
-            var createHandler = new CreateComanndHandler(Program.fileCabinetService, inputValidator);
+            var createHandler = new CreateCommandHandler(Program.fileCabinetService, inputValidator);
             var exitHandler = new ExitComanndHandler(x => isRunning = x);
-            var exportHandler = new ExportComanndHandler(Program.fileCabinetService);
+            var exportHandler = new ExportCommandHandler(Program.fileCabinetService);
             var helpHandler = new HelpComanndHandler();
-            var importHandler = new ImportComanndHandler(Program.fileCabinetService);
+            var importHandler = new ImportCommandHandler(Program.fileCabinetService);
             var missedHandler = new MissedComanndHandler();
             var purgeHandler = new PurgeComanndHandler(Program.fileCabinetService);
             var statHandler = new StatComanndHandler(Program.fileCabinetService);
             var selectHandler = new SelectComanndHandler(Program.fileCabinetService, new CustomRecordPrinter());
-            var insertHandler = new InserCommandHandler(Program.fileCabinetService);
+            var insertHandler = new InsertCommandHandler(Program.fileCabinetService);
             var deleteHandler = new DeleteCommandHandler(Program.fileCabinetService);
             var updateHandler = new UpdateCommandHandler(Program.fileCabinetService);
 
