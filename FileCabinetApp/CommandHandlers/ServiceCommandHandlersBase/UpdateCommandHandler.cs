@@ -54,7 +54,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            var param = commandRequest.Parameters.Substring(startIndex + 3, subIndex)
+            var param = commandRequest.Parameters.Substring(startIndex + "set".Length, subIndex)
                 .Split(',', StringSplitOptions.RemoveEmptyEntries);
 
             string firstName = default;

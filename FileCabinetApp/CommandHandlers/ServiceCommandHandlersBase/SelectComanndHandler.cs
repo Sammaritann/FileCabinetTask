@@ -51,6 +51,11 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
+            if (commandRequest.Parameters.StartsWith("where ", StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring("where ".Length)));
+            }
+
             if (subIndex == -1)
             {
                 var param = commandRequest.Parameters.Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
