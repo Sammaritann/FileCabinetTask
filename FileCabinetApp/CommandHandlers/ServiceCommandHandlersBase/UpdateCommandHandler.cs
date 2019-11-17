@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
@@ -54,12 +55,9 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             var param = commandRequest.Parameters.Substring(startIndex + "set".Length, subIndex)
                 .Split(',', StringSplitOptions.RemoveEmptyEntries);
 
-            string firstName = default;
-            string lastName = default;
-            DateTime dateOfBirth = default;
-            short department = default;
-            decimal salary = default;
-            char clas = default;
+            BitArray flags = new BitArray(6, false);
+
+            RecordParams recordParams = new RecordParams();
 
             foreach (var record in param)
             {
@@ -69,32 +67,42 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 switch (values[0].ToUpperInvariant())
                 {
                     case "FIRSTNAME":
-                        firstName = values[1];
+                        recordParams.FirstName = values[1];
+                        flags[0] = true;
                         break;
                     case "LASTNAME":
-                        lastName = values[1];
+                        recordParams.LastName = values[1];
+                        flags[1] = true;
                         break;
                     case "DATEOFBIRTH":
-                        DateTime.TryParseExact(values[1], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth);
+                        if (DateTime.TryParseExact(values[1], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateOfBirth))
+                        {
+                            recordParams.DateOfBirth = dateOfBirth;
+                            flags[2] = true;
+                        }
+
                         break;
                     case "SALARY":
-                        if (!decimal.TryParse(values[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out salary))
+                        if (decimal.TryParse(values[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal salary))
                         {
-                            salary = default;
+                            recordParams.Salary = salary;
+                            flags[3] = true;
                         }
 
                         break;
                     case "DEPARTMENT":
-                        if (!short.TryParse(values[1], out department))
+                        if (short.TryParse(values[1], out short department))
                         {
-                            department = default;
+                            recordParams.Department = department;
+                            flags[4] = true;
                         }
 
                         break;
                     case "CLASS":
-                        if (!char.TryParse(values[1], out clas))
+                        if (char.TryParse(values[1], out char clas))
                         {
-                            clas = default;
+                            recordParams.Class = clas;
+                            flags[5] = true;
                         }
 
                         break;
@@ -103,16 +111,14 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 }
             }
 
-            RecordParams recordParams = new RecordParams();
-
             foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)))
             {
-                recordParams.FirstName = firstName == default ? record.FirstName : firstName;
-                recordParams.LastName = lastName == default ? record.LastName : lastName;
-                recordParams.DateOfBirth = dateOfBirth == default ? record.DateOfBirth : dateOfBirth;
-                recordParams.Salary = salary == default ? record.Salary : salary;
-                recordParams.Department = department == default ? record.Department : department;
-                recordParams.Class = clas == default ? record.Class : clas;
+                recordParams.FirstName = flags[0] ? recordParams.FirstName : record.FirstName;
+                recordParams.LastName = flags[1] ? recordParams.LastName : record.LastName;
+                recordParams.DateOfBirth = flags[2] ? recordParams.DateOfBirth : record.DateOfBirth;
+                recordParams.Salary = flags[3] ? recordParams.Salary : record.Salary;
+                recordParams.Department = flags[4] ? recordParams.Department : record.Department;
+                recordParams.Class = flags[5] ? recordParams.Class : record.Class;
                 try
                 {
                     this.Service.EditRecord(record.Id, recordParams);
