@@ -72,9 +72,10 @@
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ExitComanndHandler.#ctor(System.Action{System.Boolean})">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ExitComanndHandler"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ExitComanndHandler" /> class.
             </summary>
             <param name="isRunning">The is running.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when isRunning is null.</exception>
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ExitComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
@@ -164,26 +165,27 @@
             <param name="records">The records.</param>
             <param name="param">The parameter.</param>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler">
+        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler">
             <summary>
             Represents create command handler.
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.Validators.InpitValidator.IInputValidator)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.Validators.InpitValidator.IInputValidator)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler" /> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler" /> class.
             </summary>
             <param name="service">The service.</param>
             <param name="validator">The validator.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when validator is null.</exception>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
             Handles the specified command request.
             </summary>
             <param name="commandRequest">The command request.</param>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.ReadInput``1(System.Func{System.String,System.ValueTuple{System.Boolean,System.String,``0}},System.Func{``0,System.ValueTuple{System.Boolean,System.String}})">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.ReadInput``1(System.Func{System.String,System.ValueTuple{System.Boolean,System.String,``0}},System.Func{``0,System.ValueTuple{System.Boolean,System.String}})">
             <summary>
             Reads the input.
             </summary>
@@ -192,42 +194,42 @@
             <param name="validator">The validator.</param>
             <returns>Read item.</returns>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.StringConverter(System.String)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.StringConverter(System.String)">
             <summary>
             Strings the converter.
             </summary>
             <param name="str">The string.</param>
             <returns>Convert string.</returns>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.DateConverter(System.String)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.DateConverter(System.String)">
             <summary>
             Dates the converter.
             </summary>
             <param name="str">The string.</param>
             <returns>Convert date.</returns>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.ShortConverter(System.String)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.ShortConverter(System.String)">
             <summary>
             Shorts the converter.
             </summary>
             <param name="str">The string.</param>
             <returns>Convert short.</returns>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.DecimalConverter(System.String)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.DecimalConverter(System.String)">
             <summary>
             Decimals the converter.
             </summary>
             <param name="str">The string.</param>
             <returns>Convert deciminal.</returns>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.CharConverter(System.String)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.CharConverter(System.String)">
             <summary>
             Characters the converter.
             </summary>
             <param name="str">The string.</param>
             <returns>Convert char.</returns>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateComanndHandler.ReadRecord(System.String@,System.String@,System.DateTime@,System.Int16@,System.Decimal@,System.Char@)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler.ReadRecord(System.String@,System.String@,System.DateTime@,System.Int16@,System.Decimal@,System.Char@)">
             <summary>
             Reads the record.
             </summary>
@@ -257,57 +259,57 @@
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportComanndHandler">
+        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportCommandHandler">
             <summary>
             Represents export command handler.
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportComanndHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportComanndHandler"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportCommandHandler"/> class.
             </summary>
             <param name="service">The service.</param>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ExportCommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
             Handles the specified command request.
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportComanndHandler">
+        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportCommandHandler">
             <summary>
             Represents import command handler.
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportComanndHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportComanndHandler"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportCommandHandler"/> class.
             </summary>
             <param name="service">The service.</param>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ImportCommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
             Handles the specified command request.
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.InserCommandHandler">
+        <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.InsertCommandHandler">
             <summary>
             Represents insert command handler.
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.InserCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.InsertCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.InserCommandHandler"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.InsertCommandHandler"/> class.
             </summary>
             <param name="service">The service.</param>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.InserCommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.InsertCommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
             Handles the specified command request.
             </summary>
@@ -341,10 +343,11 @@
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.SelectComanndHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.CommandHandlers.Printers.IRecordPrinter)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.SelectComanndHandler"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.SelectComanndHandler" /> class.
             </summary>
             <param name="service">The service.</param>
             <param name="printer">The printer.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when printer is null.</exception>
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.SelectComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
@@ -366,9 +369,10 @@
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase.#ctor(FileCabinetApp.IFileCabinetService)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" /> class.
             </summary>
             <param name="service">The service.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when service is null.</exception>
         </member>
         <member name="P:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase.Service">
             <summary>
@@ -676,9 +680,10 @@
         </member>
         <member name="M:FileCabinetApp.Reader.FileCabinetRecordXmlReader.#ctor(System.IO.StreamReader)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Reader.FileCabinetRecordXmlReader"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Reader.FileCabinetRecordXmlReader" /> class.
             </summary>
             <param name="stream">The stream.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when stream is null.</exception>
         </member>
         <member name="M:FileCabinetApp.Reader.FileCabinetRecordXmlReader.ReadAll">
             <summary>
@@ -697,6 +702,7 @@
             Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetFileSystemService" /> class.
             </summary>
             <param name="validator">The validator.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when validator is null.</exception>
         </member>
         <member name="P:FileCabinetApp.Service.FileCabinetFileSystemService.MemEntity">
             <summary>
@@ -797,9 +803,10 @@
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.#ctor(System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord})">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetServiceSnapshot"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetServiceSnapshot" /> class.
             </summary>
             <param name="list">The list.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when list is null.</exception>
         </member>
         <member name="P:FileCabinetApp.Service.FileCabinetServiceSnapshot.Records">
             <summary>
@@ -874,9 +881,10 @@
         </member>
         <member name="M:FileCabinetApp.Service.ServiceLogger.#ctor(FileCabinetApp.IFileCabinetService)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceLogger"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceLogger" /> class.
             </summary>
             <param name="service">The service.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when service is null.</exception>
         </member>
         <member name="P:FileCabinetApp.Service.ServiceLogger.MemEntity">
             <summary>
@@ -981,9 +989,10 @@
         </member>
         <member name="M:FileCabinetApp.Service.ServiceMeter.#ctor(FileCabinetApp.IFileCabinetService)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceMeter"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceMeter" /> class.
             </summary>
             <param name="service">The service.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when service is null.</exception>
         </member>
         <member name="P:FileCabinetApp.Service.ServiceMeter.MemEntity">
             <summary>
@@ -1087,9 +1096,10 @@
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetMemoryService"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetMemoryService" /> class.
             </summary>
             <param name="validator">The validator.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when validator is null.</exception>
         </member>
         <member name="P:FileCabinetApp.FileCabinetMemoryService.MemEntity">
             <summary>
@@ -1422,9 +1432,10 @@
         </member>
         <member name="M:FileCabinetApp.Validators.RecordValidator.CompositeValidator.#ctor(System.Collections.Generic.IEnumerable{FileCabinetApp.Validators.IRecordValidator})">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.CompositeValidator"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Validators.RecordValidator.CompositeValidator" /> class.
             </summary>
             <param name="validators">The validators.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when validators is null.</exception>
         </member>
         <member name="M:FileCabinetApp.Validators.RecordValidator.CompositeValidator.ValidateCabinetRecord(FileCabinetApp.RecordParams)">
             <summary>
@@ -1620,9 +1631,10 @@
         </member>
         <member name="M:FileCabinetApp.Writer.FileCabinetRecordCsvWriter.#ctor(System.IO.StreamWriter)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Writer.FileCabinetRecordCsvWriter"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Writer.FileCabinetRecordCsvWriter" /> class.
             </summary>
             <param name="writer">The writer.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when writer is null.</exception>
         </member>
         <member name="M:FileCabinetApp.Writer.FileCabinetRecordCsvWriter.Write(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -1638,9 +1650,10 @@
         </member>
         <member name="M:FileCabinetApp.Writer.FileCabinetRecordXmlWriter.#ctor(System.IO.StreamWriter)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Writer.FileCabinetRecordXmlWriter"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Writer.FileCabinetRecordXmlWriter" /> class.
             </summary>
             <param name="writer">The writer.</param>
+            <exception cref="T:System.ArgumentNullException">Throws when writer is null.</exception>
         </member>
         <member name="M:FileCabinetApp.Writer.FileCabinetRecordXmlWriter.Write(FileCabinetApp.FileCabinetRecord)">
             <summary>

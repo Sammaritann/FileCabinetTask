@@ -77,7 +77,7 @@ namespace FileCabinetApp.Service
             try
             {
                 var result = this.service.CreateRecord(recordParams);
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - GetStat() returned \'{1}\'\n", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - Create() returned \'{1}\'\n", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
                 File.AppendAllText("logger.txt", resultContext);
                 return result;
             }

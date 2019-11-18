@@ -6,7 +6,7 @@ namespace FileCabinetApp.CommandHandlers
     /// Represents help command handler.
     /// </summary>
     /// <seealso cref="FileCabinetApp.CommandHandlers.CommandHandlerBase" />
-    public class HelpComanndHandler : CommandHandlerBase
+    public class HelpCommandHandler : CommandHandlerBase
     {
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;

@@ -7,7 +7,7 @@ namespace FileCabinetApp.CommandHandlers
     /// Represents missed command handler.
     /// </summary>
     /// <seealso cref="FileCabinetApp.CommandHandlers.CommandHandlerBase" />
-    public class MissedComanndHandler : CommandHandlerBase
+    public class MissedCommandHandler : CommandHandlerBase
     {
         private const int MistakesLimit = 3;
 

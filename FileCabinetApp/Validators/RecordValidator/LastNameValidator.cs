@@ -36,14 +36,14 @@ namespace FileCabinetApp.Validators.RecordValidator
                 throw new ArgumentNullException(nameof(recordParams));
             }
 
-            if (string.IsNullOrWhiteSpace(recordParams.FirstName))
+            if (string.IsNullOrWhiteSpace(recordParams.LastName))
             {
-                throw new ArgumentException($"{nameof(recordParams.FirstName)} must not be null or contain only spaces");
+                throw new ArgumentException($"{nameof(recordParams.LastName)} must not be null or contain only spaces");
             }
 
-            if ((recordParams.FirstName.Length < this.minLength) || (recordParams.FirstName.Length > this.maxLength))
+            if ((recordParams.LastName.Length < this.minLength) || (recordParams.LastName.Length > this.maxLength))
             {
-                throw new ArgumentException($"{nameof(recordParams.FirstName)} length should be between 2 and 60");
+                throw new ArgumentException($"{nameof(recordParams.LastName)} length should be between 2 and 60");
             }
         }
     }

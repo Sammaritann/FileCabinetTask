@@ -6,16 +6,16 @@ namespace FileCabinetApp.CommandHandlers
     /// Represents exit command handler.
     /// </summary>
     /// <seealso cref="FileCabinetApp.CommandHandlers.CommandHandlerBase" />
-    public class ExitComanndHandler : CommandHandlerBase
+    public class ExitCommandHandler : CommandHandlerBase
     {
         private readonly Action<bool> isRunning;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExitComanndHandler" /> class.
+        /// Initializes a new instance of the <see cref="ExitCommandHandler" /> class.
         /// </summary>
         /// <param name="isRunning">The is running.</param>
         /// <exception cref="ArgumentNullException">Throws when isRunning is null.</exception>
-        public ExitComanndHandler(Action<bool> isRunning)
+        public ExitCommandHandler(Action<bool> isRunning)
         {
             if (isRunning is null)
             {
