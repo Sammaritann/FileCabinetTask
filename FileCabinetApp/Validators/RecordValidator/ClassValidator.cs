@@ -38,7 +38,7 @@ namespace FileCabinetApp.Validators.RecordValidator
 
             if (recordParams.Class < this.minClass || recordParams.Class > this.maxClass)
             {
-                throw new ArgumentException($"{nameof(recordParams.Class)} should be between A and Z");
+                throw new ArgumentException($"{nameof(recordParams.Class)} should be between {this.minClass} and {this.maxClass}");
             }
         }
     }

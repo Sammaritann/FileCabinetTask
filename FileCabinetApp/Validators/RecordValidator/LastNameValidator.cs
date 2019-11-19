@@ -43,7 +43,7 @@ namespace FileCabinetApp.Validators.RecordValidator
 
             if ((recordParams.LastName.Length < this.minLength) || (recordParams.LastName.Length > this.maxLength))
             {
-                throw new ArgumentException($"{nameof(recordParams.LastName)} length should be between 2 and 60");
+                throw new ArgumentException($"{nameof(recordParams.LastName)} length should be between {this.minLength} and {this.maxLength}");
             }
         }
     }

@@ -38,7 +38,7 @@ namespace FileCabinetApp.Validators.RecordValidator
 
             if (recordParams.DateOfBirth < this.from || recordParams.DateOfBirth > this.to)
             {
-                throw new ArgumentException($"{nameof(recordParams.DateOfBirth)} shoud be between  01-Jan-1950 and now");
+                throw new ArgumentException($"{nameof(recordParams.DateOfBirth)} shoud be between  {this.from} and {this.to}");
             }
         }
     }

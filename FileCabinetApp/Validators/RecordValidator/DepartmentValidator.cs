@@ -38,7 +38,7 @@ namespace FileCabinetApp.Validators.RecordValidator
 
             if (recordParams.Department <= this.from || recordParams.Department >= this.to)
             {
-                throw new ArgumentException($"{nameof(recordParams.Department)} should be more than zero");
+                throw new ArgumentException($"{nameof(recordParams.Department)} should be between {this.from} and {this.to}");
             }
         }
     }
