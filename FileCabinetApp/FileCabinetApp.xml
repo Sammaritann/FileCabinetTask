@@ -64,51 +64,82 @@
             <param name="commandHandler">The command handler.</param>
             <exception cref="T:System.ArgumentNullException">commandHandler.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ExitComanndHandler">
+        <member name="T:FileCabinetApp.CommandHandlers.ExitCommandHandler">
             <summary>
             Represents exit command handler.
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.CommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ExitComanndHandler.#ctor(System.Action{System.Boolean})">
+        <member name="M:FileCabinetApp.CommandHandlers.ExitCommandHandler.#ctor(System.Action{System.Boolean})">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ExitComanndHandler" /> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ExitCommandHandler" /> class.
             </summary>
             <param name="isRunning">The is running.</param>
             <exception cref="T:System.ArgumentNullException">Throws when isRunning is null.</exception>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ExitComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
+        <member name="M:FileCabinetApp.CommandHandlers.ExitCommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
             Handles the specified command request.
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.HelpComanndHandler">
+        <member name="T:FileCabinetApp.CommandHandlers.HelpCommandHandler">
             <summary>
             Represents help command handler.
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.CommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.HelpComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
+        <member name="M:FileCabinetApp.CommandHandlers.HelpCommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
             Handles the specified command request.
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.MissedComanndHandler">
+        <member name="T:FileCabinetApp.CommandHandlers.MissedCommandHandler">
             <summary>
             Represents missed command handler.
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.CommandHandlerBase" />
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.MissedComanndHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
+        <member name="M:FileCabinetApp.CommandHandlers.MissedCommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
             <summary>
             Handles the specified command request.
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException">
+            <summary>
+            Represents import record exception.
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (<see langword="Nothing" /> in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ICommandHandler">
             <summary>
@@ -745,6 +776,10 @@
             Restores the specified snapshot.
             </summary>
             <param name="snapshot">The snapshot.</param>
+            <returns>
+            Exceptions.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">Throws when snapshot is null.</exception>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.Remove(System.Int32)">
             <summary>
@@ -973,6 +1008,9 @@
             Restores the specified snapshot and measures time.
             </summary>
             <param name="snapshot">The snapshot.</param>
+            <returns>
+            Exceptions.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.Service.ServiceLogger.Where(System.String)">
             <summary>
@@ -1081,6 +1119,9 @@
             Restores the specified snapshot and logs.
             </summary>
             <param name="snapshot">The snapshot.</param>
+            <returns>
+            Exceptions.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.Service.ServiceMeter.Where(System.String)">
             <summary>
@@ -1149,6 +1190,9 @@
             Restores the specified snapshot.
             </summary>
             <param name="snapshot">The snapshot.</param>
+            <returns>
+            Exceptions.
+            </returns>
             <exception cref="T:System.ArgumentNullException">Throws when snampshot is null.</exception>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.Remove(System.Int32)">
@@ -1270,6 +1314,7 @@
             Restores the specified snapshot.
             </summary>
             <param name="snapshot">The snapshot.</param>
+            <returns>Exceptions.</returns>
         </member>
         <member name="M:FileCabinetApp.IFileCabinetService.Remove(System.Int32)">
             <summary>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using FileCabinetApp.CommandHandlers.Exceptions;
 using FileCabinetApp.CommandHandlers.ValidateHandler;
 using FileCabinetApp.Validators;
 
@@ -202,20 +203,25 @@ namespace FileCabinetApp.Service
         /// <inheritdoc/>
         public FileCabinetServiceSnapshot MakeSnapshot()
         {
-            throw new NotImplementedException();
+            return FileCabinetServiceSnapshot.MakeSnapshot(this.GetRecords().ToList());
         }
 
         /// <summary>
         /// Restores the specified snapshot.
         /// </summary>
         /// <param name="snapshot">The snapshot.</param>
-        public void Restore(FileCabinetServiceSnapshot snapshot)
+        /// <returns>
+        /// Exceptions.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">Throws when snapshot is null.</exception>
+        public IReadOnlyCollection<Exception> Restore(FileCabinetServiceSnapshot snapshot)
         {
             if (snapshot is null)
             {
                 throw new ArgumentNullException(nameof(snapshot));
             }
 
+            List<Exception> exceptions = new List<Exception>();
             foreach (FileCabinetRecord record in snapshot.Records)
             {
                 try
@@ -257,9 +263,11 @@ namespace FileCabinetApp.Service
                 }
                 catch (ArgumentException e)
                 {
-                    Console.WriteLine($"{record.Id}: {e.Message}");
+                    exceptions.Add(new ImportRecordException(record.Id, e.Message));
                 }
             }
+
+            return exceptions;
         }
 
         /// <summary>

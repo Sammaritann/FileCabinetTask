@@ -180,12 +180,16 @@ namespace FileCabinetApp.Service
         /// Restores the specified snapshot and logs.
         /// </summary>
         /// <param name="snapshot">The snapshot.</param>
-        public void Restore(FileCabinetServiceSnapshot snapshot)
+        /// <returns>
+        /// Exceptions.
+        /// </returns>
+        public IReadOnlyCollection<Exception> Restore(FileCabinetServiceSnapshot snapshot)
         {
             var sw = Stopwatch.StartNew();
-            this.service.Restore(snapshot);
+            var exceptions = this.service.Restore(snapshot);
             sw.Stop();
             Console.WriteLine("Restore method execution duration is {0} ticks", sw.ElapsedTicks);
+            return exceptions;
         }
 
         /// <summary>

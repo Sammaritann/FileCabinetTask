@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FileCabinetApp.CommandHandlers.Exceptions;
 using FileCabinetApp.CommandHandlers.ValidateHandler;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
@@ -151,13 +152,18 @@ namespace FileCabinetApp
         /// Restores the specified snapshot.
         /// </summary>
         /// <param name="snapshot">The snapshot.</param>
+        /// <returns>
+        /// Exceptions.
+        /// </returns>
         /// <exception cref="ArgumentNullException">Throws when snampshot is null.</exception>
-        public void Restore(FileCabinetServiceSnapshot snapshot)
+        public IReadOnlyCollection<Exception> Restore(FileCabinetServiceSnapshot snapshot)
         {
             if (snapshot is null)
             {
                 throw new ArgumentNullException(nameof(snapshot));
             }
+
+            List<Exception> exceptions = new List<Exception>();
 
             foreach (FileCabinetRecord record in snapshot.Records)
             {
@@ -181,9 +187,11 @@ namespace FileCabinetApp
                 }
                 catch (ArgumentException e)
                 {
-                    Console.WriteLine("{0}:{1}", record.Id, e.Message);
+                    exceptions.Add(new ImportRecordException(record.Id, e.Message));
                 }
             }
+
+            return exceptions;
         }
 
         /// <summary>

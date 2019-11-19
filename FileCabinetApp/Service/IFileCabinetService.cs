@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FileCabinetApp.Service;
 
 namespace FileCabinetApp
@@ -75,7 +76,8 @@ namespace FileCabinetApp
         /// Restores the specified snapshot.
         /// </summary>
         /// <param name="snapshot">The snapshot.</param>
-        public void Restore(FileCabinetServiceSnapshot snapshot);
+        /// <returns>Exceptions.</returns>
+        public IReadOnlyCollection<Exception> Restore(FileCabinetServiceSnapshot snapshot);
 
         /// <summary>
         /// Removes the specified identifier.

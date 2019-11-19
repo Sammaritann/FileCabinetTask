@@ -240,11 +240,20 @@ namespace FileCabinetApp.Service
         /// Restores the specified snapshot and measures time.
         /// </summary>
         /// <param name="snapshot">The snapshot.</param>
-        public void Restore(FileCabinetServiceSnapshot snapshot)
+        /// <returns>
+        /// Exceptions.
+        /// </returns>
+        public IReadOnlyCollection<Exception> Restore(FileCabinetServiceSnapshot snapshot)
         {
             string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with {2}\n", DateTime.Now, "Restore()", snapshot);
             File.AppendAllText("logger.txt", context);
-            this.service.Restore(snapshot);
+            var exceptions = this.service.Restore(snapshot);
+            foreach (var exception in exceptions)
+            {
+                File.AppendAllText("logger.txt", string.Format(CultureInfo.InvariantCulture, "\t {0} \n", exception.Message));
+            }
+
+            return exceptions;
         }
 
         /// <summary>

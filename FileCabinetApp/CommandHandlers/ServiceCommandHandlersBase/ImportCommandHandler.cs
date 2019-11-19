@@ -76,16 +76,28 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 if (param[0].ToUpperInvariant() == "CSV")
                 {
                     serviceSnapshot.LoadFromCsv(new StreamReader(fileStream, leaveOpen: true));
-                    this.Service.Restore(serviceSnapshot);
-                    Console.WriteLine("records were imported from {0}", param[1]);
                 }
 
                 if (param[0].ToUpperInvariant() == "XML")
                 {
                     serviceSnapshot.LoadFromXml(new StreamReader(fileStream, leaveOpen: true));
-                    this.Service.Restore(serviceSnapshot);
-                    Console.WriteLine("records were imported from {0}", param[1]);
                 }
+
+                if (serviceSnapshot.Records is null)
+                {
+                    Console.WriteLine("Incorrect format.");
+                    fileStream.Close();
+                    return;
+                }
+
+                var exceptions = this.Service.Restore(serviceSnapshot);
+
+                foreach (var exception in exceptions)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+
+                Console.WriteLine("records were imported from {0}", param[1]);
 
                 this.Service.MemEntity.Clear();
             }
