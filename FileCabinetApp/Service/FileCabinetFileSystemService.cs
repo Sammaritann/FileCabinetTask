@@ -165,8 +165,8 @@ namespace FileCabinetApp.Service
         /// <returns>FileCabinetRecord.</returns>
         public IEnumerable<FileCabinetRecord> Where(string param)
         {
-            ValidateEntity entity = new ValidateEntity().Create(param, this.MemEntity);
-
+            ValidateWhereParam(param);
+            ValidateEntity entity = new ValidateEntity().Create(param, this);
             foreach (var record in entity.Filtering(this.GetRecords()))
             {
                 yield return record;
@@ -192,6 +192,72 @@ namespace FileCabinetApp.Service
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Finds all records by Date.
+        /// </summary>
+        /// <param name="dateOfBirth">The date of birth.</param>
+        /// <returns>
+        /// Found records.
+        /// </returns>
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        {
+            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
+                {
+                    byte[] buffer = new byte[277];
+                    this.fileStream.Position = item;
+                    this.fileStream.Read(buffer, 0, 277);
+                    FileCabinetRecord record = this.RecordFromBytes(buffer);
+                    yield return record;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds all records by first name.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <returns>
+        /// Found records.
+        /// </returns>
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
+        {
+            if (this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant()))
+            {
+                foreach (var item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
+                {
+                    byte[] buffer = new byte[277];
+                    this.fileStream.Position = item;
+                    this.fileStream.Read(buffer, 0, 277);
+                    FileCabinetRecord record = this.RecordFromBytes(buffer);
+                    yield return record;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds all records by last name.
+        /// </summary>
+        /// <param name="lastName">The last name.</param>
+        /// <returns>
+        /// Found records.
+        /// </returns>
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
+        {
+            if (this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant()))
+            {
+                foreach (var item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
+                {
+                    byte[] buffer = new byte[277];
+                    this.fileStream.Position = item;
+                    this.fileStream.Read(buffer, 0, 277);
+                    FileCabinetRecord record = this.RecordFromBytes(buffer);
+                    yield return record;
+                }
+            }
         }
 
         /// <inheritdoc/>
@@ -447,6 +513,34 @@ namespace FileCabinetApp.Service
             }
 
             dictioanry[key].Add(value);
+        }
+
+        private static void ValidateWhereParam(string param)
+        {
+            if (param is null)
+            {
+                throw new ArgumentNullException(param);
+            }
+
+            param = param.Replace("or", " ", StringComparison.InvariantCultureIgnoreCase);
+            param = param.Replace("and", " ", StringComparison.InvariantCultureIgnoreCase);
+            var validateParam = param.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase)
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim('\''))
+                .ToArray();
+            if (validateParam.Length % 2 != 0)
+            {
+                throw new ArgumentException("Not correct param string");
+            }
+
+            for (int i = 0; i < validateParam.Length / 2; i++)
+            {
+                Type type = typeof(FileCabinetRecord);
+                if (!type.GetProperties().Select(x => x.Name.ToUpperInvariant()).Contains(validateParam[i * 2].ToUpperInvariant()))
+                {
+                    throw new ArgumentException(validateParam[i * 2]);
+                }
+            }
         }
 
         private FileCabinetRecord RecordFromBytes(byte[] buffer)

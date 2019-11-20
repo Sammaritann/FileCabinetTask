@@ -9,7 +9,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
     /// </summary>
     public class ValidateEntity
     {
-        private MemEntity memEntity;
+        private IFileCabinetService service;
         private List<(Predicate<FileCabinetRecord> predicate, string explanation)> predicates = new List<(Predicate<FileCabinetRecord>, string)>();
         private ValidateEntity nextEntities;
         private bool isOr = false;
@@ -18,42 +18,47 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
         /// Creates the specified parameter.
         /// </summary>
         /// <param name="param">The parameter.</param>
-        /// <param name="memEntity">The memory entity.</param>
+        /// <param name="service">The service.</param>
         /// <returns>
         /// ValidateEntity.
         /// </returns>
         /// <exception cref="ArgumentNullException">Throws when param is null.</exception>
-        public ValidateEntity Create(string param, MemEntity memEntity)
+        public ValidateEntity Create(string param, IFileCabinetService service)
         {
             if (param == null)
             {
                 throw new ArgumentNullException(nameof(param));
             }
 
-            this.memEntity = memEntity;
+            if (service is null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+
+            this.service = service;
 
             while (param.Length > 0)
-            {
-                if (this.isOr)
                 {
-                    this.nextEntities = new ValidateEntity().Create(param, memEntity);
-                    return this;
+                    if (this.isOr)
+                    {
+                        this.nextEntities = new ValidateEntity().Create(param, service);
+                        return this;
+                    }
+
+                    int andIndex = param.IndexOf(" and ", StringComparison.InvariantCultureIgnoreCase);
+                    int orIndex = param.IndexOf(" or ", StringComparison.InvariantCultureIgnoreCase);
+                    int subIndex = andIndex == -1 ? orIndex : orIndex == -1 ? andIndex : Math.Min(andIndex, orIndex);
+
+                    if (subIndex == -1)
+                    {
+                        this.predicates.Add(ValidateGenerator.Create(param));
+                        return this;
+                    }
+
+                    this.predicates.Add(ValidateGenerator.Create(param.Substring(0, subIndex)));
+                    this.isOr = orIndex == subIndex ? true : false;
+                    param = this.isOr ? param.Substring(subIndex + 4) : param.Substring(subIndex + 5);
                 }
-
-                int andIndex = param.IndexOf(" and ", StringComparison.InvariantCultureIgnoreCase);
-                int orIndex = param.IndexOf(" or ", StringComparison.InvariantCultureIgnoreCase);
-                int subIndex = andIndex == -1 ? orIndex : orIndex == -1 ? andIndex : Math.Min(andIndex, orIndex);
-
-                if (subIndex == -1)
-                {
-                    this.predicates.Add(ValidateGenerator.Create(param));
-                    return this;
-                }
-
-                this.predicates.Add(ValidateGenerator.Create(param.Substring(0, subIndex)));
-                this.isOr = orIndex == subIndex ? true : false;
-                param = this.isOr ? param.Substring(subIndex + 4) : param.Substring(subIndex + 5);
-            }
 
             return this;
         }
@@ -107,13 +112,35 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
         private IEnumerable<FileCabinetRecord> Invoke(IEnumerable<FileCabinetRecord> records)
         {
             List<FileCabinetRecord> invokeResult;
-            if ((invokeResult = this.memEntity.TryGetMemRecords(this)) is null)
+            if ((invokeResult = this.service.MemEntity.TryGetMemRecords(this)) is null)
             {
+                var explanation = this.predicates[0].explanation.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                switch (explanation[0].ToUpperInvariant())
+                {
+                    case "FIRSTNAME": records = this.service.FindByFirstName(explanation[1].ToUpperInvariant());
+                        break;
+                    case "LASTNAME":
+                        records = this.service.FindByLastName(explanation[1].ToUpperInvariant());
+                        break;
+                    case "DATEOFBIRTH":
+
+                        if (DateTime.TryParse(explanation[1], out DateTime time))
+                        {
+                            records = this.service.FindByDateOfBirth(time);
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
+
                 foreach (FileCabinetRecord record in records)
                 {
                     if (this.Sieve(record))
                     {
-                        this.memEntity.AddRecord(this, record);
+                        this.service.MemEntity.AddRecord(this, record);
                         yield return record;
                     }
                 }

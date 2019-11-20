@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Globalization;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -111,22 +112,30 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 }
             }
 
-            foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)))
+            try
             {
-                recordParams.FirstName = flags[0] ? recordParams.FirstName : record.FirstName;
-                recordParams.LastName = flags[1] ? recordParams.LastName : record.LastName;
-                recordParams.DateOfBirth = flags[2] ? recordParams.DateOfBirth : record.DateOfBirth;
-                recordParams.Salary = flags[3] ? recordParams.Salary : record.Salary;
-                recordParams.Department = flags[4] ? recordParams.Department : record.Department;
-                recordParams.Class = flags[5] ? recordParams.Class : record.Class;
-                try
+                foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)))
                 {
-                    this.Service.EditRecord(record.Id, recordParams);
+                    recordParams.FirstName = flags[0] ? recordParams.FirstName : record.FirstName;
+                    recordParams.LastName = flags[1] ? recordParams.LastName : record.LastName;
+                    recordParams.DateOfBirth = flags[2] ? recordParams.DateOfBirth : record.DateOfBirth;
+                    recordParams.Salary = flags[3] ? recordParams.Salary : record.Salary;
+                    recordParams.Department = flags[4] ? recordParams.Department : record.Department;
+                    recordParams.Class = flags[5] ? recordParams.Class : record.Class;
+                    try
+                    {
+                        this.Service.EditRecord(record.Id, recordParams);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
-                catch (ArgumentException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine($"Parameter does not exist: {e.Message}");
+                return;
             }
 
             this.Service.MemEntity.Clear();

@@ -22,6 +22,10 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
             }
 
             var param = validateParam.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (param.Length != 2)
+            {
+                throw new ArgumentException(validateParam);
+            }
 
             return (param[0].ToUpperInvariant().Trim('\'') switch
             {
@@ -32,8 +36,8 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
                 "SALARY" => x => x.Salary.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
                 "DEPARTMENT" => x => x.Department.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
                 "CLASS" => x => x.Class.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
-                _ => x => false,
-            }, param[0] + param[1]);
+                _ => throw new ArgumentException(param[0]),
+            }, $"{param[0]}  {param[1]}");
         }
     }
 }

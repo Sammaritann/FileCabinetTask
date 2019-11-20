@@ -43,9 +43,17 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + "where".Length).Trim()))
+            try
             {
-                this.Service.Remove(record.Id);
+                foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + "where".Length).Trim()))
+                {
+                    this.Service.Remove(record.Id);
+                }
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine($"Parameter does not exist: {e.Message}");
+                return;
             }
 
             this.Service.MemEntity.Clear();

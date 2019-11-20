@@ -54,21 +54,29 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            if (commandRequest.Parameters.StartsWith("where ", StringComparison.InvariantCultureIgnoreCase))
+            try
             {
-                this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring("where ".Length)));
-            }
-            else if (subIndex == -1)
-            {
-                var param = commandRequest.Parameters.Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (commandRequest.Parameters.StartsWith("where ", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring("where ".Length)));
+                }
+                else if (subIndex == -1)
+                {
+                    var param = commandRequest.Parameters.Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                this.printer.Print(this.Service.GetRecords(), param);
-            }
-            else
-            {
-                var param = commandRequest.Parameters.Substring(0, subIndex).Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    this.printer.Print(this.Service.GetRecords(), param);
+                }
+                else
+                {
+                    var param = commandRequest.Parameters.Substring(0, subIndex).Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)), param);
+                    this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)), param);
+                }
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine($"Parameter does not exist: {e.Message}");
+                return;
             }
         }
     }

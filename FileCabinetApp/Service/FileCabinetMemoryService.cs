@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FileCabinetApp.CommandHandlers.Exceptions;
 using FileCabinetApp.CommandHandlers.ValidateHandler;
 using FileCabinetApp.Service;
@@ -129,6 +130,54 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Finds all records by first name.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <returns>Found records.</returns>
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
+        {
+            if (this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant()))
+            {
+                foreach (var item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds all records by last name.
+        /// </summary>
+        /// <param name="lastName">The last name.</param>
+        /// <returns>Found records.</returns>
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
+        {
+            if (this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant()))
+            {
+                foreach (var item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds all records by Date.
+        /// </summary>
+        /// <param name="dateOfBirth">The date of birth.</param>
+        /// <returns>Found records.</returns>
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        {
+            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the stat.
         /// </summary>
         /// <returns>Number of records.</returns>
@@ -240,15 +289,17 @@ namespace FileCabinetApp
         /// Wheres the specified parameter.
         /// </summary>
         /// <param name="param">The parameter.</param>
-        /// <returns>FileCabinetREcords.</returns>
+        /// <returns>
+        /// FileCabinetRecords.
+        /// </returns>
         public IEnumerable<FileCabinetRecord> Where(string param)
         {
-            ValidateEntity entity = new ValidateEntity().Create(param, this.MemEntity);
-
+            ValidateWhereParam(param);
+            ValidateEntity entity = new ValidateEntity().Create(param, this);
             foreach (var record in entity.Filtering(this.list))
-            {
-                yield return record;
-            }
+                {
+                    yield return record;
+                }
         }
 
         /// <summary>
@@ -303,6 +354,34 @@ namespace FileCabinetApp
         private static RecordParams RecordToParams(FileCabinetRecord record)
         {
             return new RecordParams(record.FirstName, record.LastName, record.DateOfBirth, record.Department, record.Salary, record.Class);
+        }
+
+        private static void ValidateWhereParam(string param)
+        {
+            if (param is null)
+            {
+                throw new ArgumentNullException(param);
+            }
+
+            param = param.Replace("or", " ", StringComparison.InvariantCultureIgnoreCase);
+            param = param.Replace("and", " ", StringComparison.InvariantCultureIgnoreCase);
+            var validateParam = param.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase)
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim('\''))
+                .ToArray();
+            if (validateParam.Length % 2 != 0)
+            {
+                throw new ArgumentException("Not correct param string");
+            }
+
+            for (int i = 0; i < validateParam.Length / 2; i++)
+            {
+                Type type = typeof(FileCabinetRecord);
+                if (!type.GetProperties().Select(x => x.Name.ToUpperInvariant()).Contains(validateParam[i * 2]))
+                {
+                    throw new ArgumentNullException(validateParam[i * 2]);
+                }
+            }
         }
     }
 }

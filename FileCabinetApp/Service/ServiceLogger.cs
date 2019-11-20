@@ -157,6 +157,81 @@ namespace FileCabinetApp.Service
         }
 
         /// <summary>
+        /// Finds all records by Date and measures time.
+        /// </summary>
+        /// <param name="dateOfBirth">The date of birth.</param>
+        /// <returns>
+        /// Found records.
+        /// </returns>
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        {
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with dateOfBirth = {2}\n", DateTime.Now, "FindByDateOfBirth()", dateOfBirth);
+            File.AppendAllText("logger.txt", context);
+            try
+            {
+                var result = this.service.FindByDateOfBirth(dateOfBirth);
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByDateOfBirth() returned \'{1}\'\n", DateTime.Now, result.ToString());
+                File.AppendAllText("logger.txt", resultContext);
+                return result;
+            }
+            catch (Exception e)
+            {
+                File.AppendAllText("logger.txt", e.ToString());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Finds all records by first name and measures time.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <returns>
+        /// Found records.
+        /// </returns>
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
+        {
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with firstName = {2}\n", DateTime.Now, "FindByFirstName()", firstName);
+            File.AppendAllText("logger.txt", context);
+            try
+            {
+                var result = this.service.FindByFirstName(firstName);
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByFirstName() returned \'{1}\'\n", DateTime.Now, result.ToString());
+                File.AppendAllText("logger.txt", resultContext);
+                return result;
+            }
+            catch (Exception e)
+            {
+                File.AppendAllText("logger.txt", e.ToString());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Finds all records by last name and measures time.
+        /// </summary>
+        /// <param name="lastName">The last name.</param>
+        /// <returns>
+        /// Found records.
+        /// </returns>
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
+        {
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with lastName = {2}\n", DateTime.Now, "FindByLastName()", lastName);
+            File.AppendAllText("logger.txt", context);
+            try
+            {
+                var result = this.service.FindByLastName(lastName);
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByLastName() returned \'{1}\'\n", DateTime.Now, result.ToString());
+                File.AppendAllText("logger.txt", resultContext);
+                return result;
+            }
+            catch (Exception e)
+            {
+                File.AppendAllText("logger.txt", e.ToString());
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Gets the stat and measures time.
         /// </summary>
         /// <returns>

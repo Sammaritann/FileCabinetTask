@@ -456,12 +456,12 @@
             Represents validate entity.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Create(System.String,FileCabinetApp.Service.MemEntity)">
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Create(System.String,FileCabinetApp.IFileCabinetService)">
             <summary>
             Creates the specified parameter.
             </summary>
             <param name="param">The parameter.</param>
-            <param name="memEntity">The memory entity.</param>
+            <param name="service">The service.</param>
             <returns>
             ValidateEntity.
             </returns>
@@ -765,6 +765,33 @@
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.GetRecords">
             <inheritdoc/>
         </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFileSystemService.GetStat">
             <inheritdoc/>
         </member>
@@ -970,6 +997,33 @@
             The records.
             </returns>
         </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date and measures time.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name and measures time.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name and measures time.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
         <member name="M:FileCabinetApp.Service.ServiceLogger.GetStat">
             <summary>
             Gets the stat and measures time.
@@ -1081,6 +1135,33 @@
             The records.
             </returns>
         </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date and logs.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name and logs.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name and logs.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>
+            Found records.
+            </returns>
+        </member>
         <member name="M:FileCabinetApp.Service.ServiceMeter.GetStat">
             <summary>
             Gets the stat and logs.
@@ -1171,6 +1252,27 @@
             </summary>
             <returns>The records.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>Found records.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.GetStat">
             <summary>
             Gets the stat.
@@ -1227,7 +1329,9 @@
             Wheres the specified parameter.
             </summary>
             <param name="param">The parameter.</param>
-            <returns>FileCabinetREcords.</returns>
+            <returns>
+            FileCabinetRecords.
+            </returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.Insert(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -1289,6 +1393,27 @@
             Gets the stat.
             </summary>
             <returns>Number of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Finds all records by first name.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Finds all records by last name.
+            </summary>
+            <param name="lastName">The last name.</param>
+            <returns>Found records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Finds all records by Date.
+            </summary>
+            <param name="dateOfBirth">The date of birth.</param>
+            <returns>Found records.</returns>
         </member>
         <member name="M:FileCabinetApp.IFileCabinetService.Where(System.String)">
             <summary>
