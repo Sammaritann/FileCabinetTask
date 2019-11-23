@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -16,6 +17,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
         private const char Comma = ',';
         private const char WhiteSpace = ' ';
         private const char Slash = '\'';
+        private const string CommandName = "INSERT";
+        private const int FieldsNumber = 7;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InsertCommandHandler"/> class.
@@ -38,20 +41,15 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 throw new ArgumentNullException(nameof(commandRequest));
             }
 
-            if (commandRequest.Command.ToUpperInvariant() != "INSERT")
+            if (commandRequest.Command.ToUpperInvariant() != CommandName)
             {
                 this.NextHandler.Handle(commandRequest);
                 return;
             }
 
-            string firstName = null;
-            string lastName = null;
-            DateTime dateOfBirth = default;
-            short department = default;
-            decimal salary = default;
-            char clas = default;
-            int id = default;
-            Regex regex = new Regex(@"\(.\w*\,.\w*\,.\w*\,.\w*\,.\w*\,.\w*\,.\w*\) values \(\'?.*\'?\,\'?.*\'?\)");
+            BitArray flags = new BitArray(7, false);
+            FileCabinetRecord record = new FileCabinetRecord();
+            Regex regex = new Regex(@"\(\s*\w*\s*\,\s*\w*\s*\,\s*\w*\s*\,\s*\w*\s*\,\s*\w*\s*\,\s*\w*\s*\,\s*\w*\s*\) values \(\'?.*\'?\,\'?.*\'?\)");
             if (!regex.IsMatch(commandRequest.Parameters))
             {
                 Console.WriteLine("Incorrect expression");
@@ -65,7 +63,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             var values = param.Substring(subIndex + "values ".Length)
                 .Split(Comma, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim(Slash, WhiteSpace)).ToArray();
-            if (fields.Length != values.Length || fields.Length != 7)
+            if (fields.Length != values.Length || fields.Length != FieldsNumber)
             {
                 Console.WriteLine("The number of parameters does not match");
                 return;
@@ -76,39 +74,50 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 switch (fields[i].ToUpperInvariant().Trim())
                 {
                     case "ID":
-                        if (!int.TryParse(values[i], out id))
+                        if (int.TryParse(values[i], out int id))
                         {
-                            id = -1;
+                            record.Id = id;
+                            flags[0] = true;
                         }
 
                         break;
                     case "FIRSTNAME":
-                        firstName = values[i];
+                        record.FirstName = values[i];
+                        flags[1] = true;
                         break;
                     case "LASTNAME":
-                        lastName = values[i];
+                        record.LastName = values[i];
+                        flags[2] = true;
                         break;
                     case "DATEOFBIRTH":
-                        DateTime.TryParseExact(values[i], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateOfBirth);
+                        if (DateTime.TryParseExact(values[i], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateOfBirth))
+                        {
+                            record.DateOfBirth = dateOfBirth;
+                            flags[3] = true;
+                        }
+
                         break;
                     case "SALARY":
-                        if (!decimal.TryParse(values[i], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out salary))
+                        if (decimal.TryParse(values[i], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal salary))
                         {
-                            salary = default;
+                            record.Salary = salary;
+                            flags[4] = true;
                         }
 
                         break;
                     case "DEPARTMENT":
-                        if (!short.TryParse(values[i], out department))
+                        if (short.TryParse(values[i], out short department))
                         {
-                            department = default;
+                            record.Department = department;
+                            flags[5] = true;
                         }
 
                         break;
                     case "CLASS":
-                        if (!char.TryParse(values[i], out clas))
+                        if (char.TryParse(values[i], out char clas))
                         {
-                            clas = default;
+                            record.Class = clas;
+                            flags[6] = true;
                         }
 
                         break;
@@ -117,24 +126,20 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 }
             }
 
-            FileCabinetRecord record = new FileCabinetRecord
+            if (flags.Cast<bool>().All(x => x == true))
             {
-                Id = id,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Department = department,
-                Salary = salary,
-                Class = clas,
-            };
-
-            try
-            {
-                this.Service.Insert(record);
-                Console.WriteLine("Record #{0} is created.", id);
-                this.Service.MemEntity.Clear();
+                try
+                {
+                    this.Service.Insert(record);
+                    Console.WriteLine("Record #{0} is created.", record.Id);
+                    this.Service.MemEntity.Clear();
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
-            catch (ArgumentException)
+            else
             {
                 Console.WriteLine("Please, correct your input.");
             }

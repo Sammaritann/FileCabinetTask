@@ -8,6 +8,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class DeleteCommandHandler : ServiceCommandHandlerBase
     {
+        private const string CommandName = "DELETE";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteCommandHandler"/> class.
         /// </summary>
@@ -29,7 +31,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 throw new ArgumentNullException(nameof(commandRequest));
             }
 
-            if (commandRequest.Command.ToUpperInvariant() != "DELETE")
+            if (commandRequest.Command.ToUpperInvariant() != CommandName)
             {
                 this.NextHandler.Handle(commandRequest);
                 return;

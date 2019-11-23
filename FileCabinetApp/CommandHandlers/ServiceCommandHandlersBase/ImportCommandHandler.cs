@@ -11,6 +11,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     public class ImportCommandHandler : ServiceCommandHandlerBase
     {
         private const char Separator = ' ';
+        private const string CommandName = "IMPORT";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImportCommandHandler"/> class.
@@ -33,7 +34,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 throw new ArgumentNullException(nameof(commandRequest));
             }
 
-            if (commandRequest.Command.ToUpperInvariant() != "IMPORT")
+            if (commandRequest.Command.ToUpperInvariant() != CommandName)
             {
                 this.NextHandler.Handle(commandRequest);
                 return;

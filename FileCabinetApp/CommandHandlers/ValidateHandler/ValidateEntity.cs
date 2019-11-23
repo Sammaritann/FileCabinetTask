@@ -8,6 +8,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
     /// </summary>
     public class ValidateEntity
     {
+        private const char WhiteSpace = ' ';
         private IFileCabinetService service;
         private List<(Predicate<FileCabinetRecord> predicate, string explanation)> predicates = new List<(Predicate<FileCabinetRecord>, string)>();
         private ValidateEntity nextEntities;
@@ -56,7 +57,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
 
                 this.predicates.Add(ValidateGenerator.Create(param.Substring(0, subIndex)));
                 this.isOr = orIndex == subIndex ? true : false;
-                param = this.isOr ? param.Substring(subIndex + 4) : param.Substring(subIndex + 5);
+                param = this.isOr ? param.Substring(subIndex + " or ".Length) : param.Substring(subIndex + " and ".Length);
             }
 
             return this;
@@ -113,7 +114,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
             List<FileCabinetRecord> invokeResult;
             if ((invokeResult = this.service.MemEntity.TryGetMemRecords(this)) is null)
             {
-                var explanation = this.predicates[0].explanation.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                var explanation = this.predicates[0].explanation.Split(WhiteSpace, StringSplitOptions.RemoveEmptyEntries);
 
                 switch (explanation[0].ToUpperInvariant())
                 {

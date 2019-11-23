@@ -11,7 +11,9 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     public class UpdateCommandHandler : ServiceCommandHandlerBase
     {
         private const string CommandName = "UPDATE";
-        private const string WhiteSpace = " ";
+        private const char WhiteSpace = ' ';
+        private const char Comma = ',';
+        private const string SingleQuote = "\'";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateCommandHandler"/> class.
@@ -56,7 +58,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             }
 
             var param = commandRequest.Parameters.Substring(startIndex + "set".Length, subIndex)
-                .Split(',', StringSplitOptions.RemoveEmptyEntries);
+                .Split(Comma, StringSplitOptions.RemoveEmptyEntries);
 
             BitArray flags = new BitArray(6, false);
 
@@ -64,9 +66,9 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             foreach (var record in param)
             {
-                var values = record.Replace("=", WhiteSpace, StringComparison.InvariantCultureIgnoreCase)
-                    .Replace("\'", string.Empty, StringComparison.InvariantCultureIgnoreCase)
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                var values = record.Replace('=', WhiteSpace)
+                    .Replace(SingleQuote, string.Empty, StringComparison.InvariantCultureIgnoreCase)
+                    .Split(WhiteSpace, StringSplitOptions.RemoveEmptyEntries);
                 switch (values[0].ToUpperInvariant())
                 {
                     case "FIRSTNAME":

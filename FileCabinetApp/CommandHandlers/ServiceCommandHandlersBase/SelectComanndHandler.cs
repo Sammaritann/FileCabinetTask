@@ -9,6 +9,9 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class SelectComanndHandler : ServiceCommandHandlerBase
     {
+        private const string CommandName = "SELECT";
+        private const char Comma = ',';
+        private const char WhiteSpace = ' ';
         private IRecordPrinter printer;
 
         /// <summary>
@@ -40,7 +43,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 throw new ArgumentNullException(nameof(commandRequest));
             }
 
-            if (commandRequest.Command.ToUpperInvariant() != "SELECT")
+            if (commandRequest.Command.ToUpperInvariant() != CommandName)
             {
                 this.NextHandler.Handle(commandRequest);
                 return;
@@ -62,15 +65,15 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 }
                 else if (subIndex == -1)
                 {
-                    var param = commandRequest.Parameters.Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    var param = commandRequest.Parameters.Replace(Comma, WhiteSpace).Split(WhiteSpace, StringSplitOptions.RemoveEmptyEntries);
 
                     this.printer.Print(this.Service.GetRecords(), param);
                 }
                 else
                 {
-                    var param = commandRequest.Parameters.Substring(0, subIndex).Replace(",", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    var param = commandRequest.Parameters.Substring(0, subIndex).Replace(Comma, WhiteSpace).Split(WhiteSpace, StringSplitOptions.RemoveEmptyEntries);
 
-                    this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)), param);
+                    this.printer.Print(this.Service.Where(commandRequest.Parameters.Substring(subIndex + " where ".Length)), param);
                 }
             }
             catch (ArgumentException e)

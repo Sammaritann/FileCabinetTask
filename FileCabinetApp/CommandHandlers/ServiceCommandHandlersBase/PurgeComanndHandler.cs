@@ -8,6 +8,8 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class PurgeComanndHandler : ServiceCommandHandlerBase
     {
+        private const string CommandName = "PURGE";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PurgeComanndHandler"/> class.
         /// </summary>
@@ -29,7 +31,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 throw new ArgumentNullException(nameof(commandRequest));
             }
 
-            if (commandRequest.Command.ToUpperInvariant() != "PURGE")
+            if (commandRequest.Command.ToUpperInvariant() != CommandName)
             {
                 this.NextHandler.Handle(commandRequest);
                 return;

@@ -13,7 +13,7 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetMemoryService : IFileCabinetService
     {
-        private const string WhoteSpace = " ";
+        private const string WhiteSpace = " ";
         private const char SingleQuote = '\'';
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
@@ -366,10 +366,10 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(param);
             }
 
-            param = param.Replace("or", WhoteSpace, StringComparison.InvariantCultureIgnoreCase);
-            param = param.Replace("and", WhoteSpace, StringComparison.InvariantCultureIgnoreCase);
+            param = param.Replace("or", WhiteSpace, StringComparison.InvariantCultureIgnoreCase);
+            param = param.Replace("and", WhiteSpace, StringComparison.InvariantCultureIgnoreCase);
             const char Separator = ' ';
-            string[] validateParam = param.Replace("=", WhoteSpace, StringComparison.InvariantCultureIgnoreCase)
+            string[] validateParam = param.Replace("=", WhiteSpace, StringComparison.InvariantCultureIgnoreCase)
                 .Split(Separator, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim(SingleQuote))
                 .ToArray();

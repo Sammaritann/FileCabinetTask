@@ -8,6 +8,9 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
     /// </summary>
     public static class ValidateGenerator
     {
+        private const char WhiteSpace = ' ';
+        private const char SingleQuote = '\'';
+
         /// <summary>
         /// Creates the specified validate parameter.
         /// </summary>
@@ -21,21 +24,21 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
                 throw new ArgumentNullException(nameof(validateParam));
             }
 
-            var param = validateParam.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var param = validateParam.Replace('=', WhiteSpace).Split(WhiteSpace, StringSplitOptions.RemoveEmptyEntries);
             if (param.Length != 2)
             {
                 throw new ArgumentException(validateParam);
             }
 
-            return (param[0].ToUpperInvariant().Trim('\'') switch
+            return (param[0].ToUpperInvariant().Trim(SingleQuote) switch
             {
-                "FIRSTNAME" => x => x.FirstName.ToUpperInvariant() == param[1].ToUpperInvariant().Trim('\''),
-                "LASTNAME" => x => x.LastName.ToUpperInvariant() == param[1].ToUpperInvariant().Trim('\''),
-                "ID" => x => x.Id.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
-                "DATEOFBIRTH" => x => x.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
-                "SALARY" => x => x.Salary.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
-                "DEPARTMENT" => x => x.Department.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
-                "CLASS" => x => x.Class.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim('\''),
+                "FIRSTNAME" => x => x.FirstName.ToUpperInvariant() == param[1].ToUpperInvariant().Trim(SingleQuote),
+                "LASTNAME" => x => x.LastName.ToUpperInvariant() == param[1].ToUpperInvariant().Trim(SingleQuote),
+                "ID" => x => x.Id.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim(SingleQuote),
+                "DATEOFBIRTH" => x => x.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim(SingleQuote),
+                "SALARY" => x => x.Salary.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim(SingleQuote),
+                "DEPARTMENT" => x => x.Department.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim(SingleQuote),
+                "CLASS" => x => x.Class.ToString(CultureInfo.InvariantCulture) == param[1].ToUpperInvariant().Trim(SingleQuote),
                 _ => throw new ArgumentException(param[0]),
             }, $"{param[0]}  {param[1]}");
         }

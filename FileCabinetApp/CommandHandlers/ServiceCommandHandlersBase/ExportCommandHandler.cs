@@ -11,6 +11,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     public class ExportCommandHandler : ServiceCommandHandlerBase
     {
         private const char Separator = ' ';
+        private const string CommandName = "EXPORT";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExportCommandHandler"/> class.
@@ -33,7 +34,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 throw new ArgumentNullException(nameof(commandRequest));
             }
 
-            if (commandRequest.Command.ToUpperInvariant() != "EXPORT")
+            if (commandRequest.Command.ToUpperInvariant() != CommandName)
             {
                 this.NextHandler.Handle(commandRequest);
                 return;
