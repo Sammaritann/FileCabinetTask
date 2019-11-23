@@ -8,9 +8,11 @@ namespace FileCabinetApp.Writer
     /// <summary>
     /// Represents file cabinet record xml writer.
     /// </summary>
-    public class FileCabinetRecordXmlWriter
+    public class FileCabinetRecordXmlWriter : IDisposable
     {
+        private const int StreamStart = 0;
         private StreamWriter writer;
+        private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetRecordXmlWriter" /> class.
@@ -27,10 +29,6 @@ namespace FileCabinetApp.Writer
             this.writer = writer;
         }
 
-        private FileCabinetRecordXmlWriter()
-        {
-        }
-
         /// <summary>
         /// Writes the specified record.
         /// </summary>
@@ -40,11 +38,11 @@ namespace FileCabinetApp.Writer
         {
             if (record is null)
             {
-                throw new ArgumentNullException($"{nameof(record)} must not be null");
+                throw new ArgumentNullException(nameof(record));
             }
 
             var doc = new XmlDocument();
-            this.writer.BaseStream.Position = 0;
+            this.writer.BaseStream.Position = StreamStart;
             doc.Load(this.writer.BaseStream);
             var root = doc.DocumentElement;
             var fileRecordNode = doc.CreateElement("FileCabinetRecord");
@@ -58,8 +56,36 @@ namespace FileCabinetApp.Writer
             AddChild("Class", ((int)record.Class).ToString(CultureInfo.InvariantCulture), fileRecordNode, doc);
 
             root.AppendChild(fileRecordNode);
-            this.writer.BaseStream.Position = 0;
+            this.writer.BaseStream.Position = StreamStart;
             doc.Save(this.writer.BaseStream);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.writer.Dispose();
+            }
+
+            this.disposed = true;
         }
 
         private static void AddChild(string childName, string childText, XmlElement parent, XmlDocument doc)

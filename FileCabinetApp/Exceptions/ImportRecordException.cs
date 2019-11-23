@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace FileCabinetApp.CommandHandlers.Exceptions
 {
@@ -9,6 +8,7 @@ namespace FileCabinetApp.CommandHandlers.Exceptions
     /// Represents import record exception.
     /// </summary>
     /// <seealso cref="System.Exception" />
+    [Serializable]
     public class ImportRecordException : Exception
     {
         /// <summary>
@@ -44,6 +44,16 @@ namespace FileCabinetApp.CommandHandlers.Exceptions
         /// Initializes a new instance of the <see cref="ImportRecordException"/> class.
         /// </summary>
         public ImportRecordException()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImportRecordException"/> class.
+        /// </summary>
+        /// <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized object data about the exception being thrown.</param>
+        /// <param name="context">The Runtime.Serialization.StreamingContext that contains contextual information about the source or destination.</param>
+        protected ImportRecordException(SerializationInfo info, StreamingContext context)
+               : base(info, context)
         {
         }
     }

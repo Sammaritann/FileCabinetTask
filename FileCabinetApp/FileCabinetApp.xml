@@ -38,11 +38,6 @@
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.ICommandHandler" />
         </member>
-        <member name="F:FileCabinetApp.CommandHandlers.CommandHandlerBase.nextHandler">
-            <summary>
-            The next handler.
-            </summary>
-        </member>
         <member name="P:FileCabinetApp.CommandHandlers.CommandHandlerBase.NextHandler">
             <summary>
             Gets or sets the next handler.
@@ -109,37 +104,6 @@
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
-        </member>
-        <member name="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException">
-            <summary>
-            Represents import record exception.
-            </summary>
-            <seealso cref="T:System.Exception" />
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.Int32,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
-            </summary>
-            <param name="id">The identifier.</param>
-            <param name="message">The message.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
-            </summary>
-            <param name="message">The message that describes the error.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.String,System.Exception)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
-            </summary>
-            <param name="message">The error message that explains the reason for the exception.</param>
-            <param name="innerException">The exception that is the cause of the current exception, or a null reference (<see langword="Nothing" /> in Visual Basic) if no inner exception is specified.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
-            </summary>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ICommandHandler">
             <summary>
@@ -393,11 +357,6 @@
             </summary>
             <seealso cref="T:FileCabinetApp.CommandHandlers.CommandHandlerBase" />
         </member>
-        <member name="F:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase.service">
-            <summary>
-            The service.
-            </summary>
-        </member>
         <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase.#ctor(FileCabinetApp.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" /> class.
@@ -504,6 +463,44 @@
             <param name="validateParam">The validate parameter.</param>
             <returns>Validation predicate.</returns>
             <exception cref="T:System.ArgumentNullException">Throws when validateParam is null.</exception>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException">
+            <summary>
+            Represents import record exception.
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (<see langword="Nothing" /> in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException"/> class.
+            </summary>
+            <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The Runtime.Serialization.StreamingContext that contains contextual information about the source or destination.</param>
         </member>
         <member name="T:FileCabinetApp.ConsoleOption">
             <summary>
@@ -704,6 +701,17 @@
             </summary>
             <returns>All records.</returns>
         </member>
+        <member name="M:FileCabinetApp.Reader.FileCabinetRecordCsvReader.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Reader.FileCabinetRecordCsvReader.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
         <member name="T:FileCabinetApp.Reader.FileCabinetRecordXmlReader">
             <summary>
             Represents record xml reader.
@@ -721,6 +729,17 @@
             Reads all.
             </summary>
             <returns>All records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Reader.FileCabinetRecordXmlReader.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Reader.FileCabinetRecordXmlReader.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
         <member name="T:FileCabinetApp.Service.FileCabinetFileSystemService">
             <summary>
@@ -1813,6 +1832,17 @@
             <param name="record">The record.</param>
             <exception cref="T:System.ArgumentNullException">Throws when record is null.</exception>
         </member>
+        <member name="M:FileCabinetApp.Writer.FileCabinetRecordCsvWriter.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Writer.FileCabinetRecordCsvWriter.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
         <member name="T:FileCabinetApp.Writer.FileCabinetRecordXmlWriter">
             <summary>
             Represents file cabinet record xml writer.
@@ -1831,6 +1861,17 @@
             </summary>
             <param name="record">The record.</param>
             <exception cref="T:System.ArgumentNullException">Throws when record is null.</exception>
+        </member>
+        <member name="M:FileCabinetApp.Writer.FileCabinetRecordXmlWriter.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Writer.FileCabinetRecordXmlWriter.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
     </members>
 </doc>

@@ -52,7 +52,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            FileStream fileStream;
+            FileStream fileStream = null;
             try
             {
                 string result;
@@ -77,7 +77,19 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             }
             catch (FileNotFoundException)
             {
-                fileStream = new FileStream(param[1], FileMode.Create);
+                try
+                {
+                 fileStream = new FileStream(param[1], FileMode.Create);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    Console.WriteLine("Wrong path.");
+                    return;
+                }
+                finally
+                {
+                    fileStream?.Dispose();
+                }
             }
             catch (DirectoryNotFoundException)
             {

@@ -9,9 +9,10 @@ namespace FileCabinetApp.Reader
     /// <summary>
     /// Represents record xml reader.
     /// </summary>
-    public class FileCabinetRecordXmlReader
+    public class FileCabinetRecordXmlReader : IDisposable
     {
         private readonly StreamReader reader;
+        private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetRecordXmlReader" /> class.
@@ -42,6 +43,34 @@ namespace FileCabinetApp.Reader
             }
 
             return records;
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.reader.Dispose();
+            }
+
+            this.disposed = true;
         }
     }
 }

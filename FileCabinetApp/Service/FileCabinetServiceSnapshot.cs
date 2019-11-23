@@ -69,10 +69,10 @@ namespace FileCabinetApp.Service
         {
             if (stream is null)
             {
-                throw new ArgumentNullException($"{nameof(stream)} must nit be null");
+                throw new ArgumentNullException(nameof(stream));
             }
 
-            FileCabinetRecordCsvWriter writer = new FileCabinetRecordCsvWriter(stream);
+            using FileCabinetRecordCsvWriter writer = new FileCabinetRecordCsvWriter(stream);
             stream.WriteLine("Id,First Name,Last Name,Date of Birth,Department,Salary,Class");
             foreach (var item in this.records)
             {
@@ -89,10 +89,10 @@ namespace FileCabinetApp.Service
         {
             if (stream is null)
             {
-                throw new ArgumentNullException($"{nameof(stream)} must nit be null");
+                throw new ArgumentNullException(nameof(stream));
             }
 
-            FileCabinetRecordXmlWriter writer = new FileCabinetRecordXmlWriter(stream);
+            using FileCabinetRecordXmlWriter writer = new FileCabinetRecordXmlWriter(stream);
             var doc = new XmlDocument();
             doc.AppendChild(doc.CreateXmlDeclaration("1.0", "UTF-8", null));
             doc.AppendChild(doc.CreateElement("ArrayOfFileCabinetRecord"));
@@ -109,7 +109,7 @@ namespace FileCabinetApp.Service
         /// <param name="stream">The stream.</param>
         public void LoadFromCsv(StreamReader stream)
         {
-            FileCabinetRecordCsvReader csvReader = new FileCabinetRecordCsvReader(stream);
+            using FileCabinetRecordCsvReader csvReader = new FileCabinetRecordCsvReader(stream);
             this.Records = new ReadOnlyCollection<FileCabinetRecord>(csvReader.ReadAll());
         }
 
@@ -119,8 +119,8 @@ namespace FileCabinetApp.Service
         /// <param name="stream">The stream.</param>
         public void LoadFromXml(StreamReader stream)
         {
-            FileCabinetRecordXmlReader xmlReader = new FileCabinetRecordXmlReader(stream);
-            this.Records = new ReadOnlyCollection<FileCabinetRecord>(xmlReader.ReadAll());
+          using FileCabinetRecordXmlReader xmlReader = new FileCabinetRecordXmlReader(stream);
+          this.Records = new ReadOnlyCollection<FileCabinetRecord>(xmlReader.ReadAll());
         }
     }
 }

@@ -9,11 +9,6 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     public abstract class ServiceCommandHandlerBase : CommandHandlerBase
     {
         /// <summary>
-        /// The service.
-        /// </summary>
-        private IFileCabinetService service;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ServiceCommandHandlerBase" /> class.
         /// </summary>
         /// <param name="service">The service.</param>
@@ -34,6 +29,6 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
         /// <value>
         /// The service.
         /// </value>
-        protected IFileCabinetService Service { get => this.service; set => this.service = value; }
+        protected IFileCabinetService Service { get; set; }
     }
 }

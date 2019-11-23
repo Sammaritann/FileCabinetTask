@@ -11,6 +11,11 @@ namespace FileCabinetApp.CommandHandlers.Printers
     /// <seealso cref="FileCabinetApp.CommandHandlers.Printers.IRecordPrinter" />
     public class CustomRecordPrinter : IRecordPrinter
     {
+        private const string AllProperties = "*";
+        private const char VerticalBorder = '|';
+        private const char WhiteSpace = ' ';
+        private const char HorizontalBorder = '-';
+        private const string Cross = "+";
         private readonly string[] titlesName =
         {
             "FIRSTNAME",
@@ -58,7 +63,7 @@ namespace FileCabinetApp.CommandHandlers.Printers
                 .ToArray();
             if (this.titles.Length == 0)
             {
-                if (columName.Contains("*"))
+                if (columName.Contains(AllProperties))
                 {
                     this.titles = this.titlesName;
                 }
@@ -84,25 +89,25 @@ namespace FileCabinetApp.CommandHandlers.Printers
                 string line = string.Empty;
                 for (int j = 0; j < this.rows.Length; j++)
                 {
-                    if (this.titles[j] == "FIRSTNAME" || this.titles[j] == "LASTNAME" || this.titles[j] == "CLASS")
+                    if (this.titles[j] == this.titlesName[0] || this.titles[j] == this.titlesName[1] || this.titles[j] == this.titlesName[6])
                     {
-                        line += "| " + this.rows[j][i].PadRight(this.lengths[j]) + ' ';
+                        line += string.Concat(VerticalBorder, WhiteSpace, this.rows[j][i].PadRight(this.lengths[j]), WhiteSpace);
                     }
                     else
                     {
-                        line += "| " + this.rows[j][i].PadLeft(this.lengths[j]) + ' ';
+                        line += string.Concat(VerticalBorder, WhiteSpace, this.rows[j][i].PadLeft(this.lengths[j]), WhiteSpace);
                     }
                 }
 
-                Console.WriteLine(line + "|");
+                Console.WriteLine(line + VerticalBorder);
             }
 
             foreach (var length in this.lengths)
             {
-                Console.Write("+-" + new string('-', length) + '-');
+                Console.Write(string.Concat(Cross, HorizontalBorder, new string(HorizontalBorder, length), HorizontalBorder));
             }
 
-            Console.WriteLine("+");
+            Console.WriteLine(Cross);
         }
 
         private static string GetTitle(string title)
@@ -124,25 +129,25 @@ namespace FileCabinetApp.CommandHandlers.Printers
         {
             foreach (var length in this.lengths)
             {
-                Console.Write("+-" + new string('-', length) + '-');
+                Console.Write(string.Concat(Cross, HorizontalBorder, new string(HorizontalBorder, length), HorizontalBorder));
             }
 
-            Console.WriteLine("+");
+            Console.WriteLine(Cross);
 
             string line = string.Empty;
             for (int i = 0; i < this.titles.Length; i++)
             {
-                line += "| " + GetTitle(this.titles[i]).PadRight(this.lengths[i]) + ' ';
+                line += string.Concat(VerticalBorder, WhiteSpace, GetTitle(this.titles[i]).PadRight(this.lengths[i]), WhiteSpace);
             }
 
-            Console.WriteLine(line + "|");
+            Console.WriteLine(line + VerticalBorder);
 
             foreach (var length in this.lengths)
             {
-                Console.Write("+-" + new string('-', length) + '-');
+                Console.Write(string.Concat(Cross, HorizontalBorder, new string(HorizontalBorder, length), HorizontalBorder));
             }
 
-            Console.WriteLine("+");
+            Console.WriteLine(Cross);
         }
 
         private void AddRows(IEnumerable<FileCabinetRecord> records)

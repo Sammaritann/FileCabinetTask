@@ -35,7 +35,14 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 return;
             }
 
-            this.Service.Purge();
+            try
+            {
+                this.Service.Purge();
+            }
+            catch (NotSupportedException)
+            {
+                Console.WriteLine("Purge not supported on this service.");
+            }
         }
     }
 }

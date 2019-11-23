@@ -9,17 +9,12 @@ namespace FileCabinetApp.CommandHandlers
     public abstract class CommandHandlerBase : ICommandHandler
     {
         /// <summary>
-        /// The next handler.
-        /// </summary>
-        private ICommandHandler nextHandler;
-
-        /// <summary>
         /// Gets or sets the next handler.
         /// </summary>
         /// <value>
         /// The next handler.
         /// </value>
-        protected ICommandHandler NextHandler { get => this.nextHandler; set => this.nextHandler = value; }
+        protected ICommandHandler NextHandler { get; set; }
 
         /// <summary>
         /// Handles the specified command request.

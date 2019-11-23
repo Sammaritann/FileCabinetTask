@@ -8,9 +8,11 @@ namespace FileCabinetApp.Writer
     /// <summary>
     /// Represents file cabinet record csv writer.
     /// </summary>
-    public class FileCabinetRecordCsvWriter
+    public class FileCabinetRecordCsvWriter : IDisposable
     {
+        private const char Comma = ',';
         private StreamWriter writer;
+        private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetRecordCsvWriter" /> class.
@@ -27,10 +29,6 @@ namespace FileCabinetApp.Writer
             this.writer = writer;
         }
 
-        private FileCabinetRecordCsvWriter()
-        {
-        }
-
         /// <summary>
         /// Writes the specified record.
         /// </summary>
@@ -44,16 +42,44 @@ namespace FileCabinetApp.Writer
             }
 
             StringBuilder csv = new StringBuilder();
-            csv.Append(record.Id.ToString(CultureInfo.InvariantCulture) + ',');
-            csv.Append(record.FirstName + ',');
-            csv.Append(record.LastName + ',');
-            csv.Append(record.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) + ',');
-            csv.Append(record.Department.ToString(CultureInfo.InvariantCulture) + ',');
-            csv.Append(record.Salary.ToString(CultureInfo.InvariantCulture) + ',');
+            csv.Append(record.Id.ToString(CultureInfo.InvariantCulture) + Comma);
+            csv.Append(record.FirstName + Comma);
+            csv.Append(record.LastName + Comma);
+            csv.Append(record.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) + Comma);
+            csv.Append(record.Department.ToString(CultureInfo.InvariantCulture) + Comma);
+            csv.Append(record.Salary.ToString(CultureInfo.InvariantCulture) + Comma);
             csv.Append(record.Class);
 
             this.writer.WriteLine(csv);
             this.writer.Flush();
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.writer.Dispose();
+            }
+
+            this.disposed = true;
         }
     }
 }

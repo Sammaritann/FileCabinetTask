@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Globalization;
-using FileCabinetApp.Validators;
 
 namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 {
@@ -11,6 +10,9 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
     /// <seealso cref="FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.ServiceCommandHandlerBase" />
     public class UpdateCommandHandler : ServiceCommandHandlerBase
     {
+        private const string CommandName = "UPDATE";
+        private const string WhiteSpace = " ";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateCommandHandler"/> class.
         /// </summary>
@@ -32,7 +34,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 throw new ArgumentNullException(nameof(commandRequest));
             }
 
-            if (commandRequest.Command.ToUpperInvariant() != "UPDATE")
+            if (commandRequest.Command.ToUpperInvariant() != CommandName)
             {
                 this.NextHandler.Handle(commandRequest);
                 return;
@@ -62,7 +64,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
 
             foreach (var record in param)
             {
-                var values = record.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase)
+                var values = record.Replace("=", WhiteSpace, StringComparison.InvariantCultureIgnoreCase)
                     .Replace("\'", string.Empty, StringComparison.InvariantCultureIgnoreCase)
                     .Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 switch (values[0].ToUpperInvariant())

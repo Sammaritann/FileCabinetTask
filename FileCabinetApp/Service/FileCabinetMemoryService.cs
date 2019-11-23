@@ -13,6 +13,8 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetMemoryService : IFileCabinetService
     {
+        private const string WhoteSpace = " ";
+        private const char SingleQuote = '\'';
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
@@ -71,9 +73,9 @@ namespace FileCabinetApp
 
             this.list.Add(record);
             this.dictionaryId.Add(record.Id, record);
-            AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), record);
-            AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), record);
-            AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, recordParams.DateOfBirth, record);
+            AddToDictionary(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), record);
+            AddToDictionary(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), record);
+            AddToDictionary(this.dateOfBirthDictionary, recordParams.DateOfBirth, record);
             return record.Id;
         }
 
@@ -87,7 +89,7 @@ namespace FileCabinetApp
         {
             if (recordParams is null)
             {
-                throw new ArgumentNullException($"{nameof(recordParams)} must nit be null");
+                throw new ArgumentNullException(nameof(recordParams));
             }
 
             FileCabinetRecord record = this.dictionaryId[id];
@@ -97,19 +99,19 @@ namespace FileCabinetApp
             if (record.FirstName.ToUpperInvariant() != recordParams.FirstName.ToUpperInvariant())
             {
                 this.firstNameDictionary[record.FirstName.ToUpperInvariant()].Remove(record);
-                AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), record);
+                AddToDictionary(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), record);
             }
 
             if (record.LastName.ToUpperInvariant() != recordParams.LastName.ToUpperInvariant())
             {
                 this.lastNameDictionary[record.LastName.ToUpperInvariant()].Remove(record);
-                AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), record);
+                AddToDictionary(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), record);
             }
 
             if (record.DateOfBirth != recordParams.DateOfBirth)
             {
                 this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
-                AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, recordParams.DateOfBirth, record);
+                AddToDictionary(this.dateOfBirthDictionary, recordParams.DateOfBirth, record);
             }
 
             record.FirstName = recordParams.FirstName;
@@ -138,7 +140,7 @@ namespace FileCabinetApp
         {
             if (this.firstNameDictionary.ContainsKey(firstName?.ToUpperInvariant()))
             {
-                foreach (var item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
+                foreach (FileCabinetRecord item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
                 {
                     yield return item;
                 }
@@ -154,7 +156,7 @@ namespace FileCabinetApp
         {
             if (this.lastNameDictionary.ContainsKey(lastName?.ToUpperInvariant()))
             {
-                foreach (var item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
+                foreach (FileCabinetRecord item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
                 {
                     yield return item;
                 }
@@ -170,7 +172,7 @@ namespace FileCabinetApp
         {
             if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
             {
-                foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
+                foreach (FileCabinetRecord item in this.dateOfBirthDictionary[dateOfBirth])
                 {
                     yield return item;
                 }
@@ -223,9 +225,9 @@ namespace FileCabinetApp
                         this.validator.ValidateCabinetRecord(RecordToParams(record));
                         this.list.Add(record);
                         this.dictionaryId.Add(record.Id, record);
-                        AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
-                        AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
-                        AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
+                        AddToDictionary(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
+                        AddToDictionary(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
+                        AddToDictionary(this.dateOfBirthDictionary, record.DateOfBirth, record);
 
                         this.id = Math.Max(this.id, record.Id);
                     }
@@ -274,6 +276,7 @@ namespace FileCabinetApp
         /// </summary>
         public void Purge()
         {
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -296,10 +299,10 @@ namespace FileCabinetApp
         {
             ValidateWhereParam(param);
             ValidateEntity entity = new ValidateEntity().Create(param, this);
-            foreach (var record in entity.Filtering(this.list))
-                {
-                    yield return record;
-                }
+            foreach (FileCabinetRecord record in entity.Filtering(this.list))
+            {
+                yield return record;
+            }
         }
 
         /// <summary>
@@ -319,7 +322,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(record));
             }
 
-            if (record.Id == -1)
+            if (record.Id < 0)
             {
                 throw new ArgumentException($"Record id must be more than zero");
             }
@@ -329,9 +332,9 @@ namespace FileCabinetApp
                 this.validator.ValidateCabinetRecord(RecordToParams(record));
                 this.list.Add(record);
                 this.dictionaryId.Add(record.Id, record);
-                AddToDictionary<string, FileCabinetRecord>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
-                AddToDictionary<string, FileCabinetRecord>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
-                AddToDictionary<DateTime, FileCabinetRecord>(this.dateOfBirthDictionary, record.DateOfBirth, record);
+                AddToDictionary(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), record);
+                AddToDictionary(this.lastNameDictionary, record.LastName.ToUpperInvariant(), record);
+                AddToDictionary(this.dateOfBirthDictionary, record.DateOfBirth, record);
 
                 this.id = Math.Max(this.id, record.Id);
             }
@@ -363,11 +366,12 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(param);
             }
 
-            param = param.Replace("or", " ", StringComparison.InvariantCultureIgnoreCase);
-            param = param.Replace("and", " ", StringComparison.InvariantCultureIgnoreCase);
-            var validateParam = param.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase)
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.Trim('\''))
+            param = param.Replace("or", WhoteSpace, StringComparison.InvariantCultureIgnoreCase);
+            param = param.Replace("and", WhoteSpace, StringComparison.InvariantCultureIgnoreCase);
+            const char Separator = ' ';
+            string[] validateParam = param.Replace("=", WhoteSpace, StringComparison.InvariantCultureIgnoreCase)
+                .Split(Separator, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim(SingleQuote))
                 .ToArray();
             if (validateParam.Length % 2 != 0)
             {

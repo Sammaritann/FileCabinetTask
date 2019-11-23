@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ValidateHandler
 {
@@ -38,27 +37,27 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
             this.service = service;
 
             while (param.Length > 0)
+            {
+                if (this.isOr)
                 {
-                    if (this.isOr)
-                    {
-                        this.nextEntities = new ValidateEntity().Create(param, service);
-                        return this;
-                    }
-
-                    int andIndex = param.IndexOf(" and ", StringComparison.InvariantCultureIgnoreCase);
-                    int orIndex = param.IndexOf(" or ", StringComparison.InvariantCultureIgnoreCase);
-                    int subIndex = andIndex == -1 ? orIndex : orIndex == -1 ? andIndex : Math.Min(andIndex, orIndex);
-
-                    if (subIndex == -1)
-                    {
-                        this.predicates.Add(ValidateGenerator.Create(param));
-                        return this;
-                    }
-
-                    this.predicates.Add(ValidateGenerator.Create(param.Substring(0, subIndex)));
-                    this.isOr = orIndex == subIndex ? true : false;
-                    param = this.isOr ? param.Substring(subIndex + 4) : param.Substring(subIndex + 5);
+                    this.nextEntities = new ValidateEntity().Create(param, service);
+                    return this;
                 }
+
+                int andIndex = param.IndexOf(" and ", StringComparison.InvariantCultureIgnoreCase);
+                int orIndex = param.IndexOf(" or ", StringComparison.InvariantCultureIgnoreCase);
+                int subIndex = andIndex == -1 ? orIndex : orIndex == -1 ? andIndex : Math.Min(andIndex, orIndex);
+
+                if (subIndex == -1)
+                {
+                    this.predicates.Add(ValidateGenerator.Create(param));
+                    return this;
+                }
+
+                this.predicates.Add(ValidateGenerator.Create(param.Substring(0, subIndex)));
+                this.isOr = orIndex == subIndex ? true : false;
+                param = this.isOr ? param.Substring(subIndex + 4) : param.Substring(subIndex + 5);
+            }
 
             return this;
         }
@@ -118,7 +117,8 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
 
                 switch (explanation[0].ToUpperInvariant())
                 {
-                    case "FIRSTNAME": records = this.service.FindByFirstName(explanation[1].ToUpperInvariant());
+                    case "FIRSTNAME":
+                        records = this.service.FindByFirstName(explanation[1].ToUpperInvariant());
                         break;
                     case "LASTNAME":
                         records = this.service.FindByLastName(explanation[1].ToUpperInvariant());

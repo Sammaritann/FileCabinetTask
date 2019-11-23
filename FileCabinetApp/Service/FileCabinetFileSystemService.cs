@@ -16,6 +16,11 @@ namespace FileCabinetApp.Service
     /// <seealso cref="FileCabinetApp.IFileCabinetService" />
     public class FileCabinetFileSystemService : IFileCabinetService, IDisposable
     {
+        private const int NameLength = 120;
+        private const int BufferSize = 277;
+        private const string WhiteSpace = " ";
+        private const char Separator = ' ';
+        private const char SingleQuote = '\'';
         private readonly IRecordValidator validator;
         private readonly Dictionary<int, long> dictionaryId = new Dictionary<int, long>();
         private readonly Dictionary<string, List<long>> firstNameDictionary = new Dictionary<string, List<long>>();
@@ -55,20 +60,20 @@ namespace FileCabinetApp.Service
         {
             if (recordParams is null)
             {
-                throw new ArgumentNullException($"{nameof(recordParams)} must nit be null");
+                throw new ArgumentNullException(nameof(recordParams));
             }
 
             this.validator.ValidateCabinetRecord(recordParams);
             this.fileStream.Position = this.fileStream.Length;
             this.dictionaryId.Add(this.id + 1, this.fileStream.Position);
-            AddToDictionary<string, long>(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), this.fileStream.Position);
-            AddToDictionary<string, long>(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), this.fileStream.Position);
-            AddToDictionary<DateTime, long>(this.dateOfBirthDictionary, recordParams.DateOfBirth, this.fileStream.Position);
+            AddToDictionary(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), this.fileStream.Position);
+            AddToDictionary(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), this.fileStream.Position);
+            AddToDictionary(this.dateOfBirthDictionary, recordParams.DateOfBirth, this.fileStream.Position);
 
             byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
             byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
-            byte[] firstName = new byte[120];
-            byte[] lastName = new byte[120];
+            byte[] firstName = new byte[NameLength];
+            byte[] lastName = new byte[NameLength];
             ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
             byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
             Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
@@ -101,40 +106,40 @@ namespace FileCabinetApp.Service
             }
 
             this.validator.ValidateCabinetRecord(recordParams);
-            byte[] buffer = new byte[277];
+            byte[] buffer = new byte[BufferSize];
             this.fileStream.Position = 0;
 
             if (this.dictionaryId.ContainsKey(id))
             {
                 long position = this.dictionaryId[id];
                 this.fileStream.Position = position;
-                this.fileStream.Read(buffer, 0, 277);
+                this.fileStream.Read(buffer, 0, BufferSize);
                 FileCabinetRecord record = this.RecordFromBytes(buffer);
 
                 if (record.FirstName.ToUpperInvariant() != recordParams.FirstName.ToUpperInvariant())
                 {
                     this.firstNameDictionary[record.FirstName.ToUpperInvariant()].Remove(position);
-                    AddToDictionary<string, long>(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), position);
+                    AddToDictionary(this.firstNameDictionary, recordParams.FirstName.ToUpperInvariant(), position);
                 }
 
                 if (record.LastName.ToUpperInvariant() != recordParams.LastName.ToUpperInvariant())
                 {
                     this.lastNameDictionary[record.LastName.ToUpperInvariant()].Remove(position);
-                    AddToDictionary<string, long>(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), position);
+                    AddToDictionary(this.lastNameDictionary, recordParams.LastName.ToUpperInvariant(), position);
                 }
 
                 if (record.DateOfBirth != recordParams.DateOfBirth)
                 {
                     this.dateOfBirthDictionary[record.DateOfBirth].Remove(position);
-                    AddToDictionary<DateTime, long>(this.dateOfBirthDictionary, recordParams.DateOfBirth, position);
+                    AddToDictionary(this.dateOfBirthDictionary, recordParams.DateOfBirth, position);
                 }
 
                 this.fileStream.Position = position;
 
                 byte[] tempFirstName = Encoding.Default.GetBytes(recordParams.FirstName);
                 byte[] tempLastName = Encoding.Default.GetBytes(recordParams.LastName);
-                byte[] firstName = new byte[120];
-                byte[] lastName = new byte[120];
+                byte[] firstName = new byte[NameLength];
+                byte[] lastName = new byte[NameLength];
                 ToBytesDecimal toBytesDecimal = new ToBytesDecimal(recordParams.Salary);
                 byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
                 Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
@@ -176,10 +181,10 @@ namespace FileCabinetApp.Service
         /// <inheritdoc/>
         public IReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            byte[] buffer = new byte[277];
+            byte[] buffer = new byte[BufferSize];
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
             this.fileStream.Position = 0;
-            while (this.fileStream.Read(buffer, 0, 277) != 0)
+            while (this.fileStream.Read(buffer, 0, BufferSize) != 0)
             {
                 try
                 {
@@ -207,9 +212,9 @@ namespace FileCabinetApp.Service
             {
                 foreach (var item in this.dateOfBirthDictionary[dateOfBirth])
                 {
-                    byte[] buffer = new byte[277];
+                    byte[] buffer = new byte[BufferSize];
                     this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
+                    this.fileStream.Read(buffer, 0, BufferSize);
                     FileCabinetRecord record = this.RecordFromBytes(buffer);
                     yield return record;
                 }
@@ -229,9 +234,9 @@ namespace FileCabinetApp.Service
             {
                 foreach (var item in this.firstNameDictionary[firstName?.ToUpperInvariant()])
                 {
-                    byte[] buffer = new byte[277];
+                    byte[] buffer = new byte[BufferSize];
                     this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
+                    this.fileStream.Read(buffer, 0, BufferSize);
                     FileCabinetRecord record = this.RecordFromBytes(buffer);
                     yield return record;
                 }
@@ -251,9 +256,9 @@ namespace FileCabinetApp.Service
             {
                 foreach (var item in this.lastNameDictionary[lastName?.ToUpperInvariant()])
                 {
-                    byte[] buffer = new byte[277];
+                    byte[] buffer = new byte[BufferSize];
                     this.fileStream.Position = item;
-                    this.fileStream.Read(buffer, 0, 277);
+                    this.fileStream.Read(buffer, 0, BufferSize);
                     FileCabinetRecord record = this.RecordFromBytes(buffer);
                     yield return record;
                 }
@@ -301,14 +306,14 @@ namespace FileCabinetApp.Service
                     {
                         this.fileStream.Position = this.fileStream.Length;
                         this.dictionaryId.Add(record.Id, this.fileStream.Position);
-                        AddToDictionary<string, long>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), this.fileStream.Position);
-                        AddToDictionary<string, long>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), this.fileStream.Position);
-                        AddToDictionary<DateTime, long>(this.dateOfBirthDictionary, record.DateOfBirth, this.fileStream.Position);
+                        AddToDictionary(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), this.fileStream.Position);
+                        AddToDictionary(this.lastNameDictionary, record.LastName.ToUpperInvariant(), this.fileStream.Position);
+                        AddToDictionary(this.dateOfBirthDictionary, record.DateOfBirth, this.fileStream.Position);
 
                         byte[] tempFirstName = Encoding.Default.GetBytes(record.FirstName);
                         byte[] tempLastName = Encoding.Default.GetBytes(record.LastName);
-                        byte[] firstName = new byte[120];
-                        byte[] lastName = new byte[120];
+                        byte[] firstName = new byte[NameLength];
+                        byte[] lastName = new byte[NameLength];
                         ToBytesDecimal toBytesDecimal = new ToBytesDecimal(record.Salary);
                         byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
                         Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
@@ -343,17 +348,17 @@ namespace FileCabinetApp.Service
         public void Remove(int id)
         {
             long position = this.dictionaryId[id];
-            byte[] buffer = new byte[277];
+            byte[] buffer = new byte[BufferSize];
 
             this.fileStream.Position = position;
-            this.fileStream.Read(buffer, 0, 277);
+            this.fileStream.Read(buffer, 0, BufferSize);
             FileCabinetRecord record = this.RecordFromBytes(buffer);
 
             this.dateOfBirthDictionary[record.DateOfBirth].Remove(position);
             this.firstNameDictionary[record.FirstName.ToUpperInvariant()].Remove(position);
             this.lastNameDictionary[record.LastName.ToUpperInvariant()].Remove(position);
             this.dictionaryId.Remove(id);
-            this.fileStream.Position = position + 276;
+            this.fileStream.Position = position + BufferSize - 1;
             this.fileStream.Write(new byte[] { 1 });
             this.deleteStat++;
         }
@@ -375,17 +380,17 @@ namespace FileCabinetApp.Service
         /// </summary>
         public void Purge()
         {
-            byte[] buffer = new byte[277];
+            byte[] buffer = new byte[BufferSize];
             this.fileStream.Position = 0;
             long startPosition = 0;
             long endPosition = 0;
-            while (this.fileStream.Read(buffer, 0, 277) != 0)
+            while (this.fileStream.Read(buffer, 0, BufferSize) != 0)
             {
-                if (buffer[276] == 0)
+                if (buffer[BufferSize - 1] == 0)
                 {
                     int validId = BitConverter.ToInt32(buffer, 2);
-                    string firstName = Encoding.Default.GetString(buffer, 6, 120).Trim('\0');
-                    string lastName = Encoding.Default.GetString(buffer, 126, 120).Trim('\0');
+                    string firstName = Encoding.Default.GetString(buffer, 6, NameLength).Trim('\0');
+                    string lastName = Encoding.Default.GetString(buffer, 126, NameLength).Trim('\0');
                     int year = BitConverter.ToInt32(buffer, 246);
                     int month = BitConverter.ToInt32(buffer, 250);
                     int day = BitConverter.ToInt32(buffer, 254);
@@ -395,9 +400,9 @@ namespace FileCabinetApp.Service
                     this.lastNameDictionary[lastName.ToUpperInvariant()].Add(startPosition);
                     this.dateOfBirthDictionary[dateOfBirth].Add(startPosition);
 
-                    this.dateOfBirthDictionary[dateOfBirth].Remove(this.fileStream.Position - 277);
-                    this.firstNameDictionary[firstName.ToUpperInvariant()].Remove(this.fileStream.Position - 277);
-                    this.lastNameDictionary[lastName.ToUpperInvariant()].Remove(this.fileStream.Position - 277);
+                    this.dateOfBirthDictionary[dateOfBirth].Remove(this.fileStream.Position - BufferSize);
+                    this.firstNameDictionary[firstName.ToUpperInvariant()].Remove(this.fileStream.Position - BufferSize);
+                    this.lastNameDictionary[lastName.ToUpperInvariant()].Remove(this.fileStream.Position - BufferSize);
 
                     this.dictionaryId[validId] = startPosition;
                     endPosition = this.fileStream.Position;
@@ -409,7 +414,7 @@ namespace FileCabinetApp.Service
             }
 
             this.deleteStat = 0;
-            this.fileStream.SetLength(this.dictionaryId.Count * 277);
+            this.fileStream.SetLength(this.dictionaryId.Count * BufferSize);
         }
 
         /// <summary>
@@ -427,7 +432,7 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException(nameof(record));
             }
 
-            if (record.Id == -1)
+            if (record.Id < 0)
             {
                 throw new ArgumentException("Record id must be more than zero.");
             }
@@ -441,14 +446,14 @@ namespace FileCabinetApp.Service
             {
                 this.fileStream.Position = this.fileStream.Length;
                 this.dictionaryId.Add(record.Id, this.fileStream.Position);
-                AddToDictionary<string, long>(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), this.fileStream.Position);
-                AddToDictionary<string, long>(this.lastNameDictionary, record.LastName.ToUpperInvariant(), this.fileStream.Position);
-                AddToDictionary<DateTime, long>(this.dateOfBirthDictionary, record.DateOfBirth, this.fileStream.Position);
+                AddToDictionary(this.firstNameDictionary, record.FirstName.ToUpperInvariant(), this.fileStream.Position);
+                AddToDictionary(this.lastNameDictionary, record.LastName.ToUpperInvariant(), this.fileStream.Position);
+                AddToDictionary(this.dateOfBirthDictionary, record.DateOfBirth, this.fileStream.Position);
 
                 byte[] tempFirstName = Encoding.Default.GetBytes(record.FirstName);
                 byte[] tempLastName = Encoding.Default.GetBytes(record.LastName);
-                byte[] firstName = new byte[120];
-                byte[] lastName = new byte[120];
+                byte[] firstName = new byte[NameLength];
+                byte[] lastName = new byte[NameLength];
                 ToBytesDecimal toBytesDecimal = new ToBytesDecimal(record.Salary);
                 byte[] bytesSalary = BitConverter.GetBytes(toBytesDecimal.Bytes1).Concat(BitConverter.GetBytes(toBytesDecimal.Bytes2)).ToArray();
                 Array.Copy(tempFirstName, 0, firstName, 0, tempFirstName.Length);
@@ -522,11 +527,11 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException(param);
             }
 
-            param = param.Replace("or", " ", StringComparison.InvariantCultureIgnoreCase);
-            param = param.Replace("and", " ", StringComparison.InvariantCultureIgnoreCase);
-            var validateParam = param.Replace("=", " ", StringComparison.InvariantCultureIgnoreCase)
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.Trim('\''))
+            param = param.Replace("or", WhiteSpace, StringComparison.InvariantCultureIgnoreCase);
+            param = param.Replace("and", WhiteSpace, StringComparison.InvariantCultureIgnoreCase);
+            var validateParam = param.Replace("=", WhiteSpace, StringComparison.InvariantCultureIgnoreCase)
+                .Split(Separator, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim(SingleQuote))
                 .ToArray();
             if (validateParam.Length % 2 != 0)
             {
@@ -552,8 +557,8 @@ namespace FileCabinetApp.Service
             FileCabinetRecord record = new FileCabinetRecord();
             record.Department = BitConverter.ToInt16(buffer, 0);
             record.Id = BitConverter.ToInt32(buffer, 2);
-            record.FirstName = Encoding.Default.GetString(buffer, 6, 120).Trim('\0');
-            record.LastName = Encoding.Default.GetString(buffer, 126, 120).Trim('\0');
+            record.FirstName = Encoding.Default.GetString(buffer, 6, NameLength).Trim('\0');
+            record.LastName = Encoding.Default.GetString(buffer, 126, NameLength).Trim('\0');
             year = BitConverter.ToInt32(buffer, 246);
             month = BitConverter.ToInt32(buffer, 250);
             day = BitConverter.ToInt32(buffer, 254);
