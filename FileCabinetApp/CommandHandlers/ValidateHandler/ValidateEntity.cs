@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FileCabinetApp.CommandHandlers.ValidateHandler
 {
@@ -112,6 +113,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
         private IEnumerable<FileCabinetRecord> Invoke(IEnumerable<FileCabinetRecord> records)
         {
             List<FileCabinetRecord> invokeResult;
+            IEnumerable<FileCabinetRecord> cacheRecords = records;
             if ((invokeResult = this.service.MemEntity.TryGetMemRecords(this)) is null)
             {
                 var explanation = this.predicates[0].explanation.Split(WhiteSpace, StringSplitOptions.RemoveEmptyEntries);
@@ -119,16 +121,16 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
                 switch (explanation[0].ToUpperInvariant())
                 {
                     case "FIRSTNAME":
-                        records = this.service.FindByFirstName(explanation[1].ToUpperInvariant());
+                        cacheRecords = this.service.FindByFirstName(explanation[1].ToUpperInvariant()).ToList();
                         break;
                     case "LASTNAME":
-                        records = this.service.FindByLastName(explanation[1].ToUpperInvariant());
+                        cacheRecords = this.service.FindByLastName(explanation[1].ToUpperInvariant()).ToList();
                         break;
                     case "DATEOFBIRTH":
 
                         if (DateTime.TryParse(explanation[1], out DateTime time))
                         {
-                            records = this.service.FindByDateOfBirth(time);
+                            cacheRecords = this.service.FindByDateOfBirth(time).ToList();
                         }
 
                         break;
@@ -137,7 +139,7 @@ namespace FileCabinetApp.CommandHandlers.ValidateHandler
                         break;
                 }
 
-                foreach (FileCabinetRecord record in records)
+                foreach (FileCabinetRecord record in cacheRecords)
                 {
                     if (this.Sieve(record))
                     {
