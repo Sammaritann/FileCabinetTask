@@ -19,6 +19,13 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
         private const char Slash = '\'';
         private const string CommandName = "INSERT";
         private const int FieldsNumber = 7;
+        private const int IDFlagIndex = 0;
+        private const int FirstNameFlagIndex = 1;
+        private const int LastNameFlagIndex = 2;
+        private const int DateOfBirthFlagIndex = 3;
+        private const int SalaryFlagIndex = 4;
+        private const int DepartmentFlagIndex = 5;
+        private const int ClassFlagIndex = 6;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InsertCommandHandler"/> class.
@@ -77,23 +84,23 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                         if (int.TryParse(values[i], out int id))
                         {
                             record.Id = id;
-                            flags[0] = true;
+                            flags[IDFlagIndex] = true;
                         }
 
                         break;
                     case "FIRSTNAME":
                         record.FirstName = values[i];
-                        flags[1] = true;
+                        flags[FirstNameFlagIndex] = true;
                         break;
                     case "LASTNAME":
                         record.LastName = values[i];
-                        flags[2] = true;
+                        flags[LastNameFlagIndex] = true;
                         break;
                     case "DATEOFBIRTH":
                         if (DateTime.TryParseExact(values[i], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateOfBirth))
                         {
                             record.DateOfBirth = dateOfBirth;
-                            flags[3] = true;
+                            flags[DateOfBirthFlagIndex] = true;
                         }
 
                         break;
@@ -101,7 +108,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                         if (decimal.TryParse(values[i], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal salary))
                         {
                             record.Salary = salary;
-                            flags[4] = true;
+                            flags[SalaryFlagIndex] = true;
                         }
 
                         break;
@@ -109,7 +116,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                         if (short.TryParse(values[i], out short department))
                         {
                             record.Department = department;
-                            flags[5] = true;
+                            flags[DepartmentFlagIndex] = true;
                         }
 
                         break;
@@ -117,7 +124,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                         if (char.TryParse(values[i], out char clas))
                         {
                             record.Class = clas;
-                            flags[6] = true;
+                            flags[ClassFlagIndex] = true;
                         }
 
                         break;

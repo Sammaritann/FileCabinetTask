@@ -11,7 +11,7 @@ namespace FileCabinetApp.Service
     /// <seealso cref="FileCabinetApp.IFileCabinetService" />
     public class ServiceLogger : IFileCabinetService
     {
-        private readonly string loggerPath = Directory.GetCurrentDirectory() + "logger.txt";
+        private readonly string loggerPath = Path.Combine(Directory.GetCurrentDirectory(), "logger.txt");
         private IFileCabinetService service;
 
         /// <summary>
@@ -47,19 +47,21 @@ namespace FileCabinetApp.Service
         /// </returns>
         public bool ContainsId(int id)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with id = {2}\n", DateTime.Now, "ContainsId()", id);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with id = {2}", DateTime.Now, "ContainsId()", id);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
                 var result = this.service.ContainsId(id);
 
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - ContainsId() returned \'{1}\'\n", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - ContainsId() returned \'{1}\'", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                resultContext += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, resultContext);
                 return result;
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -73,18 +75,20 @@ namespace FileCabinetApp.Service
         /// </returns>
         public int CreateRecord(RecordParams recordParams)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with {2}\n", DateTime.Now, "CreateRecord()", recordParams);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with {2}", DateTime.Now, "CreateRecord()", recordParams);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
                 var result = this.service.CreateRecord(recordParams);
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - Create() returned \'{1}\'\n", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - Create() returned \'{1}\'", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                resultContext += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, resultContext);
                 return result;
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -96,7 +100,8 @@ namespace FileCabinetApp.Service
         /// <param name="recordParams">The record parameters.</param>
         public void EditRecord(int id, RecordParams recordParams)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with id = {2} {3}\n", DateTime.Now, "EditRecord()", id, recordParams);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with id = {2} {3}", DateTime.Now, "EditRecord()", id, recordParams);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
@@ -104,7 +109,7 @@ namespace FileCabinetApp.Service
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -117,18 +122,20 @@ namespace FileCabinetApp.Service
         /// </returns>
         public int GetDeleteStat()
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}\n", DateTime.Now, "GetDeleteStat()");
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}", DateTime.Now, "GetDeleteStat()");
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
                 var result = this.service.GetDeleteStat();
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - GetDeleteStat() returned \'{1}\'\n", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - GetDeleteStat() returned \'{1}\'", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                resultContext += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, resultContext);
                 return result;
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -141,18 +148,20 @@ namespace FileCabinetApp.Service
         /// </returns>
         public IReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}\n", DateTime.Now, "GetRecords()");
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}", DateTime.Now, "GetRecords()");
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
                 var result = this.service.GetRecords();
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - GetRecords() returned \'{1}\'\n", DateTime.Now, result.ToString());
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - GetRecords() returned \'{1}\'", DateTime.Now, result.ToString());
+                resultContext += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, resultContext);
                 return result;
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -166,18 +175,20 @@ namespace FileCabinetApp.Service
         /// </returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with dateOfBirth = {2}\n", DateTime.Now, "FindByDateOfBirth()", dateOfBirth);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with dateOfBirth = {2}", DateTime.Now, "FindByDateOfBirth()", dateOfBirth);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
                 var result = this.service.FindByDateOfBirth(dateOfBirth);
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByDateOfBirth() returned \'{1}\'\n", DateTime.Now, result.ToString());
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByDateOfBirth() returned \'{1}\'", DateTime.Now, result.ToString());
+                resultContext += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, resultContext);
                 return result;
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -191,18 +202,20 @@ namespace FileCabinetApp.Service
         /// </returns>
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with firstName = {2}\n", DateTime.Now, "FindByFirstName()", firstName);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with firstName = {2}", DateTime.Now, "FindByFirstName()", firstName);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
                 var result = this.service.FindByFirstName(firstName);
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByFirstName() returned \'{1}\'\n", DateTime.Now, result.ToString());
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByFirstName() returned \'{1}\'", DateTime.Now, result.ToString());
+                resultContext += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, resultContext);
                 return result;
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -216,18 +229,20 @@ namespace FileCabinetApp.Service
         /// </returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with lastName = {2}\n", DateTime.Now, "FindByLastName()", lastName);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with lastName = {2}", DateTime.Now, "FindByLastName()", lastName);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
                 var result = this.service.FindByLastName(lastName);
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByLastName() returned \'{1}\'\n", DateTime.Now, result.ToString());
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - FindByLastName() returned \'{1}\'", DateTime.Now, result.ToString());
+                resultContext += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, resultContext);
                 return result;
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -240,18 +255,20 @@ namespace FileCabinetApp.Service
         /// </returns>
         public int GetStat()
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}\n", DateTime.Now, "GetStat()");
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}", DateTime.Now, "GetStat()");
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
                 var result = this.service.GetStat();
-                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - GetStat() returned \'{1}\'\n", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - GetStat() returned \'{1}\'", DateTime.Now, result.ToString(CultureInfo.InvariantCulture));
+                resultContext += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, resultContext);
                 return result;
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -262,7 +279,8 @@ namespace FileCabinetApp.Service
         /// <param name="record">The record.</param>
         public void Insert(FileCabinetRecord record)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with record = {2}\n", DateTime.Now, "Insert()", record);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with record = {2}", DateTime.Now, "Insert()", record);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             try
             {
@@ -270,7 +288,7 @@ namespace FileCabinetApp.Service
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }
@@ -283,12 +301,22 @@ namespace FileCabinetApp.Service
         /// </returns>
         public FileCabinetServiceSnapshot MakeSnapshot()
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}\n", DateTime.Now, "MakeSnapshot()");
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}", DateTime.Now, "MakeSnapshot()");
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
-            var result = this.service.MakeSnapshot();
-            string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - MakeSnapshot() returned \'{1}\'\n", DateTime.Now, result.ToString());
-            File.AppendAllText(this.loggerPath, resultContext);
-            return result;
+            try
+            {
+                var result = this.service.MakeSnapshot();
+                string resultContext = string.Format(CultureInfo.InvariantCulture, "{0} - MakeSnapshot() returned \'{1}\'", DateTime.Now, result.ToString());
+                resultContext += Environment.NewLine;
+                File.AppendAllText(this.loggerPath, resultContext);
+                return result;
+            }
+            catch (Exception e)
+            {
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
+                throw;
+            }
         }
 
         /// <summary>
@@ -296,9 +324,18 @@ namespace FileCabinetApp.Service
         /// </summary>
         public void Purge()
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}\n", DateTime.Now, "Purge()");
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1}", DateTime.Now, "Purge()");
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
-            this.service.Purge();
+            try
+            {
+                this.service.Purge();
+            }
+            catch (Exception e)
+            {
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
+                throw;
+            }
         }
 
         /// <summary>
@@ -307,9 +344,18 @@ namespace FileCabinetApp.Service
         /// <param name="id">The identifier.</param>
         public void Remove(int id)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with id = {2}\n", DateTime.Now, "Remove()", id);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with id = {2}", DateTime.Now, "Remove()", id);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
-            this.service.Remove(id);
+            try
+            {
+                this.service.Remove(id);
+            }
+            catch (Exception e)
+            {
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
+                throw;
+            }
         }
 
         /// <summary>
@@ -321,12 +367,13 @@ namespace FileCabinetApp.Service
         /// </returns>
         public IReadOnlyCollection<Exception> Restore(FileCabinetServiceSnapshot snapshot)
         {
-            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with {2}\n", DateTime.Now, "Restore()", snapshot);
+            string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with {2}", DateTime.Now, "Restore()", snapshot);
+            context += Environment.NewLine;
             File.AppendAllText(this.loggerPath, context);
             var exceptions = this.service.Restore(snapshot);
             foreach (var exception in exceptions)
             {
-                File.AppendAllText(this.loggerPath, string.Format(CultureInfo.InvariantCulture, "\t {0} \n", exception.Message));
+                File.AppendAllText(this.loggerPath, string.Format(CultureInfo.InvariantCulture, "\t {0} ", exception.Message) + Environment.NewLine);
             }
 
             return exceptions;
@@ -341,13 +388,14 @@ namespace FileCabinetApp.Service
         {
             try
             {
-                string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with param = {2} \n", DateTime.Now, "Where()", param);
+                string context = string.Format(CultureInfo.InvariantCulture, "{0} - Calling {1} with param = {2}", DateTime.Now, "Where()", param);
+                context += Environment.NewLine;
                 File.AppendAllText(this.loggerPath, context);
                 return this.service.Where(param);
             }
             catch (Exception e)
             {
-                File.AppendAllText(this.loggerPath, e.ToString());
+                File.AppendAllText(this.loggerPath, e.ToString() + Environment.NewLine);
                 throw;
             }
         }

@@ -20,20 +20,23 @@ namespace FileCabinetApp
     {
         private const string DeveloperName = "Frigin Pavel";
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
-
+        private const string DefaultValidationType = "DEFAULT";
+        private const string CustomValidationType = "CUSTOM";
+        private const string MemorySystem = "MEMORY";
+        private const string FileSystem = "FILE";
         private static bool isRunning = true;
 
         private static IConfigurationRoot config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("validation-rules.json").Build();
         private static Dictionary<string, IRecordValidator> recordValidators = new Dictionary<string, IRecordValidator>
         {
-            { "DEFAULT", new ValidatorBuilder().CreateDefault() },
-            { "CUSTOM", new ValidatorBuilder().CreateCustom() },
+            { DefaultValidationType, new ValidatorBuilder().CreateDefault() },
+            { CustomValidationType, new ValidatorBuilder().CreateCustom() },
         };
 
         private static Dictionary<string, IInputValidator> inputValidators = new Dictionary<string, IInputValidator>
         {
-            { "DEFAULT", new Validators.InpitValidator.CustomValidator(config.GetSection("default")) },
-            { "CUSTOM", new Validators.InpitValidator.CustomValidator(config.GetSection("default")) },
+            { DefaultValidationType, new Validators.InpitValidator.CustomValidator(config.GetSection(DefaultValidationType)) },
+            { CustomValidationType, new Validators.InpitValidator.CustomValidator(config.GetSection(CustomValidationType)) },
         };
 
         private static IFileCabinetService fileCabinetService;
@@ -112,14 +115,14 @@ namespace FileCabinetApp
 
         private static IRecordValidator CreateDefault(this ValidatorBuilder validator)
         {
-            var defaultConfig = config.GetSection("default");
+            var defaultConfig = config.GetSection(DefaultValidationType);
 
             return CreateValidator(validator, defaultConfig);
         }
 
         private static IRecordValidator CreateCustom(this ValidatorBuilder validator)
         {
-            var customConfig = config.GetSection("custom");
+            var customConfig = config.GetSection(CustomValidationType);
 
             return CreateValidator(validator, customConfig);
         }
@@ -138,14 +141,14 @@ namespace FileCabinetApp
 
         private static void RunOption(ConsoleOption opts)
         {
-            if (opts.FileSystem.ToUpperInvariant() == "MEMORY")
+            if (opts.FileSystem.ToUpperInvariant() == MemorySystem)
             {
                 fileCabinetService = new FileCabinetMemoryService(recordValidators[opts.Validator.ToUpperInvariant()]);
                 inputValidator = inputValidators[opts.Validator.ToUpperInvariant()];
                 Console.WriteLine("Using {0} validation rules.", opts.Validator.ToUpperInvariant());
             }
 
-            if (opts.FileSystem.ToUpperInvariant() == "FILE")
+            if (opts.FileSystem.ToUpperInvariant() == FileSystem)
             {
                 fileCabinetService = new FileCabinetFileSystemService(recordValidators[opts.Validator.ToUpperInvariant()]);
                 inputValidator = inputValidators[opts.Validator.ToUpperInvariant()];

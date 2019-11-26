@@ -8,6 +8,12 @@ namespace FileCabinetGenerator
 {
     internal class Generator
     {
+        /// <summary>
+        /// Generates the specified star identifier.
+        /// </summary>
+        /// <param name="starId">The star identifier.</param>
+        /// <param name="count">The count.</param>
+        /// <returns></returns>
         public static IEnumerable<FileCabinetRecord> Generate(int starId, int count)
         {
             Random random = new Random();

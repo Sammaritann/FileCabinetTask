@@ -105,22 +105,27 @@
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ICommandHandler">
+        <member name="T:FileCabinetApp.CommandHandlers.HelpersForHandler.Metric">
             <summary>
-            Represents command handler interface.
+            Represents a class for calculating the metric.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ICommandHandler.SetNext(FileCabinetApp.CommandHandlers.ICommandHandler)">
+        <member name="M:FileCabinetApp.CommandHandlers.HelpersForHandler.Metric.CalculateMetric(System.String,System.String)">
             <summary>
-            Sets the next handler.
+            Calculates the metric.
             </summary>
-            <param name="commandHandler">The command handler.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ICommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
-            <summary>
-            Handles the specified command request.
-            </summary>
-            <param name="commandRequest">The command request.</param>
+            <param name="command">The command.</param>
+            <param name="baseCommand">The base command.</param>
+            <returns>
+            Metric.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            Throws when
+            command
+            or
+            baseCommand
+            is null.
+            </exception>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.Printers.CustomRecordPrinter">
             <summary>
@@ -159,6 +164,77 @@
             </summary>
             <param name="records">The records.</param>
             <param name="param">The parameter.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity">
+            <summary>
+            Represents validate entity.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Create(System.String,FileCabinetApp.IFileCabinetService)">
+            <summary>
+            Creates the specified parameter.
+            </summary>
+            <param name="param">The parameter.</param>
+            <param name="service">The service.</param>
+            <returns>
+            ValidateEntity.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">Throws when param is null.</exception>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Filtering(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Filterings the specified records.
+            </summary>
+            <param name="records">The records.</param>
+            <returns>FileCabinetRecord.</returns>
+            <exception cref="T:System.ArgumentNullException">Throws when records is null.</exception>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+            </returns>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateGenerator">
+            <summary>
+            Represent predicate generator.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateGenerator.Create(System.String)">
+            <summary>
+            Creates the specified validate parameter.
+            </summary>
+            <param name="validateParam">The validate parameter.</param>
+            <returns>Validation predicate.</returns>
+            <exception cref="T:System.ArgumentNullException">Throws when validateParam is null.</exception>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.ICommandHandler">
+            <summary>
+            Represents command handler interface.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ICommandHandler.SetNext(FileCabinetApp.CommandHandlers.ICommandHandler)">
+            <summary>
+            Sets the next handler.
+            </summary>
+            <param name="commandHandler">The command handler.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ICommandHandler.Handle(FileCabinetApp.CommandHandlers.AppCommandRequest)">
+            <summary>
+            Handles the specified command request.
+            </summary>
+            <param name="commandRequest">The command request.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase.CreateCommandHandler">
             <summary>
@@ -409,60 +485,6 @@
             </summary>
             <param name="commandRequest">The command request.</param>
             <exception cref="T:System.ArgumentNullException">Throws when commandRequest is null.</exception>
-        </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity">
-            <summary>
-            Represents validate entity.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Create(System.String,FileCabinetApp.IFileCabinetService)">
-            <summary>
-            Creates the specified parameter.
-            </summary>
-            <param name="param">The parameter.</param>
-            <param name="service">The service.</param>
-            <returns>
-            ValidateEntity.
-            </returns>
-            <exception cref="T:System.ArgumentNullException">Throws when param is null.</exception>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Filtering(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Filterings the specified records.
-            </summary>
-            <param name="records">The records.</param>
-            <returns>FileCabinetRecord.</returns>
-            <exception cref="T:System.ArgumentNullException">Throws when records is null.</exception>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.Equals(System.Object)">
-            <summary>
-            Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.
-            </summary>
-            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
-            <returns>
-              <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateEntity.GetHashCode">
-            <summary>
-            Returns a hash code for this instance.
-            </summary>
-            <returns>
-            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-            </returns>
-        </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateGenerator">
-            <summary>
-            Represent predicate generator.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ValidateHandler.ValidateGenerator.Create(System.String)">
-            <summary>
-            Creates the specified validate parameter.
-            </summary>
-            <param name="validateParam">The validate parameter.</param>
-            <returns>Validation predicate.</returns>
-            <exception cref="T:System.ArgumentNullException">Throws when validateParam is null.</exception>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.Exceptions.ImportRecordException">
             <summary>

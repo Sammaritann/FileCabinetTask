@@ -14,6 +14,12 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
         private const char WhiteSpace = ' ';
         private const char Comma = ',';
         private const string SingleQuote = "\'";
+        private const int FirstNameFlagIndex = 0;
+        private const int LastNameFlagIndex = 1;
+        private const int DateOfBirthFlagIndex = 2;
+        private const int SalaryFlagIndex = 3;
+        private const int DepartmentFlagIndex = 4;
+        private const int ClassFlagIndex = 5;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateCommandHandler"/> class.
@@ -73,17 +79,17 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                 {
                     case "FIRSTNAME":
                         recordParams.FirstName = values[1];
-                        flags[0] = true;
+                        flags[FirstNameFlagIndex] = true;
                         break;
                     case "LASTNAME":
                         recordParams.LastName = values[1];
-                        flags[1] = true;
+                        flags[LastNameFlagIndex] = true;
                         break;
                     case "DATEOFBIRTH":
                         if (DateTime.TryParseExact(values[1], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateOfBirth))
                         {
                             recordParams.DateOfBirth = dateOfBirth;
-                            flags[2] = true;
+                            flags[DateOfBirthFlagIndex] = true;
                         }
 
                         break;
@@ -91,7 +97,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                         if (decimal.TryParse(values[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal salary))
                         {
                             recordParams.Salary = salary;
-                            flags[3] = true;
+                            flags[SalaryFlagIndex] = true;
                         }
 
                         break;
@@ -99,7 +105,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                         if (short.TryParse(values[1], out short department))
                         {
                             recordParams.Department = department;
-                            flags[4] = true;
+                            flags[DepartmentFlagIndex] = true;
                         }
 
                         break;
@@ -107,7 +113,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
                         if (char.TryParse(values[1], out char clas))
                         {
                             recordParams.Class = clas;
-                            flags[5] = true;
+                            flags[ClassFlagIndex] = true;
                         }
 
                         break;
@@ -120,12 +126,12 @@ namespace FileCabinetApp.CommandHandlers.ServiceCommandHandlersBase
             {
                 foreach (var record in this.Service.Where(commandRequest.Parameters.Substring(subIndex + 7)))
                 {
-                    recordParams.FirstName = flags[0] ? recordParams.FirstName : record.FirstName;
-                    recordParams.LastName = flags[1] ? recordParams.LastName : record.LastName;
-                    recordParams.DateOfBirth = flags[2] ? recordParams.DateOfBirth : record.DateOfBirth;
-                    recordParams.Salary = flags[3] ? recordParams.Salary : record.Salary;
-                    recordParams.Department = flags[4] ? recordParams.Department : record.Department;
-                    recordParams.Class = flags[5] ? recordParams.Class : record.Class;
+                    recordParams.FirstName = flags[FirstNameFlagIndex] ? recordParams.FirstName : record.FirstName;
+                    recordParams.LastName = flags[LastNameFlagIndex] ? recordParams.LastName : record.LastName;
+                    recordParams.DateOfBirth = flags[DateOfBirthFlagIndex] ? recordParams.DateOfBirth : record.DateOfBirth;
+                    recordParams.Salary = flags[SalaryFlagIndex] ? recordParams.Salary : record.Salary;
+                    recordParams.Department = flags[DepartmentFlagIndex] ? recordParams.Department : record.Department;
+                    recordParams.Class = flags[ClassFlagIndex] ? recordParams.Class : record.Class;
                     try
                     {
                         this.Service.EditRecord(record.Id, recordParams);
