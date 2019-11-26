@@ -381,7 +381,7 @@ namespace FileCabinetApp
             for (int i = 0; i < validateParam.Length / 2; i++)
             {
                 Type type = typeof(FileCabinetRecord);
-                if (!type.GetProperties().Select(x => x.Name.ToUpperInvariant()).Contains(validateParam[i * 2]))
+                if (!type.GetProperties().Select(x => x.Name.ToUpperInvariant()).Contains(validateParam[i * 2].ToUpperInvariant()))
                 {
                     throw new ArgumentNullException(validateParam[i * 2]);
                 }
