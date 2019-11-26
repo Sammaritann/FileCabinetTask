@@ -299,7 +299,7 @@ namespace FileCabinetApp
         {
             ValidateWhereParam(param);
             ValidateEntity entity = new ValidateEntity().Create(param, this);
-            foreach (FileCabinetRecord record in entity.Filtering(this.list))
+            foreach (FileCabinetRecord record in entity.Filtering(new List<FileCabinetRecord>(this.list)))
             {
                 yield return record;
             }
